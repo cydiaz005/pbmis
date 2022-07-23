@@ -1,0 +1,57 @@
+.searchable-parent {
+    position: relative;
+}
+
+.searchable-parent>ul {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    list-style: none;
+    z-index: 200;
+    background: #ffffff;
+    border: #e6e6e6 1px solid;
+    border-top: none;
+    display: none;
+    box-shadow: 1px 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.searchable-parent>ul>li {
+    list-style: none;
+    padding: 5px 10px;
+    border-bottom: #e6e6e6 1px solid;
+    cursor: pointer;
+}
+
+.searchable-parent>ul>li:hover {
+    background: #e6e6e6;
+}
+
+.appendDiv img {
+    object-fit: cover;
+}
+
+.chip_append {
+    /* border: #e6e6e6 1px solid; */
+    background: #e6e6e6;
+    border-radius: 25px;
+    padding: 0;
+    padding-right: 0.5rem;
+}
+
+.remove-chip,
+.remove-frame {
+    cursor: pointer;
+}
+
+.remove-chip:hover,
+.remove-frame:hover {
+    color: red;
+}
+
+.remove-frame {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    line-height: 0.5rem;
+}

@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+class UserRoles extends Model
+{
+    protected $fillable = [
+        "role_id",
+        "model_type",
+        "model_id"
+    ];
+
+    use HasFactory;
+    protected $table = 'model_has_roles';
+
+    public function user()
+    {
+        return $this->hasOne(User::class, "id", "model_id");
+    }
+    public function userdetails()
+    {
+        return $this->morphTo();
+    }
+    public function role(){
+        return $this->hasOne(Role::class, "id", "role_id");
+    }
+}
