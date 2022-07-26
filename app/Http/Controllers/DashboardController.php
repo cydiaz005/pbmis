@@ -53,6 +53,9 @@ class DashboardController extends Controller
             case "Planning Focal/Officer":
                 return $this->pfo();
                 break;
+            case "Encoder":
+                return $this->pfo();
+                break;
             case "Plans Administrator":
                 return $this->plansAdministrator();
                 break;

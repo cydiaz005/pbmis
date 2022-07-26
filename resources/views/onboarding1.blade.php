@@ -30,7 +30,6 @@
 
     <div class="onboarding-body1">
         <h1 class="h1-tag">Welcome to OCD Dashboard!</h1>
-        <p class="p-tag">Sed ut perspiciatis unde omnis iste natus error</p>
         <a style="margin-top: 25px;" type="button" href="/onboarding3" class="btn btn-primary">Let's get started</a>
     </div>
 
