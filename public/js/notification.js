@@ -99,6 +99,7 @@ function Notification(){
             fetchIndicatorElement.firstChild.innerHTML="loading...";
             notif_contents.appendChild(fetchIndicatorElement);
         });
+
         fetchsrcoll.on('fetch', function(res, isLastPage, other_params){
             console.log("res",res);
             if(firstFetch){
@@ -194,7 +195,7 @@ function Notification(){
         }
     }
     function generateHtml(data){
-        let div = createElement('div', `dropdown-item d-inline-flex notif_con ${data.seen == "0" ? "seen-notif" : ""}`);
+        let div = createElement('div', `dropdown-item d-inline-flex notif_con ${data.seen == "0" ? "" : "seen-notif"}`);
         let img = createElement('img', 'z-depth-2 notif_image');
         let divConfirmCon = createElement('div', 'confirm-con');
         let divInfo = createElement('div', 'info-con');
@@ -225,8 +226,11 @@ function Notification(){
     function generateNotification(data){
         let arr = data.notif_type.split("-");
         let sender_name = `${data.sender.firstname} ${data.sender.lastname}`
-        let sender_img = checkLogo(data.sender.profile_photo_path || data.sender.profile_photo_url, sender_name);
-
+        let sender_img = checkLogo(data.sender.profile_photo_path !== ''? data.sender.profile_photo_path:data.sender.profile_photo_url, sender_name)
+        // console.log('sender_img', sender_img);
+        // let sender_img = checkLogo(data.sender.profile_photo_path || data.sender.profile_photo_url, sender_name)
+        console.log('data.sender',data.sender);
+  
         let html = generateHtml(data);
         html.sender_name.innerHTML='<strong >'+sender_name+"</strong>";
         html.sender_name.appendChild(html.message);

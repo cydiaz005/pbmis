@@ -79,7 +79,7 @@
     @section('script')
 
     <script>
-    $("#li_superdashboard").addClass('active');
+    $("#li_stage_warning").addClass('active');
     (function () {
         var filter_stage = $('#filter-stage');
         var stage_confirm = $('#stage-confirm');

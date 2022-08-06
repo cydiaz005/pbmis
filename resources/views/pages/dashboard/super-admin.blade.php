@@ -1,6 +1,28 @@
 <x-app-layout>
   @section('style')
   <style>
+    @media (min-width: 1281px) {
+      div.small-box {
+        height: 7.05rem;
+      }
+      div.small-box .inner {
+        width: 9rem;
+      }
+      div.small-box .inner p {
+        line-height: 1;
+      }
+    }
+    @media (min-width: 1025px) and (max-width: 1280px) {
+      div.small-box {
+        height: 7.05rem;
+      }
+      div.small-box .inner {
+        width: 9rem;
+      }
+      div.small-box .inner p {
+        line-height: 1;
+      }
+    }
     .bg-secondary {
       background-color: var(--ocd-tertiary-dark-hover) !important;
       color: var(--ocd-primary) !important;
@@ -9,7 +31,7 @@
     .progress-group {
       margin-bottom: 1rem;
     }
-
+    
     .timeline>.time-label>span {
       width: 60%;
       text-align: center;

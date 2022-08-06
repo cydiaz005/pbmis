@@ -101,7 +101,6 @@
                 $('#old-properties-row').empty()
             }
         });
-
         $("#li_audit").addClass('active');
     </script>
     @endsection

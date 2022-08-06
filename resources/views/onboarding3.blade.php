@@ -33,8 +33,6 @@
     @endsection
 
     @section('content')
-
-
     <div class="card card-default onboarding-body" style="padding-top: 10px;margin-top: 15px;">
         <div class="card-body">
             <h1 class="h1-tag">Complete Information</h1>

@@ -1,5 +1,13 @@
 <x-app-layout>
     @section('style')
+    <style>
+        .main-footer {
+            margin-left: 0 !important;
+        }
+        .sidebar-mini.sidebar-collapse .main-footer {
+            margin-left: 0 !important;
+        }
+    </style>
     <script>
     </script>
     @endsection
@@ -115,7 +123,7 @@ async function onChangeStatus (stageId,active){
       }
         $("#li_field").addClass('menu-open');
         $("#li_field>a.li_parent").addClass('active');
-        $("#li_target").addClass('active');
+        $("#li_stages").addClass('active');
     </script>
     @endsection
 </x-app-layout>
