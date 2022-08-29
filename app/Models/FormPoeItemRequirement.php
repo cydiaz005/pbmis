@@ -29,7 +29,10 @@ class FormPoeItemRequirement extends Model
 
     protected $appends = ['total'];
 
-
+    public function subpap()
+    {
+        return $this->belongsTo(FormPoeSubPap::class, 'subpap_id','id');
+    }
 
     public function itemMonths()
     {

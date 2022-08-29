@@ -32,6 +32,8 @@ class ProcurementModeSeeder extends Seeder
             [53.12, "Community Participation"],
             [53.13, "United Nations Agencies, International Organizations or International Financing Institutions"],
             [53.14, "Direct Retail Purchase of Petroleum Fuel, Oil and Lubricant (POL) and Airline Tickets"],
+            [null, "APP-CSE"],
+            [null, "N/A"],
         ];
         foreach ($procurementMode as $pm) {
             ProcurementMode::firstOrCreate(

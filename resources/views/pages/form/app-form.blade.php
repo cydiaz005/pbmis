@@ -58,7 +58,7 @@
             ['name' => 'Forms', 'route' => '#'],
             ['name' => 'APP Form', 'route' => '#'],
         ],
-        'pageTitle' => '(APP)',
+        'pageTitle' => ' Annual Procurement Plan (APP)',
     ])
    
 

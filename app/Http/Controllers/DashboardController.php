@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllotmentClass;
+use App\Models\DivisionSection;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\FormPoe;
+use App\Models\FormPoeItemRequirement;
 use App\Models\KdpKpKs;
 use App\Models\PriorityClass;
 use App\Models\TargetSector;
 use App\Models\FormPoeTargetSector;
+use App\Models\FundChargeability;
 use App\Models\PapTag;
+use App\Models\ProcurementMode;
 use App\Models\ThematicAreasCluster;
 use App\Models\ServiceRegion;
 use App\Models\Stage;
@@ -149,6 +154,145 @@ class DashboardController extends Controller
     {
         return (Auth::user()->hasPermissionTo('dashboard-procurement-access'))?  view('pages.dashboard.procurement'):abort(403);
     }
+
+    public function getProcurementData()
+    {
+        $stage_id = Stage::where('active','1')->first()->id;
+        $fpir = FormPoeItemRequirement::with(['subpap.poe.categoryClass.allotmentClass', 'subpap.poe.categoryClass.fundChargeability', 'itemMonths'])
+        ->select(['form_poe_item_requirements.*'])
+        // ->groupBy('procurement_mode_id')
+        ->whereHas('subpap.poe', function($q) use($stage_id){
+            $q->where('stage_id', $stage_id);
+        })
+        ->whereHas('subpap.poe.ppmp', function($q){
+            $q->where('funded', '1');
+            // $q->whereNotNull('funded');
+        })
+        ->get()->groupBy('subpap.poe.service_region_id');
+
+        return [
+            "service_regions" => ServiceRegion::all()->keyBy('id'),
+            "fund_chargeabilities" => FundChargeability::all()->keyBy('id'),
+            "allotment_classes" => AllotmentClass::whereIn('id', [1,3])->get()->keyBy('id'),
+            "procurement_modes" => ProcurementMode::whereHas('itemRequirement.subpap.poe.ppmp', function($q){
+                $q->where('funded', '1');
+            })->get()->keyBy('id'),
+            "data"=>[
+                "quantity"=> $fpir->map(function ($group) {
+                    return $group->groupBy('procurement_mode_id')->map(function ($group) {
+                        return [
+                            'count' => $group->count('procurement_mode_id'),
+                        ];
+                    });
+                }),
+                "amount"=>$fpir->map(function ($group) {
+                    return $group->groupBy('procurement_mode_id')->map(function ($group) {
+                        return [
+                            'amount' => $group->sum(function ($item) {
+                                return $item->per_capita_cost * $item->qty_pax * $item->no_of_days;
+                            })
+                        ];
+                    });
+                }),
+                "month"=>$fpir->map(function ($group) {
+                    $months = [];
+                    foreach ($group as $items) {
+                        $items->itemMonths->each(function ($item) use(&$months){
+                            if(!@$months[$item->month]){
+                                $months[$item->month] = 1;
+                            }
+                            else{
+                                $months[$item->month]++;
+                            }
+                        });
+                    }
+                    return $months;
+                }),
+                "fund_chargeability"=>$fpir->map(function ($group) {
+                    return $group->groupBy('subpap.poe.categoryClass.fundChargeability.id')->map(function ($group) {
+                        return [
+                            'count' => $group->count('procurement_mode_id')
+                        ];
+                    });
+                }),
+                "allotment_class"=>$fpir->map(function ($group) {
+                    return $group->groupBy('subpap.poe.categoryClass.allotmentClass.id')->map(function ($group) {
+                        return [
+                            'count' => $group->count('procurement_mode_id')
+                        ];
+                    });
+                })
+            ],
+        ];
+    }
+
+    public function procurementDataList()
+    {
+        // return DivisionSection::with('user.poes')->whereHas('user.poes.ppmp', function($q){
+        //     $q->where('funded', '1');
+        // })->get()->keyBy('id');
+        $stage_id = Stage::where('active','1')->first()->id;
+        $fpir = FormPoeItemRequirement::with(['subpap.poe.creator', 'subpap.poe.categoryClass.allotmentClass', 'subpap.poe.categoryClass.fundChargeability', 'itemMonths'])
+        ->select(['form_poe_item_requirements.*'])
+        // ->groupBy('procurement_mode_id')
+        ->whereHas('subpap.poe', function($q) use($stage_id){
+            $q->where('stage_id', $stage_id);
+        })
+        ->whereHas('subpap.poe.ppmp', function($q){
+            $q->where('funded', '1');
+            // $q->whereNotNull('funded');
+        })
+        ->get();
+
+        // return $fpir->whereNotNull('subpap.poe.creator.divsec_id')->groupBy('subpap.poe.creator.divsec_id')->map(function ($group) {
+        //     return $group->groupBy('procurement_mode_id')->map(function ($group) {
+        //         return [
+        //             'qty' => $group->count('procurement_mode_id'),
+        //             'amount' => $group->sum(function ($item) {
+        //                 return $item->per_capita_cost * $item->qty_pax * $item->no_of_days;
+        //             })
+        //         ];
+        //     });
+        // });
+        
+        $data = [
+            "service_regions" => ServiceRegion::whereHas('poes.ppmp', function($q){
+                    $q->where('funded', '1');
+                })->get()->keyBy('id')->groupBy('office_id', true),
+            "division_sections" => DivisionSection::whereHas('user.poes.ppmp', function($q){
+                    $q->where('funded', '1');
+                })->get()->keyBy('id'),
+            // "division_sections" => DivisionSection::all()->keyBy('id'),
+            "procurement_modes" => ProcurementMode::whereHas('itemRequirement.subpap.poe.ppmp', function($q){
+                $q->where('funded', '1');
+            })->get()->keyBy('id'),
+            "data"=>[
+                "qty_amount"=> $fpir->groupBy('subpap.poe.service_region_id')->map(function ($group) {
+                    return $group->groupBy('procurement_mode_id')->map(function ($group) {
+                        return [
+                            'qty' => $group->count('procurement_mode_id'),
+                            'amount' => $group->sum(function ($item) {
+                                return $item->per_capita_cost * $item->qty_pax * $item->no_of_days;
+                            })
+                        ];
+                    });
+                }),
+                "div_sec"=>$fpir->whereNotNull('subpap.poe.creator.divsec_id')->groupBy('subpap.poe.creator.divsec_id')->map(function ($group) {
+                    return $group->groupBy('procurement_mode_id')->map(function ($group) {
+                        return [
+                            'qty' => $group->count('procurement_mode_id'),
+                            'amount' => $group->sum(function ($item) {
+                                return $item->per_capita_cost * $item->qty_pax * $item->no_of_days;
+                            })
+                        ];
+                    });
+                }),
+            ],
+        ];
+
+        return view('pages.dashboard.procurement.qty-amount', ['data'=>$data]);
+    }
+
 
     public function pendingApproval()
     {

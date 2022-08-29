@@ -519,7 +519,7 @@ class SidebarLeft extends Component
                 ]
             ],
             [
-                'li_id' => 'li_account',
+                'li_id' => 'li_stage',
                 'icon' => 'nav-icon fa fa-exclamation-triangle',
                 'label' => 'Form Stage',
                 'route' => '/manage/stage',

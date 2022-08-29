@@ -13,6 +13,7 @@ use App\Http\Controllers\EmailController;
 use App\Actions\Notify\Notify;
 use App\Models\FundChargeability;
 use App\Models\FundChargeabilityClass;
+use App\Models\Setting;
 use Livewire\Livewire;
 
 class FiscalLimitController extends Controller
@@ -34,9 +35,22 @@ class FiscalLimitController extends Controller
 
     public function index()
     {
+        $changing_stage = Setting::changingStage();
+        if($changing_stage){
+            return view('form_not_available', [
+                'breadcrumb' => [
+                    ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                    ['name' => 'Forms', 'route' => '#'],
+                    ['name' => 'Working Fiscal Limits', 'route' => '#'],
+                ],
+                'page_title' => 'Working Fiscal Limits',
+                "sidebar_id" => "#li_fiscal",
+            ]);
+        }
+        
         $stage_id = Stage::where('active', '1')->first()->id;
         $fiscal_limit_count = FiscalLimit::whereYear('created_at',date('Y'))->where('stage_id', $stage_id)->count();
-        return view('pages/form/fiscal-limits',[
+        return view('pages.form.fiscal-limits',[
             'fiscal_limit_count' => $fiscal_limit_count,
         ]);
     }
@@ -74,6 +88,19 @@ class FiscalLimitController extends Controller
     
     public function create()
     {
+        $changing_stage = Setting::changingStage();
+        if($changing_stage){
+            return view('form_not_available', [
+                'breadcrumb' => [
+                    ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                    ['name' => 'Forms', 'route' => '#'],
+                    ['name' => 'Working Fiscal Limits', 'route' => '#'],
+                ],
+                'page_title' => 'Working Fiscal Limits',
+                "sidebar_id" => "#li_fiscal",
+            ]);
+        }
+        
         $this->categories =  AllotmentClass::with('fundChargeabilityClass.fundChargeability')->orderBy('created_at', 'desc')->get();
         $this->service_regions =  ServiceRegion::get();
         $this->getCategoryCode();

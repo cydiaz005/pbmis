@@ -35,4 +35,27 @@ class ServiceRegion extends Model
             -> logOnlyDirty()
             -> dontSubmitEmptyLogs();
     }
+
+    public function getProcurementCountAttribute()
+    {
+        // return FormPoe::whereHas('ppmp', function($q){
+        //     $q->where('funded', '1');
+        // })
+        // ->where('service_region_id', $this->attributes['id'])
+        // ->whereHas('subpap.itemRequirements', function($q){
+        //     $q->groupBy('procurement_mode_id');
+        // })->count();
+
+        return FormPoeItemRequirement::whereHas('ppmp', function($q){
+            $q->where('funded', '1');
+        })
+        ->where('service_region_id', $this->attributes['id'])
+        ->whereHas('subpap.itemRequirements', function($q){
+            $q->groupBy('procurement_mode_id');
+        })->count();
+    }
+    public function getPoeCountAttribute()
+    {
+        return FormPoe::count();
+    }
 }

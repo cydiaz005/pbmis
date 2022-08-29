@@ -23,4 +23,9 @@ class FormApp extends Model
     {
         return @\Carbon\Carbon::parse(@$this->attributes['created_at'])->format('M j, Y h:i a');
     }
+
+    public function rows()
+    {
+        return $this->hasMany(FormAppRow::class, 'app_id', 'id');
+    }
 }

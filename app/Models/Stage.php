@@ -22,4 +22,16 @@ class Stage extends Model
             -> logOnlyDirty()
             -> dontSubmitEmptyLogs();
     }
+
+    public function getNextStageIdAttribute()
+    {
+        $nextId = null;
+        if(@$this->attributes['active'] == "1" && @$this->attributes['id']){
+            $nextId = $this->attributes['id'] + 1;
+            if($nextId > 3){
+                $nextId = 1;
+            }
+        }
+        return $nextId;
+    }
 }

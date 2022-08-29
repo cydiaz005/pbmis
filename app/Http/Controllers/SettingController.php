@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\EmailController;
 use App\Actions\Notify\Notify;
+use App\Jobs\ChangeStageJob;
 use App\Models\User;
+use Illuminate\Support\Str;
 class SettingController extends Controller
 {
     public function index()
@@ -31,122 +33,29 @@ class SettingController extends Controller
 
     public function stage()
     {
-        $stages = Stage::orderBy('active','desc')->get();
+        $stages = Stage::get()->append('next_stage_id')->keyBy('id');
+        $active_stage = $stages->where('active', '1')->first();
+        $next_stage = $stages[$active_stage->next_stage_id];
+
         return (Auth::user()->hasPermissionTo('general'))?  
         view('pages.stage-warning',[
-            'stages' => $stages 
+            'active_stage' => $active_stage,
+            'next_stage' => $next_stage,
+            'changing_stage' => Setting::changingStage(),
         ]):
         abort(403);
     }
 
     public function setActiveStage(Request $request)
     {
-        $request = $request->validate([
-            'stage' => 'required',
-            'password' => 'required',
-        ]);
-
 
         (!(Hash::check($request['password'], Auth::user()->password)))? abort(500, 'Password mismatch'):0;
-  
-
-        $stage = Stage::where('active','1')->first();
-        ($stage->id == $request['stage'])? abort(500, 'The stage is still active.'):0;
-        $this->rollOutUnpublished($stage->id);
-        $poes = FormPoe::where('stage_id', $stage->id)
-        ->whereYear('created_at', date('Y'))
-        ->with('ppmp','subpap.itemRequirements.itemMonths')
-        ->get();
-
-        foreach ($poes as $poe) {
-            $new_poe = FormPoe::firstOrCreate([
-                "suggested_pap_id" => $poe->suggested_pap_id,
-                "creator_id" => $poe->creator_id,
-                "pap_txt" => $poe->pap_txt,
-                "geolocation" => $poe->geolocation,
-                "status_id" => 1,
-                "mfo_id" => $poe->mfo_id,
-                "key_id" => $poe->key_id,
-                "service_region_id" => $poe->service_region_id,
-                "category_id" => $poe->category_id,
-                "thematic_area_cluster_id" => $poe->thematic_area_cluster_id,
-                "stage_id" => $request['stage'],
-                "total" => $poe->total,
-            ]);
-
-            if(FormPpmp::where('poe_id', $poe->id)->count()){
-                FormPpmp::where('poe_id', $poe->id)->delete();
-            }
-
-            foreach ($poe->subpap as $subpap) {
-
-                $new_subpap = FormPoeSubPap::firstOrCreate([
-                    "poe_id" =>   $new_poe->id,
-                    "quarter_target_id" =>   $subpap->quarter_target_id,
-                    "subpap_txt" =>   $subpap->subpap_txt,
-                    "suggested_subpap_id" =>   $subpap->suggested_subpap_id,
-                ]);
-                
-                foreach ($subpap->itemRequirements as $ir) {
-                    # code...
-                    $new_item_requirement = FormPoeItemRequirement::firstOrCreate([
-                        "subpap_id" => $new_subpap->id,   
-                        "account_id" => $ir->account_id,   
-                        "itemreq_txt" => $ir->itemreq_txt,   
-                        "no_of_days" => $ir->no_of_days,  
-                        "per_capita_cost" => $ir->per_capita_cost,   
-                        "procurement_mode_id" => $ir->procurement_mode_id,   
-                        "qty_pax" => $ir->qty_pax,   
-                        "suggested_itemreq_id" => $ir->suggested_itemreq_id,   
-                        "total" => $ir->total,   
-                        "unit" => $ir->unit,   
-                        "unit_id" => $ir->unit_id,   
-                    ]);
-
-                    foreach ($ir->itemMonths as $item) {
-                       $item_req_month = FormPoeItemRequirementMonth::firstOrCreate([
-                            "item_req_id" => $new_item_requirement->id,
-                            "amount" => $item->amount,
-                            "month" => $item->month,
-                            "qty" => $item->qty,
-                        ]);;
-                    };
-                }
-            }
-
-        }
-        $users = User::where('id', '!=', Auth::user()->id)
-                    ->where("status", '!=','0' )
-                    ->where('email_verified_at', '!=',null)->get();
-
-        $recieverIds = [];
-        $recieverEmail = [];
-        foreach ($users as $user) {
-          array_push($recieverIds, $user->id);
-          array_push($recieverEmail, $user->email);
-        }
-        if($stage){
-            Notify::create($recieverIds,  [
-                "type" => "user-create-poe",
-                "notifiable" => ['App\Models\Stage', $stage->id],
-                "sender" => ['App\Models\User', Auth::user()->id],
-                "message" => "Fiscal Stage has been Updated",
-            ]);
-            $email = new EmailController();
-            $email->fiscalStage(
-                array(
-                    "subject" => "Fiscal Stage Updated",
-                    "receiver" => $recieverEmail
-                )
-            );
-        }
-        
-        abort(200);
-        
+        ChangeStageJob::dispatch();
+        Setting::updateOrCreate(["key"=>"changing_stage"],["value"=>1]);
+        return;        
     }
     public function rollOutUnpublished($stage_id)
     {        
-
         $unpub_ppmps = FormPpmp::where('funded',  null)
         ->whereYear('created_at', date('Y'))
         ->delete();

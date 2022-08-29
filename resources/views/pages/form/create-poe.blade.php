@@ -290,10 +290,7 @@
 				['name' => 'Dashboard', 'route' => '/dashboard/admin'],
 				['name' => 'Forms', 'route' => '#'],
 				['name' => 'POE Form', 'route' => '/form/poe'],
-			['name' => 'Create', 'route' => '#'],
-
-			
-
+				['name' => 'Create', 'route' => '#'],
 			],
 			
 		])

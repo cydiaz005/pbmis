@@ -6,6 +6,7 @@ use App\Models\FormApp;
 use App\Models\FormAppRow;
 use App\Models\FormPpmp;
 use App\Models\FundChargeability;
+use App\Models\Setting;
 use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,18 @@ class AppFormController extends Controller
 {
     public function show()
     {
+        $changing_stage = Setting::changingStage();
+        if($changing_stage){
+            return view('form_not_available', [
+                'breadcrumb' => [
+                    ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                    ['name' => 'Forms', 'route' => '#'],
+                    ['name' => 'APP Form', 'route' => '#'],
+                ],
+                'page_title' => ' Annual Procurement Plan (APP)',
+                "sidebar_id" => "#li_appform",
+            ]);
+        }
         return view("pages.form.app-form");
     }
     public function showReport()
@@ -22,6 +35,19 @@ class AppFormController extends Controller
     }
     public function create($year)
     {
+        $changing_stage = Setting::changingStage();
+        if($changing_stage){
+            return view('form_not_available', [
+                'breadcrumb' => [
+                    ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                    ['name' => 'Forms', 'route' => '#'],
+                    ['name' => 'APP Form', 'route' => '#'],
+                ],
+                'page_title' => ' Annual Procurement Plan (APP)',
+                "sidebar_id" => "#li_appform",
+            ]);
+        }
+
         $stage_id = Stage::where('active', '1')->first()->id;
         $appForm = FormApp::where([
             ['year', $year],
@@ -37,6 +63,19 @@ class AppFormController extends Controller
     }
     public function edit($id)
     {
+        $changing_stage = Setting::changingStage();
+        if($changing_stage){
+            return view('form_not_available', [
+                'breadcrumb' => [
+                    ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                    ['name' => 'Forms', 'route' => '#'],
+                    ['name' => 'APP Form', 'route' => '#'],
+                ],
+                'page_title' => ' Annual Procurement Plan (APP)',
+                "sidebar_id" => "#li_appform",
+            ]);
+        }
+        
         $appForm = FormApp::find($id);
         if(@$appForm){
             return view("pages.form.app-form-create", ["year"=>$appForm->year]);

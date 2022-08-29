@@ -23,5 +23,8 @@ class DivisionSection extends Model
             -> logOnlyDirty()
             -> dontSubmitEmptyLogs();
     }
-
+    public function user()
+    {
+        return $this->hasOne(User::class, 'divsec_id', 'id');
+    }
 }

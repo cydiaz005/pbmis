@@ -113,4 +113,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->morphOne(Image::class, 'imageable');
     }
+    public function poes()
+    {
+        return $this->hasMany(FormPoe::class, 'creator_id', 'id')->withTrashed();
+    }
 }

@@ -3,8 +3,6 @@
     <style>
       
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     @endsection
 
     @section('content')
@@ -15,36 +13,43 @@
                 <div class="card-header p-0" style="background-image: linear-gradient(135deg, #ff9911 27.78%, #000000 27.78%, #000000 50%, #ff9911 50%, #ff9911 77.78%, #000000 77.78%, #000000 100%);background-size: 63.64px 63.64px; min-height: 1.5rem"> 
                     <!-- no content -->
                 </div>
-                <div class="card-body " style="background-color: #EF1625; position: relative; ">
+                {{-- <div class="card-body" style="background-color: #EF1625; position: relative; "> --}}
+                @if (!$changing_stage)
+                <div class="card-body" style="background-color: #1c20ab; position: relative; ">
                     <div class="body-header d-flex align-items-center px-3 pb-3">
                         <p class="text" style="color: #FFF; font-size: 30px; font-weight: 600 ">WARNING</p>
                     </div>
                     <div class="body-content px-2" style=" min-height: 20rem">
                         <div class="container">
                             <img src="{{asset('images/warning-bg.png')}}" alt="" style="position: absolute; width: 400px;top:0 ;right: 195px;opacity: 10%; transform: rotate(338deg);">
-                            <p class="text" style="color: #FFF; width: 50rem;">
+                            <p class="text" style="color: #FFF;">
                                 You're about to perform an action that cannot be reversed.
                                 When the active stage is changed, this causes all published forms to be re-evaluated as drafts.
                                 The remaining unpublished forms are discarded automatically.
                             </p>
                         </div>
-                        <div class="col-6 row align-items-center pt-5">
-                            <div class="col-8">
-                                <div class="form-group">
-                                    <label for="filter-stage" style="color: #FFF; margin: 0">Select Stage</label>
-                                    <select id="filter-stage" class="form-control form-input" style="margin-top: 0">
-                                    @foreach($stages as $stage)
-                                        <option value="{{$stage->id}}">[{{$stage->accronym}}] {{$stage->name}}</option>
-                                    @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-4 mt-2">
-                                <button class="btn btn-primary" id="stage-confirm">Confirm</button>
-                            </div>
+                        <div class="col-12 pt-5">
+                            <p class="text" style="color: #FFF;">Are you sure you want to change the stage from <strong>{{$active_stage->name}} ({{$active_stage->accronym}})</strong> to <strong>{{$next_stage->name}} ({{$next_stage->accronym}})</strong>?</p>
+                            <button class="btn btn-primary mt-2" id="stage-confirm">Confirm</button>
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="card-body" style="background-color: #1c20ab; position: relative; ">
+                    <div class="body-header d-flex align-items-center px-3 pb-3">
+                        <p class="text" style="color: #FFF; font-size: 30px; font-weight: 600 ">WARNING</p>
+                    </div>
+                    <h1 class="px-3 text-light h5">@livewire('jobs.change-stage-percentage')</h1>
+                    <div class="body-content px-2" style=" min-height: 20rem">
+                        <div class="container">
+                            <img src="{{asset('images/warning-bg.png')}}" alt="" style="position: absolute; width: 400px;top:0 ;right: 195px;opacity: 10%; transform: rotate(338deg);">
+                            <p class="text" style="color: #FFF; width: 50rem;">
+                                Stage is currently changing to <strong>{{$next_stage->name}} ({{$next_stage->accronym}})</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
 
@@ -79,7 +84,8 @@
     @section('script')
 
     <script>
-    $("#li_superdashboard").addClass('active');
+    $("#li_stage").addClass('active');
+    @if (!$changing_stage)
     (function () {
         var filter_stage = $('#filter-stage');
         var stage_confirm = $('#stage-confirm');
@@ -128,13 +134,12 @@
                         $('#stage-warning-confirmation').modal('hide');
                         $(".spinner_modal").modal("hide")
                         toastr.success("Action has been taken successfully.");
-                       
+                        window.location.reload();
                     },
                     error: function(data){
                         var error = data.responseJSON;
                         $(".spinner_modal").modal("hide")
                         toastr.error(error.message);
-                       
                     }
                 });
             }
@@ -145,9 +150,11 @@
             
         }
 
-
+        
         // 
     })();
+    @endif
+
     </script>
     @endsection
 </x-app-layout>

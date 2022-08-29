@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         Route::get('plans', [DashboardController::class, 'plans']);
         Route::get('budget', [DashboardController::class, 'budget']);
         Route::get('procurement', [DashboardController::class, 'procurement']);
+        Route::post('procurement/get-data', [DashboardController::class, 'getProcurementData']);
+        Route::get('procurement/list', [DashboardController::class, 'procurementDataList']);
         Route::get('plans-widget-keys', [DashboardController::class, 'plansWidgetKeys']);
         Route::prefix('plans-list-of-paps')->group(function () {
             Route::get('office', [DashboardController::class, 'plansListOfPapsPerOffice']);
@@ -361,7 +363,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('form/apb1a', [PageController::class, 'formApb1a']);
     Route::get('form/budget-funded', [PageController::class, 'formBudgetFunded']);
     Route::get('form/budget-unfunded', [PageController::class, 'formBudgetUnfunded']);
-    Route::get('form/ppmp', [PageController::class, 'formPpmp']);
+    // Route::get('form/ppmp', [PageController::class, 'formPpmp']);
     Route::get('/pages/reports/apb', function () {
         return view('pages/reports/apb');
     });

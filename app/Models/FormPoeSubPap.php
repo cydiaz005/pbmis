@@ -29,6 +29,11 @@ class FormPoeSubPap extends Model
         return $this->itemRequirements()->with('itemMonthSum');
     }
 
+    public function poe()
+    {
+        return $this->hasOne(FormPoe::class, 'id','poe_id')->withTrashed();
+    }
+
     public function suggestedSubPap()
     {
         return $this->hasOne(ListOfSubPap::class, 'id', 'suggested_subpap_id');
@@ -37,6 +42,7 @@ class FormPoeSubPap extends Model
     {
         return $this->hasOne(QuarterTarget::class, 'id', 'quarter_target_id');
     }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

@@ -13,4 +13,12 @@ class Setting extends Model
         "key",
         "value",
     ];
+
+    public function scopeChangingStage($query)
+    {
+        return $query->where([
+            ["key","changing_stage"],
+            ["value",1]
+        ])->exists();
+    }
 }

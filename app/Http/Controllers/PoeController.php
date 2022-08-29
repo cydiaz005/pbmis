@@ -64,16 +64,30 @@ class PoeController extends Controller
 
     public function classify()
     {
-        $due_date = Setting::where('key', 'classification_end_date')->first();
-        $due = true;
-        if (@$due_date) {
-            $due = Carbon::parse($due_date->value)->lt(Carbon::now());
+        $changing_stage = Setting::changingStage();
+        if($changing_stage){
+            return view('form_not_available', [
+                'breadcrumb' => [
+                    ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                    ['name' => 'Forms', 'route' => '#'],
+                    ['name' => 'PPMP Classification', 'route' => '#'],
+                ],
+                'page_title' => 'Project Procurement Management Plan (PPMP) Classification',
+                "sidebar_id" => "#li_ppmpform",
+            ]);
         }
-        return (Auth::user()->hasPermissionTo('form-ppmp-classification-access')) ?  view('pages/form/ppmpclassify', [
-            "end_date" => $due_date,
-            "due" => $due,
-            "lock_all" => (!Auth::user()->hasPermissionTo("form-ppmp-classification-all-access") && $due),
-        ]) : abort(403);
+        else{
+            $due_date = Setting::where('key', 'classification_end_date')->first();
+            $due = true;
+            if (@$due_date) {
+                $due = Carbon::parse($due_date->value)->lt(Carbon::now());
+            }
+            return (Auth::user()->hasPermissionTo('form-ppmp-classification-access')) ?  view('pages/form/ppmpclassify', [
+                "end_date" => $due_date,
+                "due" => $due,
+                "lock_all" => (!Auth::user()->hasPermissionTo("form-ppmp-classification-all-access") && $due),
+            ]) : abort(403);
+        }
     }
 
     public function budgetFundedReport()
@@ -223,28 +237,43 @@ class PoeController extends Controller
             abort(403);
         }
         try {
-            $decrypted_parameter = Crypt::decrypt($parameter);
-            $kdp = KdpKpKs::where('id', (int)$decrypted_parameter['kdp'])->first();
-            $mfo = Mfo::where('id', (int)$decrypted_parameter['mfo'])->first();
-            $fc = FundChargeabilityClass::with(['allotmentClass', 'fundChargeability'])->get();
-            $service_regions = ServiceRegion::all();
-            $target_sectors = TargetSector::all();
-            $pap_tags = PapTag::all();
-            $procurement_modes = ProcurementMode::all();
-            return view('pages.form.create-poe', [
-                "papname" => $decrypted_parameter['papname'],
-                "mfo_id" => $mfo->id,
-                "mfo" => $mfo->desc,
-                "kdp_id" => $kdp->id,
-                "kdp" => $kdp->desc,
-                "fc" => $fc,
-                "service_regions" => $service_regions,
-                "target_sectors" => $target_sectors,
-                "procurement_modes" => $procurement_modes,
-                "pap_tags" => $pap_tags,
-                "thematicAreasClusters" => ThematicAreasCluster::all(),
-                "quarterTargets" => QuarterTarget::all(),
-            ]);
+            $changing_stage = Setting::changingStage();
+            if($changing_stage){
+                return view('form_not_available', [
+                    'page_title' => 'Program of Expenditures (POE)',
+                    'breadcrumb' => [
+                        ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                        ['name' => 'Forms', 'route' => '#'],
+                        ['name' => 'POE Form', 'route' => '/form/poe'],
+                        ['name' => 'Create', 'route' => '#'],
+                    ],
+                    "sidebar_id" => "#li_poeform",
+                ]);
+            }
+            else{
+                $decrypted_parameter = Crypt::decrypt($parameter);
+                $kdp = KdpKpKs::where('id', (int)$decrypted_parameter['kdp'])->first();
+                $mfo = Mfo::where('id', (int)$decrypted_parameter['mfo'])->first();
+                $fc = FundChargeabilityClass::with(['allotmentClass', 'fundChargeability'])->get();
+                $service_regions = ServiceRegion::all();
+                $target_sectors = TargetSector::all();
+                $pap_tags = PapTag::all();
+                $procurement_modes = ProcurementMode::all();
+                return view('pages.form.create-poe', [
+                    "papname" => $decrypted_parameter['papname'],
+                    "mfo_id" => $mfo->id,
+                    "mfo" => $mfo->desc,
+                    "kdp_id" => $kdp->id,
+                    "kdp" => $kdp->desc,
+                    "fc" => $fc,
+                    "service_regions" => $service_regions,
+                    "target_sectors" => $target_sectors,
+                    "procurement_modes" => $procurement_modes,
+                    "pap_tags" => $pap_tags,
+                    "thematicAreasClusters" => ThematicAreasCluster::all(),
+                    "quarterTargets" => QuarterTarget::all(),
+                ]);
+            }
         } catch (DecryptException $e) {
             abort(404);
         }
@@ -255,10 +284,26 @@ class PoeController extends Controller
         if (!Auth::user()->hasPermissionTo('forms-access')) {
             abort(403);
         }
-        $mfo = MfoKey::with('mfo')->get();
-        return view('pages.form.poe', [
-            "mfo" => $mfo,
-        ]);
+
+        $changing_stage = Setting::changingStage();
+
+        if($changing_stage){
+            return view('form_not_available', [
+                'breadcrumb' => [
+                    ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                    ['name' => 'Forms', 'route' => '#'],
+                    ['name' => 'POE Form', 'route' => '#'],
+                ],
+                'page_title' => 'Program of Expenditures (POE)',
+                "sidebar_id" => "#li_poeform",
+            ]);
+        }
+        else{
+            $mfo = MfoKey::with('mfo')->get();
+            return view('pages.form.poe', [
+                "mfo" => $mfo,
+            ]);
+        }
     }
 
     public function getKdp($id)
@@ -924,8 +969,21 @@ class PoeController extends Controller
         if (!Auth::user()->hasPermissionTo('form-ppmp-access')) {
             abort(403);
         }
-
-        return view('pages.form.ppmp');
+        $changing_stage = Setting::changingStage();
+        if($changing_stage){
+            return view('form_not_available', [
+                'breadcrumb' => [
+                    ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                    ['name' => 'Forms', 'route' => '#'],
+                    ['name' => 'PPMP Form', 'route' => '#'],
+                ],
+                'page_title' => 'Project Procurement Management Plan (PPMP)',
+                "sidebar_id" => "#li_ppmpform",
+            ]);
+        }
+        else{
+            return view('pages.form.ppmp');
+        }
     }
     public function getPpmp(Request $request)
     {
@@ -1254,64 +1312,79 @@ class PoeController extends Controller
     }
     public function editPoe($id)
     {
-        $timestamp = Carbon::now()->format('Y-m-d H:i:s');
-        $lockLimitTime = Carbon::parse($timestamp)->addHours(5);
-
-        $poe = FormPoe::find($id);
-        if (!$poe) {
-            abort(404);
+        $changing_stage = Setting::changingStage();
+        if($changing_stage){
+            return view('form_not_available', [
+                'page_title' => 'Program of Expenditures (POE)',
+                'breadcrumb' => [
+                    ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
+                    ['name' => 'Forms', 'route' => '#'],
+                    ['name' => 'POE Form', 'route' => '/form/poe'],
+                    ['name' => 'Create', 'route' => '#'],
+                ],
+                "sidebar_id" => "#li_poeform",
+            ]);
         }
-        $user = Auth::user();
+        else{
+            $timestamp = Carbon::now()->format('Y-m-d H:i:s');
+            $lockLimitTime = Carbon::parse($timestamp)->addHours(5);
 
-        if ($poe->status_id == 2) {
-            $ppmp = FormPpmp::where('poe_id', $poe->id)->first();
-            if (@$ppmp) {
-                if ($ppmp->locked == '1' && $ppmp->datetime_locked->gte(Carbon::now())) {
-                    if ($ppmp->locker_user_id != $user->id) {
-                        return view('pages.form.form-locked', [
-                            "name" => $ppmp->userLocker->firstname . " " . $ppmp->userLocker->lastname,
-                            "formname" => $poe->pap_txt ?: $poe->suggestedPap->paps,
-                        ]);
+            $poe = FormPoe::find($id);
+            if (!$poe) {
+                abort(404);
+            }
+            $user = Auth::user();
+
+            if ($poe->status_id == 2) {
+                $ppmp = FormPpmp::where('poe_id', $poe->id)->first();
+                if (@$ppmp) {
+                    if ($ppmp->locked == '1' && $ppmp->datetime_locked->gte(Carbon::now())) {
+                        if ($ppmp->locker_user_id != $user->id) {
+                            return view('pages.form.form-locked', [
+                                "name" => $ppmp->userLocker->firstname . " " . $ppmp->userLocker->lastname,
+                                "formname" => $poe->pap_txt ?: $poe->suggestedPap->paps,
+                            ]);
+                        }
+                    } else {
+                        $ppmp->locked = '1';
+                        $ppmp->locker_user_id = $user->id;
+                        $ppmp->datetime_locked = $lockLimitTime;
+                        $ppmp->update();
                     }
-                } else {
-                    $ppmp->locked = '1';
-                    $ppmp->locker_user_id = $user->id;
-                    $ppmp->datetime_locked = $lockLimitTime;
-                    $ppmp->update();
                 }
             }
-        }
 
 
-        if ($poe->locked == '1' && $poe->datetime_locked->gte(Carbon::now())) {
-            if ($poe->locker_user_id != $user->id) {
-                return view('pages.form.form-locked', [
-                    "name" => $poe->userLocker->firstname . " " . $poe->userLocker->lastname,
-                    "formname" => $poe->pap_txt ?: $poe->suggestedPap->paps,
-                ]);
+            if ($poe->locked == '1' && $poe->datetime_locked->gte(Carbon::now())) {
+                if ($poe->locker_user_id != $user->id) {
+                    return view('pages.form.form-locked', [
+                        "name" => $poe->userLocker->firstname . " " . $poe->userLocker->lastname,
+                        "formname" => $poe->pap_txt ?: $poe->suggestedPap->paps,
+                    ]);
+                }
+            } else if ($poe->status_id != 2) {
+                $poe->locked = '1';
+                $poe->locker_user_id = $user->id;
+                $poe->datetime_locked = $lockLimitTime;
+                $poe->update();
             }
-        } else if ($poe->status_id != 2) {
-            $poe->locked = '1';
-            $poe->locker_user_id = $user->id;
-            $poe->datetime_locked = $lockLimitTime;
-            $poe->update();
-        }
 
-        $fc = FundChargeabilityClass::with(['allotmentClass', 'fundChargeability'])->get();
-        $service_regions = ServiceRegion::all();
-        $target_sectors = TargetSector::all();
-        $pap_tags = PapTag::all();
-        $procurement_modes = ProcurementMode::all();
-        return view('pages.form.edit-poe', [
-            "poe" => $poe,
-            "fc" => $fc,
-            "service_regions" => $service_regions,
-            "target_sectors" => $target_sectors,
-            "procurement_modes" => $procurement_modes,
-            "pap_tags" => $pap_tags,
-            "thematicAreasClusters" => ThematicAreasCluster::all(),
-            "quarterTargets" => QuarterTarget::all(),
-        ]);
+            $fc = FundChargeabilityClass::with(['allotmentClass', 'fundChargeability'])->get();
+            $service_regions = ServiceRegion::all();
+            $target_sectors = TargetSector::all();
+            $pap_tags = PapTag::all();
+            $procurement_modes = ProcurementMode::all();
+            return view('pages.form.edit-poe', [
+                "poe" => $poe,
+                "fc" => $fc,
+                "service_regions" => $service_regions,
+                "target_sectors" => $target_sectors,
+                "procurement_modes" => $procurement_modes,
+                "pap_tags" => $pap_tags,
+                "thematicAreasClusters" => ThematicAreasCluster::all(),
+                "quarterTargets" => QuarterTarget::all(),
+            ]);
+        }
     }
     public function getSubpaps(Request $request)
     {

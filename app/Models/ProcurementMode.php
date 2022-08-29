@@ -25,4 +25,8 @@ class ProcurementMode extends Model
             -> dontSubmitEmptyLogs();
     }
 
+    public function itemRequirement()
+    {
+        return $this->hasOne(FormPoeItemRequirement::class, 'procurement_mode_id');
+    }
 }
