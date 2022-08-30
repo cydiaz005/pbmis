@@ -81,7 +81,8 @@ class PermissionSeeder extends Seeder
             'special-privileges-access',
             'account-settings-access',
             'stages-access',
-            'form-ppmp-classification-all-access'
+            'form-ppmp-classification-all-access',
+            'horizon-access'
         ];
 
         foreach ($permissions as $permission) {
@@ -168,6 +169,7 @@ class PermissionSeeder extends Seeder
         $developer->givePermissionTo('special-privileges-access');
         $developer->givePermissionTo('account-settings-access');
         $developer->givePermissionTo('stages-access');
+        $developer->givePermissionTo('horizon-access');
 
         $superAdministrator->givePermissionTo('general');
         // $superAdministrator->givePermissionTo('onboarding-access');
