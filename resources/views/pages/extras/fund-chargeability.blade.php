@@ -23,7 +23,7 @@
 
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">FundChargeability</h3>
+            <h3 class="card-title">Fund Chargeability</h3>
             <div class="card-tools">
                 <a href="#createFundChargeabilityModal" data-toggle="modal" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>&nbsp;
                 Create Fund Chargeability</a>

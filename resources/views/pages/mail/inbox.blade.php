@@ -144,7 +144,6 @@
                                             xhr.setRequestHeader('X-Requested-With', "XMLHttpRequest");
                                         },
                                         success: function(result) {
-                                          
                                            $("#inbox-badge").text(result)
                                         }
                                     });
@@ -171,7 +170,7 @@
                     sendType: "inbox",
                     searchto: true,
                 });
-            } )
+            })
             $("#click-search").on("click", () => {
                 new Mail('inbox', {
                     url: '/mail/get/inbox',

@@ -68,7 +68,7 @@
             </div>
         </div>
     </div>
-    <a style="margin-top: 35px; width: 150px;float: left;" type="button" href="/onboarding2" class="btn btn-outline-secondary">Prev</a>
+    <a style="margin-top: 35px; width: 150px;float: left;" type="button" href="#" class="btn btn-outline-secondary">Prev</a>
     <button type="submit" style="margin-top: 35px; width: 150px;float: right;" class="btn btn-primary">Save</button>
 </form>
  

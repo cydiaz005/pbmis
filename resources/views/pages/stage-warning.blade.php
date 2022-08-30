@@ -13,9 +13,9 @@
                 <div class="card-header p-0" style="background-image: linear-gradient(135deg, #ff9911 27.78%, #000000 27.78%, #000000 50%, #ff9911 50%, #ff9911 77.78%, #000000 77.78%, #000000 100%);background-size: 63.64px 63.64px; min-height: 1.5rem"> 
                     <!-- no content -->
                 </div>
-                {{-- <div class="card-body" style="background-color: #EF1625; position: relative; "> --}}
                 @if (!$changing_stage)
-                <div class="card-body" style="background-color: #1c20ab; position: relative; ">
+                {{-- <div class="card-body" style="background-color: #1c20ab; position: relative; "> --}}
+                <div class="card-body" style="background-color: #EF1625; position: relative; ">
                     <div class="body-header d-flex align-items-center px-3 pb-3">
                         <p class="text" style="color: #FFF; font-size: 30px; font-weight: 600 ">WARNING</p>
                     </div>

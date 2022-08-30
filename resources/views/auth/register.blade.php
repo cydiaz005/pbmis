@@ -11,7 +11,7 @@
         height: 100%;
         width: 100%;
         height: 40%;
-        padding: 70px 0;
+        padding: 160px 81px 89px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
@@ -49,7 +49,7 @@
         max-width: 30rem;
     }
     .ocdlogo{
-        width: 120px;
+        width: 450px;
         margin: 0 auto;
     }
     .h3{
@@ -78,6 +78,11 @@
     .btnreg{
         margin-right: 35px;
     }
+    .system-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #f57a1c
+    }
     @media(max-width:767px){
         .ocdlayout_head {
             padding: 50px 0;
@@ -103,12 +108,14 @@
             margin-right: 0px;
         }
     }
+
 </style>
 <x-guest-layout>
     <div class="ocdlayout">
         <div class="ocdlayout_head">
             <img class="ocdlogo" src="{{ asset('images/ocd-logo.png') }}" />
-            
+            <br>
+            <h3 class="system-title">PLANNING AND BUDGETING MANAGEMENT INFORMATION SYSTEM</h3>
         </div>
         <x-jet-authentication-card>
             <x-slot name="logo">
