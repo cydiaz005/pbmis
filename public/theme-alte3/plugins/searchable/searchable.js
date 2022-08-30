@@ -510,6 +510,9 @@ function checkLogo(src, name){
         if(imgsrc.substr(0, 4) !== "http"){
             imgsrc = window.location.origin+"/"+imgsrc;
         }
+        else if(imgsrc.substr(0, 5) === "https"){
+            imgsrc = "https://ui-avatars.com/api/?name="+name+"&color=7F9CF5&background=EBF4FF";
+        }
     }
     return imgsrc;
 }

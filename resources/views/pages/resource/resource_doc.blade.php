@@ -1,9 +1,9 @@
 <x-app-layout>
     @section('style')
         <style>
-            .main-footer {
+            /* .main-footer {
                 margin-left: 0 !important;
-            }
+            } */
 
             .hover {
                 cursor: pointer;

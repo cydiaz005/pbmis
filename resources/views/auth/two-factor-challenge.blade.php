@@ -141,7 +141,7 @@
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
-                        <button type="button" class="text-sm text-white hover:text-white underline cursor-pointer"
+                        <button type="button" class="text-sm text-white hover:text-white underline cursor-pointer mr-2"
                                         x-show="! recovery"
                                         x-on:click="
                                             recovery = true;
@@ -150,7 +150,7 @@
                             {{ __('Use a recovery code') }}
                         </button>
 
-                        <button type="button" class="text-sm text-white hover:text-white underline cursor-pointer"
+                        <button type="button" class="text-sm text-white hover:text-white underline cursor-pointer mr-2"
                                         x-show="recovery"
                                         x-on:click="
                                             recovery = false;

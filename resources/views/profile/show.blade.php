@@ -46,5 +46,9 @@
         </div>
     </div>
     @endsection
-   
+    @section('script')
+    <script>
+        $("#li_account_setting").addClass('active');
+    </script>
+    @endsection
 </x-app-layout>

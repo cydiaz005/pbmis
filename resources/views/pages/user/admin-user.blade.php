@@ -1,5 +1,37 @@
 <x-app-layout>
     @section('style')
+    <style>
+        .table.power-grid-table thead tr th:nth-child(2) > div {
+          width: 3rem;
+        }
+        .table.power-grid-table tbody tr:nth-child(1) td:nth-child(3) > div {
+          width: 6rem;
+        }
+        .table.power-grid-table tbody tr:nth-child(1) td:nth-child(4) > div {
+          width: 6rem;
+        }
+        .table.power-grid-table tbody tr:nth-child(1) td:nth-child(5) > div {
+          width: 14rem;
+        }
+        .table.power-grid-table tbody tr:nth-child(1) td:nth-child(6) > div {
+          width: 11rem;
+        }
+        .table.power-grid-table tbody tr:nth-child(1) td:nth-child(7) > div {
+          width: 11rem;
+        }
+        .table.power-grid-table tbody tr:nth-child(1) td:nth-child(8) > div {
+          width: 7rem;
+        }
+        .table.power-grid-table thead tr th:nth-child(9) > div {
+          width: 6rem;
+        }
+        .table.power-grid-table tbody tr:nth-child(1) td:nth-child(10) > div {
+          width: 10rem;
+        }
+        .table.power-grid-table tbody tr:nth-child(1) td:nth-child(11) > div {
+          width: 10rem;
+        }
+    </style>
     <script>
     </script>
     @endsection

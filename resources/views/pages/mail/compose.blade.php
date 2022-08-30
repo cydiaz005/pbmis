@@ -212,8 +212,8 @@
                                     <button type="button" id="send-mail-btn" class="btn btn-primary "><i
                                             class="far fa-envelope"></i> Send</button>
                                 </div>
-                                <button type="reset" class="btn btn-default" id="discard"><i
-                                        class="fas fa-times"></i>Discard</button>
+                                <button type="reset" class="btn btn-default mr-1" id="discard"><i
+                                        class="fas fa-times mr-1"></i>Discard</button>
                             </div>
                             <!-- /.card-footer -->
                         </div>

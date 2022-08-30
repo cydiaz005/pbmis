@@ -85,29 +85,25 @@
             
         ])
         
-        <div class="row">
+    <div class="row">
         <div id="unsavedAlert" class="col-12 hidden">
-        <div class="d-flex align-items-center justify-content-between  flex-row alert alert-warning" role="alert">
-            <p>
-                Careful -- you have unsaved changes
-            </p>
-            <div class="d-flex flex-row align-items-center">
-            <p onclick="location.reload()" class="btn mr-3">
-               Reset
-            </p>
-                <button onclick="saveChanges()" type="button" class="btn bg-success btn-success">Save changes</button>
+            <div class="d-flex align-items-center justify-content-between  flex-row alert alert-warning" role="alert">
+                <p>
+                    Careful -- you have unsaved changes
+                </p>
+                <div class="d-flex flex-row align-items-center">
+                    <p onclick="location.reload()" class="btn mr-3">
+                    Reset
+                    </p>
+                    <button onclick="saveChanges()" type="button" class="btn bg-success btn-success">Save changes</button>
+                </div>
             </div>
         </div>
-  
-        </div>
         <div class="col-12">
-        @livewire('office-table')
+            @livewire('office-table')
         </div>
-        </div>
-
-   
+    </div>
     @endsection
-    
     @section('script')
     <script>
         $(".plus").toggleClass("minus").siblings("ul").toggle();
@@ -166,9 +162,9 @@
             })
         }
 
-        $("#li_dataguard").addClass('menu-open');
-        $("#li_dataguard>a.li_parent").addClass('active');
-        $("#li_privileges").addClass('active');
+        $("#li_field").addClass('menu-open');
+        $("#li_field>a.li_parent").addClass('active');
+        $("#li_office_per_mfo").addClass('active');
     </script>
     @endsection
 </x-app-layout>

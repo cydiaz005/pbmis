@@ -527,7 +527,7 @@ class SidebarLeft extends Component
                 
             ],
             [
-                'li_id' => 'li_account',
+                'li_id' => 'li_account_setting',
                 'icon' => 'nav-icon fa fa-cogs',
                 'label' => 'Account Settings',
                 'route' => '/settings',
