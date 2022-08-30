@@ -15,7 +15,7 @@ class CreateProcurementModesTable extends Migration
     {
         Schema::create('procurement_modes', function (Blueprint $table) {
             $table->id();
-            $table->string('section', 5);
+            $table->string('section', 5)->nullable();
             $table->string('title', 100);
             $table->timestamps();
         });

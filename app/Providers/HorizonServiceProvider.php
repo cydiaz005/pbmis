@@ -34,6 +34,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewHorizon', function ($user) {
+            return $user->hasPermissionTo("horizon-access");
             return in_array($user->email, [
                 //
             ]);
