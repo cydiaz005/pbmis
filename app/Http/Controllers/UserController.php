@@ -82,7 +82,7 @@ class UserController extends Controller
                 'receiver_id',$user->id
             )->where('notif_type', "user-role-status")->delete();
 
-            Notify::create([$id], [
+            Notify::create($admin_ids, [
                 "type" => "user-role-status",
                 "notifiable" => ['App\Models\User',$id],
                 "sender" => ['App\Models\User', Auth::user()->id],
@@ -92,7 +92,7 @@ class UserController extends Controller
             $email = new EmailController();
             $email->approvalChangeRole(
                 array(
-                    "receiver" => $users_emails,
+                    "receiver" => $admin_emails,
                     "subject" => "Updated Status OCD PBMIS",
                     "user" => $user
                 )
