@@ -503,9 +503,20 @@
                                 data: {id: element.id},
                                 btnText: "Yes, continue",
                                 done: function(res){
-                                    forReview.removeFile(card);
+                                    let badge = card.querySelector('.badge-primary');
+                                    badge.classList.remove('badge_draft');
+                                    badge.classList.add('badge_published');
+                                    badge.innerHTML="Published";
+                                    
                                     published.destroy();
-                                    allForms.destroy();
+                                    forReview.destroy();
+
+                                    let formBtns = {
+                                        view: buttons.view,
+                                        delete: buttons.delete,
+                                    };
+                                    element.status_id = 2;
+                                    allForms.reRenderElement(card, element, formBtns, true);
                                 }
                             });
                         },

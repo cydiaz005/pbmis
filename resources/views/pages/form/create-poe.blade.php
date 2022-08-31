@@ -1366,7 +1366,7 @@
 
 				if(subtract){
 					subpap_months_added_count[m]--;
-					let td = subpap_header_tr.children[(monthStartIndex - 6) + (toInt(m) - 1)];
+					let td = subpap_header_tr.children[(monthStartIndex - 5) + (toInt(m) - 1)];
 					subpap_months_added[m] -= a;
 					if(subpap_months_added[m] == 0){
 						delete subpap_months_added[m];
@@ -1382,7 +1382,7 @@
 					// }
 				}
 				else{
-					let td = subpap_header_tr.children[(monthStartIndex - 6) + (toInt(m) - 1)];
+					let td = subpap_header_tr.children[(monthStartIndex - 5) + (toInt(m) - 1)];
 					subpap_months_added_count[m]++;
 					if(subpap_months_added[m]){
 						subpap_months_added[m] += a;

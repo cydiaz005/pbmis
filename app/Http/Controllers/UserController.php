@@ -13,7 +13,7 @@ use App\Http\Controllers\EmailController;
 use App\Models\TemporaryPassword;
 use App\Actions\Notify\Notify;
 use App\Models\Notification;
-use App\Models\Role as Rol;
+use App\Models\Role;
 use Carbon\Carbon;
 use Throwable;
 
@@ -43,36 +43,64 @@ class UserController extends Controller
     {
         return (Auth::user()->hasPermissionTo('users-planning-focal-access'))?  view('pages.user.pfo-user'):abort(403);
     }
+
+    public function getSuperAdminAndAdminData()
+    {
+        return User::whereHas("rol", function($q){
+            $q->where("role_id", 1);
+            $q->orWhere("role_id",2);
+        })->get();
+    }
     public function changeRole(Request $request, $id){
         if(!Auth::user()->hasPermissionTo('users-approval-suspension-access')){abort(403);}
         $request->validate([
             'roleId' => 'required',
         ]);
+        
         $user = User::find($id);
         $role = Rol::where("id",$request->roleId )->first();
-        $users = User::whereRelation("rol", function($role){
-            $role->where("role_id", 1);
-            $role->orWhere("role_id",2);
-            $role->orWhere("role_id",6);
-        })->get();
-        $users_email = [];
-        $users_id = [];
-        foreach ($users as $key => $value) {
-           array_push( $users_email , $value->email);
-           array_push( $users_id , $value->id);
-        }
-        if($role){
+
+        if(@$role && @$user){
+
+            $super_admin_and_admin_data = $this->getSuperAdminAndAdminData();
+
+            $admin_emails = [];
+            $admin_ids = [];
+            
+            foreach ($super_admin_and_admin_data as $key => $value) {
+                array_push( $admin_emails , $value->email);
+                array_push( $admin_ids , $value->id);
+            }
+
+            array_push($admin_emails , $user->email);
+            array_push($admin_ids , $user->id);
+
+            
+
+            
             Notification::where(
-                'receiver_id',$id
-                
+                'receiver_id',$user->id
             )->where('notif_type', "user-role-status")->delete();
+
             Notify::create([$id], [
                 "type" => "user-role-status",
                 "notifiable" => ['App\Models\User',$id],
                 "sender" => ['App\Models\User', Auth::user()->id],
-                "message" =>   "Has Change Role to <strong>".$role->name."</strong>" ,
+                "message" => "Has Change Role to <strong>".$role->name."</strong>",
             ]);
-            $this->changeRolesUser($role->name, $user->email, $users_id, "".$user->firstname." ".$user->lastname, $user->id);
+
+            $email = new EmailController();
+            $email->approvalChangeRole(
+                array(
+                    "receiver" => $users_emails,
+                    "subject" => "Updated Status OCD PBMIS",
+                    "user" => $user
+                )
+            );
+
+
+
+            // $this->changeRolesUser();
         }
 
         $user->syncRoles([$request->roleId]);
@@ -258,14 +286,23 @@ class UserController extends Controller
             )
         );
     }
-    public function changeRolesUser($status, $users_emails, $users_id, $user, $user_id)
+    public function changeRolesUser(User $user, $old_role, $new_role)
     {
+        $super_admin_and_admin_data = $this->getSuperAdminAndAdminData();
+
+        $admin_emails = [];
+        $admin_ids = [];
+        foreach ($super_admin_and_admin_data as $key => $value) {
+           array_push( $admin_emails , $value->email);
+           array_push( $admin_ids , $value->id);
+        }   
+        // Garry's role is changed by Jhepett from Admin to Super Admin.
         $msg = "Updated the Role of <strong>".$user."</strong> to $status";
         Notify::create($users_id, [
             "type" => "user-change-role",
             "notifiable" => ['App\Models\User',$user_id],
             "sender" => ['App\Models\User', Auth::user()->id],
-            "message" =>   $msg ,
+            "message" => $msg,
         ]);
         $email = new EmailController();
         $email->approvalChangeRole(

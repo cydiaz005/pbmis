@@ -533,14 +533,15 @@
 
 
 			function getOfficeTotal(office){
+				console.log("data_entry[office]",data_entry[office]);
 				let sum = 0;
 				const td = $('#'+office.toLowerCase()+'-total');
 				Object.values(data_entry[office]).forEach(entries => {
-					sum+=parseFloat(entries);
+					sum+=toFloat(entries);
 				});
+				console.log(office, sum);
 				td.find('input').val(formatter(sum));
 			}
-
 
 			function columnTotal(row, office, el) {
 				let sum = parseFloat(0);
@@ -553,7 +554,7 @@
 					const column = element.children().eq(tdIndex);
 					const entry = column.find('input');
 					// console.log(column.css('border','1px solid red'));
-					(entry.val())? sum+=parseFloat(entry.val()): false;
+					(entry.val())? sum+=toFloat(entry.val()): false;
 				}
 				let tsummary = $(tbody.parent().find('.tsummary'));
 				tsummary.children().eq(tdIndex).find('input').val(formatter(sum));
@@ -566,7 +567,7 @@
 				let entry_totals = el.find('input');
 				for (let index = 0; index < entry_totals.length-1; index++) {
 					const entry = $(entry_totals[index]);
-					(entry.val())? 	sum += parseFloat(entry.val()):parseFloat(0);
+					(entry.val())? 	sum += toFloat(entry.val()) : 0;
 				}
 				el.find('.sub-total').val(formatter(sum));
 			}

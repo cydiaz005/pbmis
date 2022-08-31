@@ -15,6 +15,7 @@ use App\Models\KdpKpKs;
 use App\Models\PriorityClass;
 use App\Models\TargetSector;
 use App\Models\FormPoeTargetSector;
+use App\Models\FormPpmp;
 use App\Models\FundChargeability;
 use App\Models\PapTag;
 use App\Models\ProcurementMode;
@@ -111,14 +112,30 @@ class DashboardController extends Controller
     }
     public function twg()
     {
+        $stage_id = Stage::where('active','1')->first()->id;
+        $poe = FormPoe::where('stage_id', $stage_id)
+            ->selectRaw('COUNT(CASE WHEN status_id = 1 THEN 1 END) as draft, COUNT(CASE WHEN status_id = 2 THEN 1 END) as published, COUNT(CASE WHEN status_id = 4 THEN 1 END) as returned, COUNT(CASE WHEN status_id = 5 THEN 1 END) as resolved')
+            ->first();
+        $ppmp = FormPpmp::whereHas('poe', function($q) use($stage_id){
+            $q->where('stage_id', $stage_id);
+        })
+        ->selectRaw('COUNT(CASE WHEN form_ppmps.status_id = 3 THEN 1 END) as for_review, COUNT(CASE WHEN form_ppmps.status_id = 2 THEN 1 END) as published, COUNT(CASE WHEN form_ppmps.status_id = 4 THEN 1 END) as returned, COUNT(CASE WHEN form_ppmps.status_id = 5 THEN 1 END) as resolved')
+        ->first();
+
         $data = [
-            'poe'=>$data = DB::table('form_poes')->selectRaw('COUNT(CASE WHEN status_id = 1 THEN 1 END) as draft, COUNT(CASE WHEN status_id = 2 THEN 1 END) as published, COUNT(CASE WHEN status_id = 4 THEN 1 END) as returned, COUNT(CASE WHEN status_id = 5 THEN 1 END) as resolved')->first(),
-            'ppmp'=>$data = DB::table('form_ppmps')
-                ->join('form_poes', 'form_ppmps.poe_id', '=', 'form_poes.id')
-                ->selectRaw('COUNT(CASE WHEN form_ppmps.status_id = 3 THEN 1 END) as for_review, COUNT(CASE WHEN form_ppmps.status_id = 2 THEN 1 END) as published, COUNT(CASE WHEN form_ppmps.status_id = 4 THEN 1 END) as returned, COUNT(CASE WHEN form_ppmps.status_id = 5 THEN 1 END) as resolved')
-                ->first()
+            'poe'=>[
+                'draft'=>$poe->draft,
+                'published'=>$poe->published,
+                'returned'=>$poe->returned,
+                'resolved'=>$poe->resolved,
+            ],
+            'ppmp'=>[
+                'for_review'=>$ppmp->for_review,
+                'published'=>$ppmp->published,
+                'returned'=>$ppmp->returned,
+                'resolved'=>$ppmp->resolved,
+            ],
         ];
-        // return $data;
         return (Auth::user()->hasPermissionTo('dashboard-twg-access'))?  view('pages.dashboard.twg', $data):abort(403);
     }
 

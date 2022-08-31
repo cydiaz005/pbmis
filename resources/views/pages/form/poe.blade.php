@@ -614,7 +614,14 @@
                                     badge.classList.remove('badge_draft');
                                     badge.classList.add('badge_published');
                                     badge.innerHTML="Published";
+                                    let formBtns = {
+                                        view: buttons.view,
+                                        delete: buttons.delete,
+                                    };
+                                    element.status_id = 2;
+                                    allForms.reRenderElement(card, element, formBtns, true);
                                     published.destroy();
+                                    drafts.destroy();
                                 }
                             });
                         },
