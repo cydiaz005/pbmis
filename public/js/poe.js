@@ -3214,6 +3214,8 @@ function exportFiscalLimitPDF(params, callback){
             
             //body
             for (const office_id in res.body) {
+                totals.total_sub_total=0;
+                totals._sub_totals={};
                 body.push([
                     {
                         content: office_id == "1" ? "Regional Office":"Central Office",
@@ -3222,6 +3224,7 @@ function exportFiscalLimitPDF(params, callback){
                     }
                 ]);
                 for (const region_id in res.body[office_id]) {
+                    totals.region_total=0;
                     const element = res.body[office_id][region_id];
                     let region_row = [];
                     region_row.push({

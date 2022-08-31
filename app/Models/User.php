@@ -117,4 +117,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(FormPoe::class, 'creator_id', 'id')->withTrashed();
     }
+    public function getStatusValueAttribute()
+    {
+        return @$this->attributes['status'] ? ["Pending", "Approved", "Suspended"][@$this->attributes['status']] : null;
+    }
 }
