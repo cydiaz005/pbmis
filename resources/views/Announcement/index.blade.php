@@ -79,14 +79,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Start Date</label>
-                                        <input type="date" class="form-control " id="start_date" name="start_date" >
+                                        <input type="date" class="form-control date-input" id="start_date" name="start_date" data-min-date="{{now()->format('Y-m-d')}}" data-max-date="{{now()->addYears(2)->format('Y-m-d')}}">
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>End Date</label>
-                                        <input type="date"  class="form-control " id="end_date" name="end_date"  >
+                                        <input type="date"  class="form-control " id="end_date" name="end_date"  data-min-date="{{now()->format('Y-m-d')}}" data-max-date="{{now()->addYears(2)->format('Y-m-d')}}">
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +150,10 @@
                                     <input  type="date"
                                             class="form-control " 
                                             id="start_dateU" 
-                                            name="start_date" >
+                                            name="start_date" 
+                                            data-min-date="{{now()->format('Y-m-d')}}" 
+                                            data-max-date="{{now()->addYears(2)->format('Y-m-d')}}"
+                                            >
                                 </div>
                             </div>
                             
@@ -160,7 +163,10 @@
                                     <input type="date" 
                                             class="form-control " 
                                             id="end_dateU" 
-                                            name="end_date"  >
+                                            name="end_date"  
+                                            data-min-date="{{now()->format('Y-m-d')}}" 
+                                            data-max-date="{{now()->addYears(2)->format('Y-m-d')}}"
+                                            >
                                 </div>
                             </div>
                         </div>
@@ -558,6 +564,21 @@
                         });
                    
             })
+
+            // let date_inputs = document.querySelectorAll('.date-input');
+
+            // for (let i = 0; i < date_inputs.length; i++) {
+            //     const element = date_inputs[i];
+            //     element.onfocusout=function(){
+            //         let min_date = "{{now()->addYears(2)->format('Y-m-d')}}";
+            //         let max_date = "{{now()->addYears(2)->format('Y-m-d')}}";
+            //         if(this.value < min_date){
+            //             toastr.error('Date must be current day onwards');
+            //             this.value="";
+            //         }
+            //         console.log('onfocusout');
+            //     }
+            // }
         </script>
     @endsection
 </x-app-layout>
