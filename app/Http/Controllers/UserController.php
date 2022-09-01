@@ -13,7 +13,7 @@ use App\Http\Controllers\EmailController;
 use App\Models\TemporaryPassword;
 use App\Actions\Notify\Notify;
 use App\Models\Notification;
-use App\Models\Role;
+use App\Models\Role as Rol;
 use Carbon\Carbon;
 use Throwable;
 
@@ -74,9 +74,6 @@ class UserController extends Controller
 
             array_push($admin_emails , $user->email);
             array_push($admin_ids , $user->id);
-
-            
-
             
             Notification::where(
                 'receiver_id',$user->id
@@ -92,7 +89,7 @@ class UserController extends Controller
             $email = new EmailController();
             $email->approvalChangeRole(
                 array(
-                    "receiver" => $users_emails,
+                    "receiver" => $admin_emails,
                     "subject" => "Updated Status OCD PBMIS",
                     "user" => $user
                 )
