@@ -79,7 +79,7 @@ class UserController extends Controller
                 'receiver_id',$user->id
             )->where('notif_type', "user-role-status")->delete();
 
-            Notify::create([$id], [
+            Notify::create($admin_ids, [
                 "type" => "user-role-status",
                 "notifiable" => ['App\Models\User',$id],
                 "sender" => ['App\Models\User', Auth::user()->id],

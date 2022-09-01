@@ -35,7 +35,7 @@ class PoeSeeder extends Seeder
     public function run()
     {
         // $iterations = rand(5, 10);
-        $iterations = 4; //
+        $iterations = 11; //
 
         // $year=[2019, 2021, 2022];
         $year = [2022];

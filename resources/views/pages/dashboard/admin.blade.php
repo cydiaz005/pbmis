@@ -12,10 +12,10 @@
     @section('content')
 
     @livewire('partials.content-header', [
-        'pageTitle' => 'Administrator Dashboard',
+        'pageTitle' => 'Budget Dashboard',
         'breadcrumb' => [
             ['name' => 'Dashboard', 'route' => 'dashboard/admin'],
-            ['name' => 'Plans', 'route' => '#'],
+            ['name' => 'Budget', 'route' => '#'],
         ]
     ])
    

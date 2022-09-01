@@ -62,13 +62,13 @@ class SidebarLeft extends Component
                 'route' => '/dashboard/super-administrator',
                 'permission' => 'dashboard-super-admin-access',
             ],
-            [
-                'li_id' => 'li_admindashboard',
-                'icon' => 'nav-icon fas fa-tachometer-alt',
-                'label' => 'Admin Dashboard',
-                'route' => '/dashboard/administrator',
-                'permission' => 'dashboard-admin-access',
-            ],
+            // [
+            //     'li_id' => 'li_admindashboard',
+            //     'icon' => 'nav-icon fas fa-tachometer-alt',
+            //     'label' => 'Admin Dashboard',
+            //     'route' => '/dashboard/administrator',
+            //     'permission' => 'dashboard-admin-access',
+            // ],
             [
                 'li_id' => 'li_plansdashboard',
                 'icon' => 'nav-icon fas fa-tachometer-alt',
