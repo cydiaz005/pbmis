@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             ServiceRegionSeeder::class,
             RoleSeeder::class,
             PermissionSeeder::class,
-            DemoUserSeeder::class,
+            // DemoUserSeeder::class,
             ProcurementModeSeeder::class,
             ChartOfAccountsSeeder::class,
             AllotmentClassSeeder::class,
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
             FiscalLimitSeeder::class,
 
             // PoeSeeder::class,
-            ResourceSeeder::class,
+            // ResourceSeeder::class,
             PoeTargetSectorSeeder::class
 
         ]);
