@@ -64,16 +64,17 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $appends = [
         'profile_photo_url',
+        'name'
       //   "namex"
     ];
-    public  function rol(){
-        return  $this->hasOne(UserRoles::class, "model_id", "id");
-        
+    public function rol(){
+        return $this->hasOne(UserRoles::class, "model_id", "id");
     }
-    // public function getNamexAttribute()
-    // {
-    //     return $this->attributes['firstname']." ".$this->attributes['lastname'];
-    // }
+    public function getNameAttribute()
+    {
+        if(@$this->attributes['firstname'] && @$this->attributes['lastname'])
+        return $this->attributes['firstname']." ".$this->attributes['lastname'];
+    }
     public function scopeVerified($query)
     {
         return $query->whereNotNull('email_verified_at');

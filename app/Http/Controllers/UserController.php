@@ -12,38 +12,36 @@ use App\Models\Image;
 use App\Http\Controllers\EmailController;
 use App\Models\TemporaryPassword;
 use App\Actions\Notify\Notify;
+use App\Mail\GeneralMailer;
 use App\Models\Notification;
 use App\Models\Role as Rol;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class UserController extends Controller
 {
     
-    public function all(){
+    public function all()
+    {
         return (Auth::user()->hasPermissionTo('users-approval-suspension-access'))?  view('pages.user.all'):abort(403);
     }
-
     public function superAdmin()
     {
         return (Auth::user()->hasPermissionTo('users-super-administrator-access'))?  view('pages.user.super-admin-user'):abort(403);
     }
-
     public function admin()
     {
         return (Auth::user()->hasPermissionTo('users-administrator-access'))?  view('pages.user.admin-user'):abort(403);
     }
-
     public function twg()
     {
         return (Auth::user()->hasPermissionTo('users-technical-working-froup-access'))?  view('pages.user.twg-user'):abort(403);
     }
-    
     public function pfo()
     {
         return (Auth::user()->hasPermissionTo('users-planning-focal-access'))?  view('pages.user.pfo-user'):abort(403);
     }
-
     public function getSuperAdminAndAdminData()
     {
         return User::whereHas("rol", function($q){
@@ -58,12 +56,12 @@ class UserController extends Controller
         ]);
         
         $user = User::find($id);
+        $user_old_role = $user->rol->role->name;
         $role = Rol::where("id",$request->roleId )->first();
 
         if(@$role && @$user){
 
             $super_admin_and_admin_data = $this->getSuperAdminAndAdminData();
-
             $admin_emails = [];
             $admin_ids = [];
             
@@ -77,27 +75,35 @@ class UserController extends Controller
             
             Notification::where(
                 'receiver_id',$user->id
-            )->where('notif_type', "user-role-status")->delete();
+            )->where('notif_type', "user-role-status")
+            ->delete();
 
             Notify::create($admin_ids, [
                 "type" => "user-role-status",
                 "notifiable" => ['App\Models\User',$id],
                 "sender" => ['App\Models\User', Auth::user()->id],
-                "message" => "Has Change Role to <strong>".$role->name."</strong>",
+                "message" => "changed the role of ".$user->name."'s from <strong>".$user_old_role."</strong> to <strong>".$role->name."</strong>",
             ]);
+            
+            // $email = new EmailController();
+            // $email->approvalChangeRole(
+            //     array(
+            //         "receiver" => $admin_emails,
+            //         "subject" => "User role changed",
+            //         "message" => $user->name."'s role was by ".Auth::user()->name." from <strong>".$user_old_role."</strong> to <strong>".$role->name."</strong>",
+            //     )
+            // );
 
-            $email = new EmailController();
-            $email->approvalChangeRole(
-                array(
-                    "receiver" => $admin_emails,
-                    "subject" => "Updated Status OCD PBMIS",
-                    "user" => $user
-                )
-            );
-
-
-
-            // $this->changeRolesUser();
+            Mail::to($admin_emails)->send(new GeneralMailer([
+                "subject" => "User role changed",
+                "template_data" => [
+                    "email_message" => $user->name."'s role was changed by ".Auth::user()->name." from <strong>".$user_old_role."</strong> to <strong>".$role->name."</strong>",
+                    "button"=>[
+                        "redirect"=>env('APP_URL')."login",
+                        "text"=>"Login now!",
+                    ]
+                ],
+            ]));
         }
 
         $user->syncRoles([$request->roleId]);

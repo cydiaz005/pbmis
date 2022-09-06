@@ -34,7 +34,11 @@ use App\Http\Controllers\ResourceAccountController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('test', function () {
+    $s = Auth::user();
+    // return $s->rol->role->name;
+    return view('email_template.general_mailer');
+});
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/', [DashboardController::class, 'redirect']);
     Route::get('landing', [DashboardController::class, 'redirect']);
