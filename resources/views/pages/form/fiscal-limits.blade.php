@@ -73,11 +73,11 @@
                     </div>
                 </div>
                 <div class="col-7 col-sm-10 tabcontent p-4">
+                    @if (count($years_for_create))
                     <div class="d-flex justify-content-end mb-3">
-                        @if(@$fiscal_limit_count == 0)
-                        <button type="button" id="btn_create_fiscal" class="btn btn-primary">Create</button>
-                        @endif
+                        <button type="button" id="btn_create_fiscal" data-toggle="modal" data-target="#createFiscalmodal" class="btn btn-primary">Create</button>
                     </div>
+                    @endif
                     <div class="col-md-12" id="published-container">
                        <div class="text-center my-5 py-5 pre-loader">Loading....</div>
                     </div>
@@ -89,6 +89,39 @@
         </div>
         <!-- /.card -->
     </div>
+    @if (count($years_for_create))
+    <div class="modal fade" id="createFiscalmodal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="fiscal_form">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Fiscal Limit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+						<label class="input-label" for="year">Year</label><br>
+                        <select name="year" class="select2 form-control" for="year" id="fiscal_year" required>
+                            <option hidden value="">Select Year</option>
+                            @foreach ($years_for_create as $year)
+                                <option value="{{$year}}">{{$year}}</option>
+                            @endforeach
+                        </select>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="confirmCreateButton" type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    @endif
+
 
     @livewire('modal-confirmation')
     @endsection
@@ -100,11 +133,17 @@
         let modal_edit = $('#confirmEdit .btn-pos');
         let modal_delete = $('#confirmDelete');
 
-        $('#btn_create_fiscal').on('click', function () {
-            let url = window.location.origin + "/form/working-fiscal-limit/create/?fiscal_year=2022";
-            location.replace(url);
-        })
+        @if (count($years_for_create))
+        document.querySelector("#fiscal_form").onsubmit=function(e){
+            e.preventDefault();
+            let year_value = document.querySelector("#fiscal_year").value;
+            let url = window.location.origin + "/form/working-fiscal-limit/create/?fiscal_year="+year_value || {{date('Y')}};
+            // location.replace(url);
+            location.href = url;
+        }
+        @endif
 
+        
 
         const fileList = new FileList('fiscal',{
             filters: ['stage', 'year'],

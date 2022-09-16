@@ -19,6 +19,7 @@ class CreateFiscalLimitsTable extends Migration
             $table->unsignedBigInteger('cat_id');
             $table->unsignedBigInteger('stage_id')->nullable();
             $table->double('amount', 2);
+            $table->integer('year');
             $table->timestamps();
             
             $table->foreign('stage_id')->references('id')->on('stages')->onDelete('cascade')->onUpdate('cascade');

@@ -128,6 +128,9 @@
                                             maximumFractionDigits: 2
                                         })
                                     }
+                                    else{
+                                        return value.toFixed(2);
+                                    }
                                     return value;
                                 }
                             }

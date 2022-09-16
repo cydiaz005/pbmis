@@ -47,11 +47,17 @@ class FiscalLimitController extends Controller
                 "sidebar_id" => "#li_fiscal",
             ]);
         }
-        
         $stage_id = Stage::where('active', '1')->first()->id;
-        $fiscal_limit_count = FiscalLimit::whereYear('created_at',date('Y'))->where('stage_id', $stage_id)->count();
+        $excluded_years = FiscalLimit::where('stage_id', $stage_id)->select('year')->groupBy('year')->pluck('year')->toArray();
+        
+        $years_for_create = [];
+        for($i = date("Y"); $i <= (date("Y") + 3); $i++){
+            if(!in_array($i, $excluded_years))
+            array_push($years_for_create, $i);
+        }
+        
         return view('pages.form.fiscal-limits',[
-            'fiscal_limit_count' => $fiscal_limit_count,
+            'years_for_create' => $years_for_create,
         ]);
     }
 
@@ -86,8 +92,9 @@ class FiscalLimitController extends Controller
     */
 
     
-    public function create()
+    public function create(Request $request)
     {
+        if(!@$request->fiscal_year || @$request->fiscal_year < date('Y') || @$request->fiscal_year > (date('Y') + 3)) abort(404);
         $changing_stage = Setting::changingStage();
         if($changing_stage){
             return view('form_not_available', [
@@ -100,6 +107,20 @@ class FiscalLimitController extends Controller
                 "sidebar_id" => "#li_fiscal",
             ]);
         }
+
+        if($request->routeIs('fiscal-limit.create')){
+            $stage_id = Stage::where('active', '1')->first()->id;
+            if(FiscalLimit::where([['year', $request->fiscal_year],['stage_id', $stage_id],])->exists()){
+                return redirect()->route('fiscal-limit.modify', ['fiscal_year'=>$request->fiscal_year]);
+            }
+        }
+        else if($request->routeIs('fiscal-limit.modify')){
+            $stage_id = Stage::where('active', '1')->first()->id;
+            if(!FiscalLimit::where([['year', $request->fiscal_year],['stage_id', $stage_id],])->exists()){
+                abort(404);
+            }
+        }
+        
         
         $this->categories =  AllotmentClass::with('fundChargeabilityClass.fundChargeability')->orderBy('created_at', 'desc')->get();
         $this->service_regions =  ServiceRegion::get();
@@ -115,6 +136,7 @@ class FiscalLimitController extends Controller
             'regional_offices' => $this->regional_offices,
             'central_offices' => $this->central_offices,
             'data_entry' => $this->data_entry,
+            'fiscal_year' => $request->fiscal_year,
         ]):
         abort(403);
     }
@@ -175,6 +197,7 @@ class FiscalLimitController extends Controller
         // $keys = get_object_vars($request);
         $request = $request->validate([
             'data_entry' => 'required',
+            'year' => 'required',
         ]);
         $entries = $request['data_entry'];
         $offices = array_keys($entries);
@@ -190,6 +213,7 @@ class FiscalLimitController extends Controller
                 $stage_id = Stage::where('active','1')->first()->id;
                 $fiscal_limit = FiscalLimit::updateOrCreate(
                     [
+                        'year' => $request['year'],
                         'cat_id' => $class,
                         'stage_id' => $stage_id,
                         'serreg_id' => $sr_id,
@@ -235,7 +259,7 @@ class FiscalLimitController extends Controller
         $request = $request->validate([
             'year' => 'required',
         ]);
-        $fiscal_year = FiscalLimit::whereYear('created_at','=', $request['year'])
+        $fiscal_year = FiscalLimit::where('year', $request['year'])
         ->get();
 
         return response()->json($fiscal_year);
@@ -250,14 +274,14 @@ class FiscalLimitController extends Controller
 
         $fiscal = FiscalLimit::query();
 
-        $fiscal = $fiscal->whereYear('created_at', '=',$filters['year']); 
+        $fiscal = $fiscal->where('year', '=',$filters['year']); 
         $fiscal = $fiscal->where('stage_id', $filters['stage']); 
 
         if (@is_numeric(@$filters['service_region'])) {
             $fiscal = $fiscal->where('serreg_id', $filters['service_region']); 
         }
 
-        $fiscal = $fiscal->select(['id', 'stage_id','created_at', 'updated_at', DB::raw('SUM(amount) as budget')]);
+        $fiscal = $fiscal->select(['id', 'stage_id', 'year', 'created_at', 'updated_at', DB::raw('SUM(amount) as budget')]);
 
         $fiscal = $fiscal->groupBy('stage_id');
         $fiscal = $fiscal->paginate(10);
@@ -266,29 +290,16 @@ class FiscalLimitController extends Controller
     }
     public function delete(Request $request)
     {
-       return FiscalLimit::whereYear('created_at', $request->year)->where('stage_id', $request->stage_id)->delete();
+       return FiscalLimit::where('year', $request->year)->where('stage_id', $request->stage_id)->delete();
     }
     public function fetch(Request $request)
     {
-        // $header = FiscalLimit::where('stage_id',  $request->stage_id)
-        // ->whereYear('created_at',  $request->year)
-        // // ->with(['category.fundChargeability','category.allotmentClass'])
-        // ->with(['category'])
-        // ->orderBy('serreg_id')
-        // ->groupBy('cat_id')
-        // ->select('cat_id')
-        // // ->get()->sortByDesc('category.allotmentClass.code')->groupBy(['category.allotmentClass.accronym','category.fundChargeability.accronym']);
-        // ->get()->sortByDesc('category.allotmentClass.code')->groupBy(['category.allotmentClass.accronym','category.fundChargeability.accronym']);
-        // // sortBy('category.ac_id');
-        // // ->orderByRaw('(SELECT type FROM items WHERE items.id = user_items.item_id)')
-
         $body = FiscalLimit::where('stage_id', $request->stage_id)
-        ->whereYear('created_at', $request->year)
+        ->where('year', $request->year)
         ->with(['serviceRegion','category.allotmentClass','category.fundChargeability'])
         ->orderBy('serreg_id')
         ->get()->groupBy(['serviceRegion.office_id','serviceRegion.id','category.ac_id','category.fc_id']);
 
-        // $test = FundChargeabilityClass::has('fiscalLimit')->with(['allotmentClass','fundChargeability'])->get()->groupBy(['allotmentClass.accronym','fundChargeability.accronym']);
         $header = FundChargeabilityClass::has('fiscalLimit')->get()->groupBy(['ac_id','fc_id']);
         $fc = FundChargeability::all()->keyBy('id');
         $ac = AllotmentClass::all()->keyBy('id');

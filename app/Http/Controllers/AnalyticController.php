@@ -11,6 +11,7 @@ use App\Models\FundChargeabilityClassAccount;
 use App\Models\FiscalLimit;
 use App\Models\ServiceRegion;
 use App\Models\FormPoe;
+use App\Models\Stage;
 use Illuminate\Support\Facades\DB;
 
 
@@ -43,10 +44,14 @@ class AnalyticController extends Controller
             'office' => 'required',
             'year' => 'required',
         ]);
-        $service_region = ServiceRegion::where('co', $request['office'])->with('fiscalLimit.category.allotmentClass', 'fiscalLimit.category.fundChargeability')->get();
+        $service_region = ServiceRegion::where('co', $request['office'])
+        ->with(['fiscalLimit' => function($q) use($request){
+            $q->where('year', $request['year'])
+            ->where('stage_id', Stage::where('active', '1')->first()->id)
+            ->with(['category.allotmentClass', 'category.fundChargeability']);
+        }])
+        ->get();
         return response()->json($service_region);
-
-
     }
 
     public function budgetServiceRegion(Request $request)

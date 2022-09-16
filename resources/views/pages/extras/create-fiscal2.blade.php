@@ -1,7 +1,4 @@
 <x-app-layout>
-	@php
-	(@$_GET['fiscal_year']>=2022 &&  @$_GET['fiscal_year']<=date("Y"))? true: abort(404);
-	@endphp
     @section('style')
 	<style>
 		.d-none{
@@ -167,7 +164,7 @@
 					</select>
 				</li>
 				<div class="card-tools" style="margin-left: 10px">
-					<button type="button" class="btn btn-secondary d-none" id="dummEntry">
+					<button type="button" class="btn btn-secondary" id="dummEntry">
 						Generate Dummy Data
 					</button>
 					<button type="button" id="fiscal-undo" class="btn btn-secondary">
@@ -243,7 +240,7 @@
 			var visible_rows = {ro:[], co:[]}
 			var categories = Object.values(JSON.parse('<?php echo json_encode($categories, JSON_FORCE_OBJECT) ?>'));
 			var service_regions = Object.values(JSON.parse('<?php echo json_encode($service_regions, JSON_FORCE_OBJECT) ?>'));
-			var year = "{{@$_GET['fiscal_year']}}";			
+			var year = "{{$fiscal_year}}";			
 			const options = {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
@@ -586,7 +583,7 @@
 					type:'POST',
 					url: window.location.origin+"/form/working-fiscal-limit/save",
 					headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-					data: {data_entry},
+					data: {data_entry, year},
 					success:function(response){
  						toastr.success("Fiscal limit has been successfuly set.");
 
@@ -633,6 +630,9 @@
 				});
 			});
 		})();
+		$("#li_forms").addClass('menu-open');
+        $("#li_forms>a.li_parent").addClass('active');
+        $("#li_fiscal").addClass('active');
     </script>
     @endsection
 </x-app-layout>

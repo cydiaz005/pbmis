@@ -1,21 +1,25 @@
 setMaxAndMinInputDate();
 function setMinDateInput(element, min_date){
     element.setAttribute('min', min_date);
-    element.onfocusout=function(){
+    let f = function(){
         if(this.value < min_date){
             toastr.error('Minimum date is '+min_date);
             this.value="";
         }
     }
+    element.removeEventListener("focusout", f);
+    element.addEventListener("focusout", f);
 }
 function setMaxDateInput(element, max_date){
     element.setAttribute('max', max_date);
-    element.onfocusout=function(){
+    let f = function(){
         if(this.value >= max_date){
             toastr.error('Maximum date is '+max_date);
             this.value="";
         }
     }
+    element.removeEventListener("focusout", f);
+    element.addEventListener("focusout", f);
 }
 
 function setMaxAndMinInputDate(){

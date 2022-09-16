@@ -33,14 +33,14 @@ class FiscalLimitFormView extends Component
 
     public function getFiscalLimit()
     {
-        $this->fiscal_budget['entries'] = FiscalLimit::whereYear('created_at', '=', $this->year)
+        $this->fiscal_budget['entries'] = FiscalLimit::where('year', $this->year)
         ->where('stage_id',$this->stage)
         ->get();
     }
     public function getServiceRegionTotal()
     {
         $this->fiscal_budget['sr_total']  = FiscalLimit::select('serreg_id', DB::raw('SUM(amount) total'))
-        ->whereYear('created_at', '=', $this->year)
+        ->where('year', $this->year)
         ->where('stage_id',$this->stage)
         ->groupBy('serreg_id')
         ->get();
@@ -48,7 +48,7 @@ class FiscalLimitFormView extends Component
     public function getCategoryTotal()
     {
         $this->fiscal_budget['cat_total']  = FiscalLimit::select('cat_id', DB::raw('SUM(amount) total'))
-        ->whereYear('created_at', '=', $this->year)
+        ->where('year', $this->year)
         ->where('stage_id',$this->stage)
         ->groupBy('cat_id')
         ->get();
@@ -58,14 +58,14 @@ class FiscalLimitFormView extends Component
     public function getCategorySubTotal()
     {
         $this->fiscal_budget['co_subtotal']  = FiscalLimit::select('cat_id', DB::raw('SUM(amount) total'))
-        ->whereYear('created_at', '=', $this->year)
+        ->where('year', $this->year)
         ->where('stage_id',$this->stage)
         ->whereRelation('serviceRegion', 'co', '1')
         ->groupBy('cat_id')
         ->get();
 
         $this->fiscal_budget['ro_subtotal']  = FiscalLimit::select('cat_id', DB::raw('SUM(amount) total'))
-        ->whereYear('created_at', '=', $this->year)
+        ->where('year', $this->year)
         ->where('stage_id',$this->stage)
         ->whereRelation('serviceRegion', 'co', '0')
         ->groupBy('cat_id')
@@ -78,7 +78,7 @@ class FiscalLimitFormView extends Component
     public function getOverAllTotal()
     {
         $this->fiscal_budget['overall_total']  = FiscalLimit::select(DB::raw('SUM(amount) total'))
-        ->whereYear('created_at', '=', $this->year)
+        ->where('year', $this->year)
         ->where('stage_id',$this->stage)
         ->get();
     }

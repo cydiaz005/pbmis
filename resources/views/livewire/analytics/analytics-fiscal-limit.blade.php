@@ -30,11 +30,10 @@
         </div>
         <div class="col-2">
             <select class="form-control" id="select-year">
-                <option disabled>Choose Year</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022" selected>2022</option>
-
+                <option disabled hidden>Choose Year</option>
+                @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y') + 3; $i++)
+                    <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">{{$i}}</option>
+                @endfor
             </select>
         </div>
         <div class="col-1">
@@ -99,7 +98,6 @@
     let fmd_analytics = $('#fmd-analytics');
     let fmd_analytics_loading = $('#fmd-analytics-loading');
 
-    
     fmd_analytics.hide();
     fmd_analytics.removeClass('d-none');
     const options = {
@@ -163,6 +161,7 @@
     wf_tbody.delegate('tr', 'click', setActiveRow);
 
     function query() {
+        fmd_analytics_loading.slideDown();
         let url = window.location.origin+"/analytics/budget/category";
         $.ajax({
             type:'GET',
@@ -456,9 +455,10 @@
     }
 
     function refreshBreakdown(){
+        console.log("toggled");
         wf_tbody.find('tr').first().trigger('click');
         fmd_analytics.show();
-        fmd_analytics_loading.slideToggle();
+        fmd_analytics_loading.slideUp();
     }
 
     function color() {
