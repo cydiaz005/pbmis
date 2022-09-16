@@ -4,15 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Image;
-use App\Models\ServiceRegion;
-use App\Models\DivisionSection;
-use App\Models\Position;
-use App\Models\Role;
-use Illuminate\Support\Str;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role as ModelsRole;
 
 class DemoUserSeeder extends Seeder
 {
@@ -24,163 +16,6 @@ class DemoUserSeeder extends Seeder
 
     public function run()
     {
-        // return 
-        $timestamp = Carbon::now()->format('Y-m-d H:i:s');
-        User::firstOrCreate(
-            [
-                'email' => "alan@ocd.gov.ph"
-            ],
-            [
-                'firstname' => "Paolo Jonas",
-                'lastname' => "Alan",
-                'serreg_id' => "1",
-                'pos_id' => "1",
-                'divsec_id' => "1",
-                'email_verified_at' => "2022-01-01 08:00:00",
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'email_verified_at' => $timestamp,
-                'status' => "1",
-                "approver_id" => "1"
-            ]
-        );
-
-        User::firstOrCreate(
-            [
-                'email' => "valdehueza@ocd.gov.ph"
-            ],
-            [
-                'firstname' => "Karen",
-                'lastname' => "Valdehueza",
-                'serreg_id' => "1",
-                'pos_id' => "2",
-                'divsec_id' => "2",
-                'email_verified_at' => "2022-01-01 08:00:00",
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'email_verified_at' => $timestamp,
-                'status' => "1",
-                "approver_id" => "2"
-
-
-            ]
-        );
-
-
-
-        User::firstOrCreate(
-            [
-                'email' => "deza@ocd.gov.ph"
-            ],
-            [
-                'firstname' => "Julius",
-                'lastname' => "Deza",
-                'serreg_id' => "3",
-                'pos_id' => "3",
-                'divsec_id' => "3",
-                'email_verified_at' => "2022-01-01 08:00:00",
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'email_verified_at' => $timestamp,
-                'status' => "1",
-                "approver_id" => "1"
-
-
-            ]
-        );
-
-        User::firstOrCreate(
-            [
-                'email' => "balajadia@ocd.gov.ph"
-            ],
-            [
-                'firstname' => "Emanuel",
-                'lastname' => "Balajadia",
-                'serreg_id' => "4",
-                'pos_id' => "1",
-                'divsec_id' => "1",
-                'email_verified_at' => "2022-01-01 08:00:00",
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'email_verified_at' => $timestamp,
-                'status' => "1",
-                "approver_id" => "1"
-
-
-            ]
-        );
-
-        User::firstOrCreate(
-            [
-                'email' => "guest@ocd.gov.ph"
-            ],
-            [
-                'firstname' => "Gwen",
-                'lastname' => "Stacey",
-                'email_verified_at' => "2022-01-01 08:00:00",
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'email_verified_at' => $timestamp,
-                'status' => "1",
-                "approver_id" => "1"
-
-
-            ]
-        );
-
-
-
-        User::firstOrCreate(
-            [
-                'email' => "dev@ocd.gov.ph"
-            ],
-            [
-                'firstname' => "Telmo",
-                'lastname' => "Solutions",
-                'serreg_id' => "1",
-                'pos_id' => "2",
-                'divsec_id' => "2",
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'email_verified_at' => $timestamp,
-                'status' => "1",
-                "approver_id" => "2"
-
-
-            ]
-        );
-
-       
-
-
-
-
-        $superAdminImage = new Image(['url' => 'https://scontent.fceb6-1.fna.fbcdn.net/v/t1.6435-9/180180406_115570697340043_7681303704692535162_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=pHJcLe-skEUAX-M5E1v&_nc_ht=scontent.fceb6-1.fna&oh=00_AT8RzPk77yjbdTXhZVWUUFXT-ZtERSltCr3dp1rAz4VvrA&oe=628D6494']);
-        $adminImage = new Image(['url' => 'https://scontent.fceb6-1.fna.fbcdn.net/v/t1.6435-9/104431299_954280191652278_352143994058889201_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=RALbAda6L6cAX8tdYIY&_nc_ht=scontent.fceb6-1.fna&oh=00_AT-HGG19yJr3ztrHx7grMkJnkiopZlg35orKWC67LscEuw&oe=628E72A3']);
-
-        $superAdministrator = User::find(1);
-        $administrator = User::find(2);
-        $technicalWorkingGroup = User::find(3);
-        $planningFocalOfficer = User::find(4);
-        $guest = User::find(5);
-        $developer = User::find(6);
-        $administrator2 = User::find(7);
-        $planningFocalOfficer2 = User::find(8);
-        $planningFocalOfficer3 = User::find(9);
-
-        $superAdministrator->profilePhoto()->save($superAdminImage);
-        $administrator->profilePhoto()->save($adminImage);
-
-        $superAdministrator->assignRole('Super Administrator');
-        $administrator->assignRole('Administrator');
-        $technicalWorkingGroup->assignRole('Technical Working Group');
-        $planningFocalOfficer->assignRole('Administrator');
-        $guest->assignRole('Guest');
-        $developer->assignRole('Developer');
-        // $administrator2->assignRole('Administrator');
-        // $planningFocalOfficer2->assignRole('Planning Focal/Officer');
-        // $planningFocalOfficer3->assignRole('Planning Focal/Officer');
-
         $this->newSeeder();
     }
 
@@ -189,94 +24,116 @@ class DemoUserSeeder extends Seeder
 
     public function newSeeder()
     {
-        $index = 0;
-        $users = array(
-            array("firstname" => "Gia Mae", "middlename" => "Realis", "lastname" => "Resaba", "extension" => "", "email" => "giamaeresaba@gmail.com", "role" => "Technical Working Group", "service_region" => "Policy Development and Planning Service", "division" => "PPPDMD", "position" => "Civil Defense Officer II"),
-            array("firstname" => "Fren Elias", "middlename" => "De Veyra", "lastname" => "Malinao", "extension" => "", "email" => "frenelias@gmail.com", "role" => "Planning Focal/Officer", "service_region" => "Region XIII", "division" => "DRRMD", "position" => "Technical Staff"),
-            array("firstname" => "Julius Ismael", "middlename" => "N/A", "lastname" => "Deza", "extension" => "", "email" => "julius.deza@ocd.gov.ph", "role" => "Technical Working Group", "service_region" => "Operations Service", "division" => "ICTD", "position" => "Computer Maintenance Technologist I"),
-            array("firstname" => "Karen Kaye", "middlename" => "Gargantiel", "lastname" => "Caballero", "extension" => "", "email" => "karenkaye.caballero@ocd.gov.ph", "role" => "Technical Working Group", "service_region" => "Operations Service", "division" => "ROCD", "position" => "CIVIL DEFENSE OFFICER III"),
-            array("firstname" => "Mary May", "middlename" => "S", "lastname" => "Baclig", "extension" => "", "email" => "mmsolivabaclig@gmail.com", "role" => "Planning Focal/Officer", "service_region" => "Region II", "division" => "PDPS", "position" => "Civil Defense Officer III"),
-            array("firstname" => "CHRISTIAN KARL", "middlename" => "TACTAC", "lastname" => "IBAÃEZ", "extension" => "", "email" => "ibanezkarl000@gmail.com", "role" => "Encoder", "service_region" => "Region II", "division" => "PDPS", "position" => "TECHNICAL SUPPORT"),
-            array("firstname" => "Wilmina", "middlename" => "Ancheta", "lastname" => "Cabrera", "extension" => "", "email" => "cabrera.wilmina@gmail.com", "role" => "Technical Working Group", "service_region" => "Executive Office", "division" => "IMEO", "position" => "Technical Support Staff"),
-            array("firstname" => "Romina ", "middlename" => "Baldonado", "lastname" => "Marasigan", "extension" => "", "email" => "ocda.ocd@gmail.com", "role" => "Technical Working Group", "service_region" => "Executive Office", "division" => "OCDA", "position" => "Public Relations Officer III"),
-            array("firstname" => "Myrabeth", "middlename" => "Escobar", "lastname" => "Alicias", "extension" => "", "email" => "mealicias@gmail.com", "role" => "Technical Working Group", "service_region" => "Capacity Building and Training Service", "division" => "OD", "position" => "Civil Defense Officer III"),
-            array("firstname" => "Jamelah", "middlename" => "", "lastname" => "Josr", "extension" => "", "email" => "jamelahkayjose@gmail.com", "role" => "Technical Working Group", "service_region" => "Executive Office", "division" => "OCD", "position" => "Technical Support "),
-            array("firstname" => "Al-Emran", "middlename" => "Arakan", "lastname" => "Asani", "extension" => "", "email" => "alemran.asani@ocd.gov.ph", "role" => "Technical Working Group", "service_region" => "Region IX", "division" => "PDPS", "position" => "Civil Defense Officer II"),
-            array("firstname" => "Marc Rembrandt", "middlename" => "Prado", "lastname" => "Victore", "extension" => "", "email" => "marc_victore@yahoo.com", "role" => "Planning Focal/Officer", "service_region" => "Region IV-B", "division" => "PS", "position" => "Chief, Planning Section"),
-            array("firstname" => "JUDY MAE", "middlename" => "MORENO", "lastname" => "ADALIN", "extension" => "", "email" => "brinx.adalin0728@gmail.com", "role" => "Planning Focal/Officer", "service_region" => "Region II", "division" => "DRRMD", "position" => "ADOF IV"),
-            array("firstname" => "Richard", "middlename" => "Castillo", "lastname" => "Santos", "extension" => "", "email" => "richard.santos@ocd.gov.ph", "role" => "Planning Focal/Officer", "service_region" => "Region III", "division" => "PDPS", "position" => "Civil Defense Officer III"),
-            array("firstname" => "April Rose Anne ", "middlename" => "Sanchez", "lastname" => "Elmedulan", "extension" => "", "email" => "aprilroseannesanchez060713@gmail.com", "role" => "Planning Focal/Officer", "service_region" => "Region XIII", "division" => "PDPS", "position" => "Technical Staff"),
-            array("firstname" => "David Ison ", "middlename" => "Lorenzo", "lastname" => "Edmalin", "extension" => "", "email" => "david.edmalin@ocd.gov.ph", "role" => "Technical Working Group", "service_region" => "Operations Service", "division" => "24/7 OpCen", "position" => "Civil Defense Officer I"),
-            array("firstname" => "Wilmina", "middlename" => "Ancheta", "lastname" => "Cabrera", "extension" => "", "email" => "cabrera.wilmina@gmail.com", "role" => "Technical Working Group", "service_region" => "Executive Office", "division" => "IMEO", "position" => "Technical Support Staff"),
-            array("firstname" => "Ricardo", "middlename" => "Suyat", "lastname" => "Mago", "extension" => "Jr", "email" => "magojr.jhun@gmail.com", "role" => "Technical Working Group", "service_region" => "Executive Office", "division" => "OCDA", "position" => "Technical Support"),
-            array("firstname" => "Janine", "middlename" => "Tomines", "lastname" => "Casimiro", "extension" => "", "email" => "janinetcasimiro@gmail.com", "role" => "Budget Administrator", "service_region" => "Administrative and Financial Management Service", "division" => "FMD", "position" => "Administrative Officer IV"),
-            array("firstname" => "Rachelle Grace", "middlename" => "De Guzman", "lastname" => "Cacas", "extension" => "", "email" => "cordillerapdpsocd@gmail.com", "role" => "Technical Working Group", "service_region" => "Cordillera Administrative Region", "division" => "FMD", "position" => "Civil Defense Officer II"),
-            array("firstname" => "Michael", "middlename" => "Maido", "lastname" => "LosbaÃ±es", "extension" => "", "email" => "michael.losbanes@gmail.com", "role" => "Technical Working Group", "service_region" => "Administrative and Financial Management Service", "division" => "PMD", "position" => "Administrative Officer II"),
-            array("firstname" => "Louis Jonas", "middlename" => "Mata", "lastname" => "Lauraya", "extension" => "", "email" => "lauraya.ocsppmo@gmail.com", "role" => "Planning Focal/Officer", "service_region" => "Region V", "division" => "PDPS", "position" => "CHIEF"),
-            array("firstname" => "VERNA", "middlename" => "CAVAN", "lastname" => "VIEJO", "extension" => "", "email" => "viejoverna@gmail.com", "role" => "Technical Working Group", "service_region" => "Administrative and Financial Management Service", "division" => "GSD-CDS", "position" => "ADMIN OFFICER I"),
-            array("firstname" => "Janice", "middlename" => "Montes", "lastname" => "Padagdag", "extension" => "", "email" => "janice.padagdag0820@gmail.com", "role" => "Planning Focal/Officer", "service_region" => "Region VII", "division" => "PDPS", "position" => "Civil Defense Officer II"),
-            array("firstname" => "MELLY JOY ", "middlename" => "FALCULAN ", "lastname" => "FAJILAGMAGO ", "extension" => "", "email" => "mellyjoy.fajilagmago@ocd.gov.ph", "role" => "Technical Working Group", "service_region" => "Region IV-B", "division" => "AFMS", "position" => "Civil Defense officer II"),
-            array("firstname" => "Diane", "middlename" => "Man-on", "lastname" => "Truz", "extension" => "", "email" => "ocd7acctg@gmail.com", "role" => "Budget Administrator", "service_region" => "Region VII", "division" => "AFMS", "position" => "Civil Defense Office II"),
-            array("firstname" => "Kelvin John", "middlename" => "Hipolito", "lastname" => "Reyes", "extension" => "NA", "email" => "kelvinjohnreyespogi@gmail.com", "role" => "Plans Administrator", "service_region" => "Region IV-A", "division" => "PPS", "position" => "Chief"),
-            array("firstname" => "KAREN MARIE", "middlename" => "ONDIN", "lastname" => "VALDEHUEZA", "extension" => "NA", "email" => "karenvaldehueza321@gmail.com", "role" => "Budget Administrator", "service_region" => "Administrative and Financial Management Service", "division" => "FMD", "position" => "Administrative Officer V"),
-            array("firstname" => "Denise Anne", "middlename" => "", "lastname" => "Untalan", "extension" => "", "email" => "dennuntalanxx@gmail.com", "role" => "Budget Administrator", "service_region" => "Administrative and Financial Management Service", "division" => "FMD", "position" => "Administrative Assistant II "),
-            array("firstname" => "MENCHIE", "middlename" => "Gonzales", "lastname" => "Ganzon", "extension" => "", "email" => "menchie.ganzon@ocd.gov.ph", "role" => "Budget Administrator", "service_region" => "Region IV-A", "division" => "PPS", "position" => "Assistant chief"),
-            array("firstname" => "Rachelle Grace", "middlename" => "De Guzman", "lastname" => "Cacas", "extension" => "", "email" => "cordillerapdpsocd@gmail.com", "role" => "Technical Working Group", "service_region" => "Cordillera Administrative Region", "division" => "PDPS", "position" => "Civil Defense Officer II"),
-            array("firstname" => "AMADO", "middlename" => "MAZO", "lastname" => "POSAS", "extension" => "", "email" => "odamasasop@yahoo.com.ph", "role" => "Super Administrator", "service_region" => "Caraga", "division" => "AFMS", "position" => "CDO IV"),
-            array("firstname" => "Ferdinand ", "middlename" => "Alamo", "lastname" => "Tamulto", "extension" => "", "email" => "tamulto.f0504@gmail.com", "role" => "Technical Working Group", "service_region" => "Cordillera Administrative Region", "division" => "PDPS", "position" => "Civil Defense Officer III"),
-            array("firstname" => "Julleah Sheena", "middlename" => "", "lastname" => "Narag", "extension" => "", "email" => "sheenanarag20@gmail.com", "role" => "Technical Working Group", "service_region" => "National Capital Region", "division" => "PDPS", "position" => "Technical Support"),
-            array("firstname" => "Paolo Jesus", "middlename" => "Morris", "lastname" => "Roxas", "extension" => "I", "email" => "paolojesus.roxas@ocd.gov.ph", "role" => "Planning Focal/Officer", "service_region" => "National Capital Region", "division" => "PDPS", "position" => "Civil Defense Officer I"),
-            array("firstname" => "Alexa Mae ", "middlename" => "Segovia", "lastname" => "San Esteban", "extension" => "", "email" => "alexamae1202@gmail.com", "role" => "Encoder", "service_region" => "Region III", "division" => "OS", "position" => "OS Staff / Contract of Service "),
-        );
+        $users = [
+            ["firstname"=>"Telmo","middlename"=>"","lastname"=>"Solutions","email"=>"dev@telmosolutions.com","email_verified_at"=>"44803.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"6",],
+            ["firstname"=>"Super Admin","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.superadmin@ocd.gov.ph","email_verified_at"=>"44804.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"1",],
+            ["firstname"=>"Plans Administrator","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.plansadmin@ocd.gov.ph","email_verified_at"=>"44805.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"7",],
+            ["firstname"=>"Budget Admin","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.budgetadmin@ocd.gov.ph","email_verified_at"=>"44806.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"8",],
+            ["firstname"=>"Procurement Admin","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.procurement@ocd.gov.ph","email_verified_at"=>"44807.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"9",],
+            ["firstname"=>"Technical Working Group","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.twg@ocd.gov.ph","email_verified_at"=>"44808.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"3",],
+            ["firstname"=>"Planning Focal","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.pfo@ocd.gov.ph","email_verified_at"=>"44809.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"4",],
+            ["firstname"=>"Encoder","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.encoder@ocd.gov.ph","email_verified_at"=>"44810.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"10",],
+            ["firstname"=>"Paolo Jonas","middlename"=>"NULL","lastname"=>"Alan","email"=>"paolojonasalan@ocd.gov.ph","email_verified_at"=>"44811.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"1","divsec_id"=>"1","serreg_id"=>"1","role_id"=>"1",],
+            ["firstname"=>"Janine","middlename"=>"Tomines","lastname"=>"Casimiro","email"=>"janinetcasimiro@gmail.com","email_verified_at"=>"44812.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"4","divsec_id"=>"8","serreg_id"=>"19","role_id"=>"8",],
+            ["firstname"=>"Karen Marie","middlename"=>"Ondin","lastname"=>"Valdehueza","email"=>"karenvaldehueza321@gmail.com","email_verified_at"=>"44813.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"6","divsec_id"=>"8","serreg_id"=>"19","role_id"=>"8",],
+            ["firstname"=>"Gia Mae","middlename"=>"Realis","lastname"=>"Resaba","email"=>"giamaeresaba@gmail.com","email_verified_at"=>"44814.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"22","serreg_id"=>"22","role_id"=>"7",],
+            ["firstname"=>"Emanuel","middlename"=>"Turao","lastname"=>"Balajadia","email"=>"eman.balajadia@ocd.gov.ph","email_verified_at"=>"44815.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"22","serreg_id"=>"22","role_id"=>"7",],
+            ["firstname"=>"James","middlename"=>"Balverde","lastname"=>"Dimalanta","email"=>"dota2jamesdimalanta@gmail.com","email_verified_at"=>"44816.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"4","divsec_id"=>"19","serreg_id"=>"22","role_id"=>"9",],
+            ["firstname"=>"Julius Ismael","middlename"=>"N/A","lastname"=>"Deza","email"=>"julius.deza@ocd.gov.ph","email_verified_at"=>"44817.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"3",],
+            ["firstname"=>"Karen Kaye","middlename"=>"Gargantiel","lastname"=>"Caballero","email"=>"karenkaye.caballero@ocd.gov.ph","email_verified_at"=>"44818.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"23","serreg_id"=>"21","role_id"=>"3",],
+            ["firstname"=>"Wilmina","middlename"=>"Ancheta","lastname"=>"Cabrera","email"=>"cabrera.wilmina@gmail.com","email_verified_at"=>"44819.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"11","serreg_id"=>"24","role_id"=>"3",],
+            ["firstname"=>"Romina","middlename"=>"Baldonado","lastname"=>"Marasigan","email"=>"ocda.ocd@gmail.com","email_verified_at"=>"44820.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"23","divsec_id"=>"14","serreg_id"=>"24","role_id"=>"3",],
+            ["firstname"=>"Myrabeth","middlename"=>"Escobar","lastname"=>"Alicias","email"=>"mealicias@gmail.com","email_verified_at"=>"44821.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"15","serreg_id"=>"20","role_id"=>"3",],
+            ["firstname"=>"Jamelah","middlename"=>"","lastname"=>"Josr","email"=>"jamelahkayjose@gmail.com","email_verified_at"=>"44822.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"14","serreg_id"=>"24","role_id"=>"3",],
+            ["firstname"=>"Al-Emran","middlename"=>"Arakan","lastname"=>"Asani","email"=>"alemran.asani@ocd.gov.ph","email_verified_at"=>"44823.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"1","serreg_id"=>"10","role_id"=>"3",],
+            ["firstname"=>"David Ison","middlename"=>"Lorenzo","lastname"=>"Edmalin","email"=>"david.edmalin@ocd.gov.ph","email_verified_at"=>"44824.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"12","divsec_id"=>"1","serreg_id"=>"21","role_id"=>"3",],
+            ["firstname"=>"Ricardo","middlename"=>"Suyat","lastname"=>"Mago","email"=>"magojr.jhun@gmail.com","email_verified_at"=>"44825.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"14","serreg_id"=>"24","role_id"=>"3",],
+            ["firstname"=>"Michael","middlename"=>"Maido","lastname"=>"LosbaÃ±es","email"=>"michael.losbanes@gmail.com","email_verified_at"=>"44826.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"4","divsec_id"=>"19","serreg_id"=>"19","role_id"=>"7",],
+            ["firstname"=>"Verna","middlename"=>"Cavan","lastname"=>"Viejo","email"=>"viejoverna@gmail.com","email_verified_at"=>"44827.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"3","divsec_id"=>"9","serreg_id"=>"19","role_id"=>"3",],
+            ["firstname"=>"Melly Joy","middlename"=>"Falculan","lastname"=>"Fajilagmago","email"=>"mellyjoy.fajilagmago@ocd.gov.ph","email_verified_at"=>"44828.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"3","serreg_id"=>"5","role_id"=>"3",],
+            ["firstname"=>"Rachelle Grace","middlename"=>"De Guzman","lastname"=>"Cacas","email"=>"cordillerapdpsocd@gmail.com","email_verified_at"=>"44829.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"18","serreg_id"=>"17","role_id"=>"3",],
+            ["firstname"=>"Ferdinand","middlename"=>"Alamo","lastname"=>"Tamulto","email"=>"tamulto.f0504@gmail.com","email_verified_at"=>"44830.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"18","serreg_id"=>"17","role_id"=>"3",],
+            ["firstname"=>"Julleah Sheena","middlename"=>"","lastname"=>"Narag","email"=>"sheenanarag20@gmail.com","email_verified_at"=>"44831.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"18","serreg_id"=>"18","role_id"=>"3",],
+            ["firstname"=>"Sheila","middlename"=>"Marginado","lastname"=>"Hallig","email"=>"s.marginado@gmail.com","email_verified_at"=>"44832.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"18","serreg_id"=>"13","role_id"=>"3",],
+            ["firstname"=>"Ronald","middlename"=>"Libron","lastname"=>"Villa","email"=>"NorAlliv@gmail.com","email_verified_at"=>"44833.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"16","serreg_id"=>"2","role_id"=>"3",],
+            ["firstname"=>"Phoenicia Achaia","middlename"=>"Sungahid","lastname"=>"Dela Merced","email"=>"phoenicia.delamerced@ocd.gov.ph","email_verified_at"=>"44834.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"5","serreg_id"=>"23","role_id"=>"3",],
+            ["firstname"=>"Julius","middlename"=>"B.","lastname"=>"Hontiveros","email"=>"julshontiveros03@gmail.com","email_verified_at"=>"44835.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"5","serreg_id"=>"23","role_id"=>"3",],
+            ["firstname"=>"Michelle","middlename"=>"A","lastname"=>"Mabbagu","email"=>"michelle.mabbagu@ocd.gov.ph","email_verified_at"=>"44836.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"22","divsec_id"=>"17","serreg_id"=>"24","role_id"=>"3",],
+            ["firstname"=>"Andrea Louise","middlename"=>"Chua","lastname"=>"Seguin","email"=>"a.louiseguin@gmail.com","email_verified_at"=>"44837.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"12","serreg_id"=>"22","role_id"=>"3",],
+            ["firstname"=>"Monique Raizza","middlename"=>"Panela","lastname"=>"Jacob","email"=>"moniqueraizza.jacob@ocd.gov.ph","email_verified_at"=>"44838.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"6","serreg_id"=>"22","role_id"=>"3",],
+            ["firstname"=>"Ria Danielle","middlename"=>"Ferrer","lastname"=>"Madrideo","email"=>"riamadrideo98@gmail.com","email_verified_at"=>"44839.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"25","serreg_id"=>"22","role_id"=>"3",],
+            ["firstname"=>"Mary Anne","middlename"=>"Magnaye","lastname"=>"Bambico","email"=>"mbambico88@gmail.com","email_verified_at"=>"44840.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"11","serreg_id"=>"24","role_id"=>"3",],
+            ["firstname"=>"Domingo","middlename"=>"L","lastname"=>"Leoncio","email"=>"domsleoncio.ocdcbts@gmail.com","email_verified_at"=>"44841.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"26","divsec_id"=>"4","serreg_id"=>"20","role_id"=>"3",],
+            ["firstname"=>"Jerone","middlename"=>"Vigilia","lastname"=>"Cayabyab","email"=>"cayabyabjerone7@gmail.com","email_verified_at"=>"44842.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"12","divsec_id"=>"1","serreg_id"=>"21","role_id"=>"3",],
+            ["firstname"=>"Denise Anne","middlename"=>"","lastname"=>"Untalan","email"=>"dennuntalanxx@gmail.com","email_verified_at"=>"44843.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"1","divsec_id"=>"8","serreg_id"=>"19","role_id"=>"3",],
+            ["firstname"=>"Mary May","middlename"=>"S","lastname"=>"Baclig","email"=>"mmsolivabaclig@gmail.com","email_verified_at"=>"44844.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"18","serreg_id"=>"2","role_id"=>"4",],
+            ["firstname"=>"Marc Rembrandt","middlename"=>"Prado","lastname"=>"Victore","email"=>"marc_victore@yahoo.com","email_verified_at"=>"44845.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"10","divsec_id"=>"22","serreg_id"=>"5","role_id"=>"4",],
+            ["firstname"=>"Richard","middlename"=>"Castillo","lastname"=>"Santos","email"=>"richard.santos@ocd.gov.ph","email_verified_at"=>"44846.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"18","serreg_id"=>"3","role_id"=>"4",],
+            ["firstname"=>"April Rose Anne","middlename"=>"Sanchez","lastname"=>"Elmedulan","email"=>"aprilroseannesanchez060713@gmail.com","email_verified_at"=>"44847.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"18","serreg_id"=>"14","role_id"=>"4",],
+            ["firstname"=>"Louis Jonas","middlename"=>"Mata","lastname"=>"Lauraya","email"=>"lauraya.ocsppmo@gmail.com","email_verified_at"=>"44848.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"8","divsec_id"=>"18","serreg_id"=>"6","role_id"=>"4",],
+            ["firstname"=>"Janice","middlename"=>"Montes","lastname"=>"Padagdag","email"=>"janice.padagdag0820@gmail.com","email_verified_at"=>"44849.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"18","serreg_id"=>"8","role_id"=>"4",],
+            ["firstname"=>"Paolo Jesus","middlename"=>"Morris","lastname"=>"Roxas","email"=>"paolojesus.roxas@ocd.gov.ph","email_verified_at"=>"44850.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"12","divsec_id"=>"18","serreg_id"=>"18","role_id"=>"4",],
+            ["firstname"=>"Empress","middlename"=>"Jaramillo","lastname"=>"Nacor","email"=>"empress.nacor@ocd.gov.ph","email_verified_at"=>"44851.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"19","divsec_id"=>"18","serreg_id"=>"1","role_id"=>"4",],
+            ["firstname"=>"Juvy Grace","middlename"=>"De Belen","lastname"=>"Abarquez","email"=>"juvygrace.abarquez@ocd.gov.ph","email_verified_at"=>"44852.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"21","divsec_id"=>"21","serreg_id"=>"4","role_id"=>"4",],
+            ["firstname"=>"Morris Jan","middlename"=>"Daco","lastname"=>"Auxillos","email"=>"Auxillos010193@gmail.com","email_verified_at"=>"44853.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"12","divsec_id"=>"18","serreg_id"=>"3","role_id"=>"4",],
+            ["firstname"=>"Raymond","middlename"=>"Cao","lastname"=>"Garcia","email"=>"raymondemiliegarcia@gmail.com","email_verified_at"=>"44854.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"21","divsec_id"=>"18","serreg_id"=>"3","role_id"=>"4",],
+            ["firstname"=>"Kelvin John","middlename"=>"Hipolito","lastname"=>"Reyes","email"=>"kelvinjohnreyespogi@gmail.com","email_verified_at"=>"44855.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"8","divsec_id"=>"21","serreg_id"=>"4","role_id"=>"4",],
+            ["firstname"=>"Diane","middlename"=>"Man-On","lastname"=>"Truz","email"=>"ocd7acctg@gmail.com","email_verified_at"=>"44856.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"11","divsec_id"=>"3","serreg_id"=>"8","role_id"=>"4",],
+            ["firstname"=>"Romeo","middlename"=>"Basilio","lastname"=>"Lucas","email"=>"ocd2.finance@gmail.com","email_verified_at"=>"44857.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"12","divsec_id"=>"3","serreg_id"=>"2","role_id"=>"10",],
+            ["firstname"=>"Lory Jean","middlename"=>"","lastname"=>"Franco","email"=>"ljcfranco@gmail.com","email_verified_at"=>"44858.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"24","divsec_id"=>"3","serreg_id"=>"15","role_id"=>"10",],
+            ["firstname"=>"Estella Marie","middlename"=>"Salta","lastname"=>"Mallari","email"=>"financeocd3@gmail.com","email_verified_at"=>"44859.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"9","divsec_id"=>"3","serreg_id"=>"3","role_id"=>"10",],
+            ["firstname"=>"Christian Karl","middlename"=>"Tactac","lastname"=>"IbaÃ±ez","email"=>"ibanezkarl000@gmail.com","email_verified_at"=>"44860.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"18","serreg_id"=>"2","role_id"=>"10",],
+            ["firstname"=>"Alexa Mae","middlename"=>"Segovia","lastname"=>"San Esteban","email"=>"alexamae1202@gmail.com","email_verified_at"=>"44861.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"20","divsec_id"=>"16","serreg_id"=>"3","role_id"=>"10",],
+            ["firstname"=>"Mark Joseph","middlename"=>"OrdoÃ±a","lastname"=>"BaÃ±aga","email"=>"mjban21@gmail.com","email_verified_at"=>"44862.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"7","serreg_id"=>"13","role_id"=>"10",],
+            ["firstname"=>"Jonalyn","middlename"=>"Lego","lastname"=>"Rombo","email"=>"jonalynrombo@gmail.com","email_verified_at"=>"44863.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"3","divsec_id"=>"3","serreg_id"=>"9","role_id"=>"10",],
+            ["firstname"=>"Bernadette","middlename"=>"Gapasin","lastname"=>"Abubo","email"=>"abubobadet@gmail.com","email_verified_at"=>"44864.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"2","serreg_id"=>"1","role_id"=>"10",],
+            ["firstname"=>"Brainard","middlename"=>"","lastname"=>"Carballo","email"=>"brainardcarballo@gmail.com","email_verified_at"=>"44865.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"18","divsec_id"=>"7","serreg_id"=>"13","role_id"=>"10",],
+            ["firstname"=>"Ruth","middlename"=>"Manarang","lastname"=>"Bengco","email"=>"rmbengco@gmail.com","email_verified_at"=>"44866.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"2","divsec_id"=>"2","serreg_id"=>"3","role_id"=>"10",],
+            ["firstname"=>"Aizy Lyn","middlename"=>"Paglinawan","lastname"=>"Joloyohoy","email"=>"aizyjoloyohoy@gmail.com","email_verified_at"=>"44867.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"6","divsec_id"=>"7","serreg_id"=>"14","role_id"=>"10",],
+            ["firstname"=>"Angie Lina","middlename"=>"Payosalan","lastname"=>"Dela Cruz","email"=>"anjpayosalan@gmail.com","email_verified_at"=>"44868.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"19","divsec_id"=>"7","serreg_id"=>"12","role_id"=>"10",],
+            ["firstname"=>"Toni Gail","middlename"=>"Nobleza","lastname"=>"Jariolne","email"=>"ocd10rrms@gmail.com","email_verified_at"=>"44869.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"12","divsec_id"=>"7","serreg_id"=>"11","role_id"=>"10",],
+            ["firstname"=>"Melly Joy","middlename"=>"Falculan","lastname"=>"Fajilagmago","email"=>"mellyjoyfajilagmago@ocd.gov.ph","email_verified_at"=>"44870.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"2","serreg_id"=>"5","role_id"=>"10",],
+            ["firstname"=>"Bai April","middlename"=>"Cang","lastname"=>"Sinsuat","email"=>"asinsuat13@gmail.com","email_verified_at"=>"44871.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"12","divsec_id"=>"7","serreg_id"=>"13","role_id"=>"10",],
+            ["firstname"=>"Janilyn Astrid","middlename"=>"Tiaga","lastname"=>"Bartolome","email"=>"janilynbartolome@gmail.com","email_verified_at"=>"44872.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"7","serreg_id"=>"13","role_id"=>"10",],
+            ["firstname"=>"Marlyn","middlename"=>"Ogaa","lastname"=>"Trozo","email"=>"ocdnorminos@gmail.com","email_verified_at"=>"44873.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"16","divsec_id"=>"7","serreg_id"=>"11","role_id"=>"10",],
+            ["firstname"=>"Menchie","middlename"=>"Gonzales","lastname"=>"Ganzon","email"=>"mgganzon@gmail.com","email_verified_at"=>"44874.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"6","divsec_id"=>"7","serreg_id"=>"4","role_id"=>"10",],
+            ["firstname"=>"Ma. Criselda","middlename"=>"Galvez","lastname"=>"Abrajano-Gonzales","email"=>"macriselda.abrajano@ocd.gov.ph","email_verified_at"=>"44875.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"7","serreg_id"=>"1","role_id"=>"10",],
+            ["firstname"=>"Kristian","middlename"=>"Aguila","lastname"=>"Tabisaura","email"=>"kristian.tabisaura@ocd.gov.ph","email_verified_at"=>"44876.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"7","serreg_id"=>"1","role_id"=>"10",],
+            ["firstname"=>"Francesca","middlename"=>"Tarenio","lastname"=>"Quizon","email"=>"ocd3.cbts@gmail.com","email_verified_at"=>"44877.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"19","divsec_id"=>"7","serreg_id"=>"3","role_id"=>"10",],
+            ["firstname"=>"Roda","middlename"=>"Simbillo","lastname"=>"Dizon","email"=>"r3.rdrrmc.ocd@gmail.com","email_verified_at"=>"44878.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"7","serreg_id"=>"3","role_id"=>"10",],
+            ["firstname"=>"Juvy Grace","middlename"=>"de Belen","lastname"=>"Abarquez","email"=>"jvygrcbrqz@gmail.com","email_verified_at"=>"44879.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"21","divsec_id"=>"7","serreg_id"=>"4","role_id"=>"10",],
+            ["firstname"=>"Romeo","middlename"=>"Basilio","lastname"=>"Lucas","email"=>"rlucasjr21@gmail.com","email_verified_at"=>"44880.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"12","divsec_id"=>"2","serreg_id"=>"2","role_id"=>"10",],
+            ["firstname"=>"Trestan Rey","middlename"=>"Adarne","lastname"=>"Ebare","email"=>"cbtsrox@gmail.com","email_verified_at"=>"44881.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"7","serreg_id"=>"11","role_id"=>"10",],
+            ["firstname"=>"Marvin","middlename"=>"Dioso","lastname"=>"Samson","email"=>"marvin.samson@ocd.gov.ph","email_verified_at"=>"44882.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"7","serreg_id"=>"12","role_id"=>"10",],
+            ["firstname"=>"Marie Lynn","middlename"=>"","lastname"=>"Tadle","email"=>"marielynntadle@gmail.com","email_verified_at"=>"44883.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"7","serreg_id"=>"14","role_id"=>"10",],
+            ["firstname"=>"Neko","middlename"=>"Parano","lastname"=>"Tupaz","email"=>"neko20141tupaz@gmail.com","email_verified_at"=>"44884.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"7","serreg_id"=>"9","role_id"=>"10",],
+            ["firstname"=>"Ray Francis","middlename"=>"Bacarisas","lastname"=>"Alingasa","email"=>"rayfrancisalingasa2@gmail.com","email_verified_at"=>"44885.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"2","divsec_id"=>"7","serreg_id"=>"14","role_id"=>"10",],
+            ["firstname"=>"Fren Elias","middlename"=>"De Veyra","lastname"=>"Malinao","email"=>"frenelias@gmail.com","email_verified_at"=>"44886.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"25","divsec_id"=>"7","serreg_id"=>"14","role_id"=>"10",],
+            ["firstname"=>"Eirene","middlename"=>"Mahusay","lastname"=>"Canlom","email"=>"aiaimahusay@gmail.com","email_verified_at"=>"44887.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"13","divsec_id"=>"7","serreg_id"=>"12","role_id"=>"10",],
+            ["firstname"=>"Alicia Marie","middlename"=>"Espinosa","lastname"=>"Galito","email"=>"ocd10finance@gmail.com","email_verified_at"=>"44888.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"12","divsec_id"=>"2","serreg_id"=>"11","role_id"=>"10",],
+            ["firstname"=>"Judy Mae","middlename"=>"Moreno","lastname"=>"Adalin","email"=>"brinx.adalin0728@gmail.com","email_verified_at"=>"44889.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"5","divsec_id"=>"7","serreg_id"=>"2","role_id"=>"10",],
+            ["firstname"=>"Clyde Jewel","middlename"=>"Cabiago","lastname"=>"Solis","email"=>"solisclyde14@gmail.com","email_verified_at"=>"44890.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"7","serreg_id"=>"5","role_id"=>"10",],
+            ["firstname"=>"Gieneva","middlename"=>"Cruz","lastname"=>"Ginez","email"=>"ginnikolai@gmail.com","email_verified_at"=>"44891.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"3","divsec_id"=>"2","serreg_id"=>"1","role_id"=>"10",],
+            ["firstname"=>"Adrian Mishael","middlename"=>"Arancon","lastname"=>"Morallas","email"=>"amgmorallas@gmail.com","email_verified_at"=>"44892.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"7","serreg_id"=>"13","role_id"=>"10",],
+            ["firstname"=>"Franz","middlename"=>"Navaja","lastname"=>"Irag","email"=>"franz.irag@ocd.gov.ph","email_verified_at"=>"44893.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"16","divsec_id"=>"2","serreg_id"=>"12","role_id"=>"10",],
+            ["firstname"=>"Jayvee","middlename"=>"Trillo","lastname"=>"Gustilo","email"=>"cbts.ocdcaraga@gmail.com","email_verified_at"=>"44894.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"7","serreg_id"=>"14","role_id"=>"10",],
+            ["firstname"=>"Elvis","middlename"=>"Dela Raga","lastname"=>"Quitalig","email"=>"elvis.quitalig@ocd.gov.ph","email_verified_at"=>"44895.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"7","serreg_id"=>"1","role_id"=>"10",],
+            ["firstname"=>"HEIDI LOU","middlename"=>"PANONG","lastname"=>"SUMAMBAN","email"=>"heidilousumamban@gmail.com","email_verified_at"=>"44899.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"0","approver_id"=>"NULL","pos_id"=>"3","divsec_id"=>"3","serreg_id"=>"10","role_id"=>"5",],
+        ];
 
         foreach ($users as $user) {
-            echo $index;
-            // model_has_roles
-            // echo ServiceRegion::where('accronym', $user['service_region'])->first();
-            // echo $user['service_region'];git s
-            $timestamp = Carbon::now()->format('Y-m-d H:i:s');
-            $user['service_region'] = ServiceRegion::where('service_region', $user['service_region'])->first()->id;
-            $user['division'] = DivisionSection::where('accronym', $user['division'])->first()->id;
-            $user['position'] = Position::where('job_title', $user['position'])->first()->id;
-            $user['role'] = Role::where("name", $user['role'])->first()->id;
+            $email = $user["email"];
+            $role_id = $user["role_id"];
+            unset($user["email"]);
+            unset($user["role_id"]);
 
+            $tao = User::firstOrCreate(["email" => $email], $user);
 
-
-            $tao = User::firstOrCreate(["email" => $user["email"],], [
-                "firstname" => $user["firstname"],
-                "middlename" => $user["middlename"],
-                "lastname" => $user["lastname"],
-                "ext" => $user["extension"],
-                "divsec_id" => $user["division"],
-                "serreg_id" => $user["service_region"],
-                "pos_id" => $user["position"],
-                'email_verified_at' => $timestamp,
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'email_verified_at' => $timestamp,
-                'status' => "1",
-                "approver_id" => "1"
-            ]);
-
-            //check if model_has_roles exists
-            $has_role_exists = DB::table('model_has_roles')->where(
-                [
-                    "role_id" => $user['role'],
-                    "model_id" => $tao->id,
-                    "model_type" => 'App\Models\User',
-                ]
-            )->first();
-
-            if (!$has_role_exists) {
-                //create if not
-                DB::table('model_has_roles')->insert([
-                    "role_id" => $user['role'],
-                    "model_id" => $tao->id,
-                    "model_type" => 'App\Models\User',
-                ]);
-            }
-
-            $index++;
+            DB::table('model_has_roles')
+            ->updateOrInsert(
+                ['model_id' => $tao->id, 'model_type' => 'App\Models\User'],
+                ['role_id' => $role_id]
+            );
         }
     }
 }
