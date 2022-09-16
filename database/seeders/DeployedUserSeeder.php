@@ -34,10 +34,11 @@ class DeployedUserSeeder extends Seeder
         $tester_encoder = User::find(8); 
 
         $super_admin = User::find(9); 
-        $plans_admin1 = User::find(10); 
-        $plans_admin2 = User::find(11); 
-        $budget_admin1 = User::find(12); 
-        $budget_admin2 = User::find(13); 
+        $budget_admin1 = User::find(10); 
+        $budget_admin2 = User::find(11); 
+        $plans_admin1 = User::find(12); 
+        $plans_admin2 = User::find(13); 
+   
         $procurement_admin = User::find(14); 
 
 
@@ -49,14 +50,14 @@ class DeployedUserSeeder extends Seeder
         echo $procurement_admin->email."\n";
 
 
-        // $telmosolutions->assignRole('Developer');
-        // $tester_superadmin->assignRole('Super Administrator');
-        // $tester_plansadmin->assignRole('Plans Administrator');
-        // $tester_budgetadmin->assignRole('Budget Administrator');
-        // $tester_procurement->assignRole('Procurement Administrator');
-        // $tester_twg->assignRole('Technical Working Group');
-        // $tester_pfo->assignRole('Planning Focal/Officer');
-        // $tester_encoder->assignRole('Encoder');
+        $telmosolutions->assignRole('Developer');
+        $tester_superadmin->assignRole('Super Administrator');
+        $tester_plansadmin->assignRole('Plans Administrator');
+        $tester_budgetadmin->assignRole('Budget Administrator');
+        $tester_procurement->assignRole('Procurement Administrator');
+        $tester_twg->assignRole('Technical Working Group');
+        $tester_pfo->assignRole('Planning Focal/Officer');
+        $tester_encoder->assignRole('Encoder');
 
         $super_admin->assignRole('Super Administrator');
         $plans_admin1->assignRole('Plans Administrator');
