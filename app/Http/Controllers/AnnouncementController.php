@@ -88,20 +88,15 @@ class AnnouncementController extends Controller
     $announcement->start_date = Carbon::parse($start_date." ".Carbon::now()->toTimeString())->toDateTimeString();
     $announcement->end_date =  $end_date ? Carbon::parse($end_date)->toDateTimeString() : null; 
     $announcement->user_id =  Auth::user()->id;
-   $announcement->save();
-   $usersRoles = [];
+   	$announcement->save();
+   	$usersRoles = [];
     if($announcement){
-        
         foreach($roles as $role){
-
           $users = $this->createAnnouncementSend($announcement->id, $role, $announcement);
           array_push($usersRoles,$users);
         }
-      
     }
-    
     return  $usersRoles;
-
   }
   public function update(Request $request){
       $update =  Announcement::where('id',request("id"));
@@ -135,29 +130,29 @@ class AnnouncementController extends Controller
 
   }
   public function board(){
-        $roles = Role::where([
-          ['name',"!=","Banned"],
-      ])->get();;
-      return view("Announcement.board", ['roles' => $roles]);
+    $roles = Role::where([
+        ['name',"!=","Banned"],
+    ])->get();;
+    return view("Announcement.board", ['roles' => $roles]);
   }
   public function boardPaginate(){
     $userRole = Auth::user()->roles->first();
     $announcement = Announcement::query();
   
-    
-  
     $announcement  =  $announcement                                       
-                        ->whereDate("end_date", ">=",Carbon::today())
-                        ->whereDate("start_date", "<=",Carbon::today()); 
+		->whereDate("end_date", ">=",Carbon::today())
+		->whereDate("start_date", "<=",Carbon::today()); 
+
     if( $userRole){
         $announcement = $announcement->whereRelation("announcement_send", function($role) use($userRole){
-                    $role->where("role_id",  $userRole->id);
+			$role->where("role_id",  $userRole->id);
         });
     }
 
-      $announcement =  $announcement->orderBy('start_date', 'DESC')
-              ->with("announcement_send")
-              ->paginate(10);
+    $announcement =  $announcement->orderBy('start_date', 'DESC')
+		->with("announcement_send")
+		->paginate(10);
+
     return ["announcement" =>   $announcement, "roles" =>  $userRole, "now" => Carbon::now()->format("h")];
   }
   public function getRolesAnnouncement($announcement_id){

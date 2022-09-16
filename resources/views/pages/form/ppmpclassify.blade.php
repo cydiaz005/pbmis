@@ -93,7 +93,7 @@
         <label for="">End Date</label>
         <div class="d-flex justify-content-between">
             <div class="form-group d-flex align-items-center">
-                <input type="date" id="classification_end_date" class="form-control" style="width: 10rem" value="{{@$end_date->value}}">
+                <input type="date" id="classification_end_date" class="form-control" style="width: 10rem" value="{{@$end_date->value}}" data-min-date="{{now()->format('Y-m-d')}}" data-max-date="{{now()->addYears(2)->format('Y-m-d')}}">
                 <button type="button" class="btn btn-primary ml-3" id="save-classification-end-date">Set Due</button>
             </div>
             <div class="d-flex align-items-end">

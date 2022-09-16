@@ -73,7 +73,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Subject</label>
-                                <input class="form-control " id="subject" name="subject"  required>
+                                <input class="form-control " id="subject" name="subject" maxlength="200" required>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">

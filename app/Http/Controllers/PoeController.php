@@ -40,6 +40,10 @@ use Error;
 use App\Models\User;
 use App\Http\Controllers\EmailController;
 use App\Actions\Notify\Notify;
+use App\Jobs\PublishedPoeEmailAndNotif;
+use App\Jobs\PublishedPpmpEmailAndNotif;
+use App\Jobs\RegionalEmailAndNotif;
+use App\Jobs\ReturnedPpmpEmailAndNotif;
 use App\Models\FundChargeability;
 use Illuminate\Support\Facades\DB;
 
@@ -647,35 +651,36 @@ class PoeController extends Controller
             ->with("poe")
             ->first();
         if ($regionFormPPmp) {
-            $serviceRegions =  @$regionFormPPmp->poe->service_region_id;
-            // return $formPoe;
-            if ($serviceRegions) {
-                $receiver_ids = [];
-                $emailReciever = [];
-                $users = User::where("id", '!=',  Auth::user()->id)
-                    ->where("serreg_id", $serviceRegions)
-                    ->whereRelation("rol", function ($role) {
-                        $role->orWhere("role_id", 3);
-                    })->get();
-                foreach ($users as  $value) {
-                    array_push($receiver_ids, $value->id);
-                    array_push($emailReciever,  $value->email);
-                }
-                Notify::create($receiver_ids, [
-                    "type" => "user-return-ppmpClassification",
-                    "notifiable" => ['App\Models\FormPpmp', $ppmp_id],
-                    "sender" => ['App\Models\User', Auth::user()->id],
-                    "message" =>  $request->input('type') ?  "BUDGET FORM has been returned" : "PPMP Classification has been returned",
-                ]);
-                $email = new EmailController();
-                $email->returnedPPMP(
-                    array(
-                        'receiver' => $emailReciever,
-                        "subject" => $request->input('type') ? "Returned BUDGET FORM" : "Returned PPMP Classification",
-                        "reason"  => $reason
-                    )
-                );
-            }
+            ReturnedPpmpEmailAndNotif::dispatch(Auth::user()->id, $ppmp_id);
+            // $serviceRegions =  @$regionFormPPmp->poe->service_region_id;
+            // // return $formPoe;
+            // if ($serviceRegions) {
+            //     $receiver_ids = [];
+            //     $emailReciever = [];
+            //     $users = User::where("id", '!=',  Auth::user()->id)
+            //         ->where("serreg_id", $serviceRegions)
+            //         ->whereRelation("rol", function ($role) {
+            //             $role->orWhere("role_id", 3);
+            //         })->get();
+            //     foreach ($users as  $value) {
+            //         array_push($receiver_ids, $value->id);
+            //         array_push($emailReciever,  $value->email);
+            //     }
+            //     Notify::create($receiver_ids, [
+            //         "type" => "user-return-ppmpClassification",
+            //         "notifiable" => ['App\Models\FormPpmp', $ppmp_id],
+            //         "sender" => ['App\Models\User', Auth::user()->id],
+            //         "message" =>  $request->input('type') ?  "BUDGET FORM has been returned" : "PPMP Classification has been returned",
+            //     ]);
+            //     $email = new EmailController();
+            //     $email->returnedPPMP(
+            //         array(
+            //             'receiver' => $emailReciever,
+            //             "subject" => $request->input('type') ? "Returned BUDGET FORM" : "Returned PPMP Classification",
+            //             "reason"  => $reason
+            //         )
+            //     );
+            // }
         }
 
         return ReturnedForm::create([
@@ -813,34 +818,8 @@ class PoeController extends Controller
         $formPpmp->status_id = 3;
         $formPpmp->enduser_unit = "Ako pala to";
         $formPpmp->save();
-        $receiver_emails = [];
-        $receiver_ids = [];
-        $serviceReg = FormPoe::where('id', $id)->first();
 
-        $users = User::where("id", '!=',  Auth::user()->id)
-            ->where("serreg_id", @$serviceReg->service_region_id)
-            ->whereRelation("rol", function ($role) {
-                $role->orWhere("role_id", 3);
-            })->get();
-        foreach ($users as  $value) {
-            array_push($receiver_ids, $value->id);
-            array_push($receiver_emails,  $value->email);
-        }
-
-        Notify::create($receiver_ids, [
-            "type" => "user-published-poe",
-            "notifiable" => ['App\Models\FormPpmp', $formPpmp->id],
-            "sender" => ['App\Models\User', Auth::user()->id],
-            "message" => "Has Published POE and ready for review for PPMP.",
-        ]);
-        $email = new EmailController();
-        $email->publishedPOE(
-            array(
-                "receiver" => $receiver_emails,
-                "subject" => "Publised POE",
-                "poe" =>  $formPpmp
-            )
-        );
+        PublishedPoeEmailAndNotif::dispatch(Auth::user()->id, $formPpmp->id);
 
         return FormPoe::where('id', $id)->update(['status_id' => 2]);
     }
@@ -934,33 +913,35 @@ class PoeController extends Controller
         $id = $request->input('id');
         $ppmp = FormPpmp::where('id', $id)->with("poe")->first();
         FormPoe::where('id', $ppmp->poe_id)->update(['status_id' => '2']);
-        if ($ppmp) {
-            $receiver_ids = [];
-            $receiver_emails = [];
-            $users = User::where("id", '!=',  Auth::user()->id)
-                ->where("serreg_id",  $ppmp->poe->service_region_id)
-                ->whereRelation("rol", function ($role) {
-                    $role->orWhere("role_id", 2);
-                })->get();
-            foreach ($users as  $value) {
-                array_push($receiver_ids, $value->id);
-                array_push($receiver_emails, $value->email);
-            }
-            Notify::create($receiver_ids, [
-                "type" => "user-published-poe",
-                "notifiable" => ['App\Models\FormPpmp', $ppmp->id],
-                "sender" => ['App\Models\User', Auth::user()->id],
-                "message" => "Has Published PMPP  and pending for classification.",
-            ]);
-            $email = new EmailController();
-            $email->publishedPPMP(
-                array(
-                    "receiver" => $receiver_emails,
-                    "subject" => "PUBLISHED PPMP ",
-                    "ppmp" => $ppmp
-                )
-            );
-        }
+
+        PublishedPpmpEmailAndNotif::dispatch(Auth::user()->id, $ppmp->id);
+        // if ($ppmp) {
+        //     $receiver_ids = [];
+        //     $receiver_emails = [];
+        //     $users = User::where("id", '!=',  Auth::user()->id)
+        //         ->where("serreg_id",  $ppmp->poe->service_region_id)
+        //         ->whereRelation("rol", function ($role) {
+        //             $role->orWhere("role_id", 2);
+        //         })->get();
+        //     foreach ($users as  $value) {
+        //         array_push($receiver_ids, $value->id);
+        //         array_push($receiver_emails, $value->email);
+        //     }
+        //     Notify::create($receiver_ids, [
+        //         "type" => "user-published-poe",
+        //         "notifiable" => ['App\Models\FormPpmp', $ppmp->id],
+        //         "sender" => ['App\Models\User', Auth::user()->id],
+        //         "message" => "Has Published PMPP  and pending for classification.",
+        //     ]);
+        //     $email = new EmailController();
+        //     $email->publishedPPMP(
+        //         array(
+        //             "receiver" => $receiver_emails,
+        //             "subject" => "PUBLISHED PPMP ",
+        //             "ppmp" => $ppmp
+        //         )
+        //     );
+        // }
         return FormPpmp::where('id', $id)->update(['status_id' => 2]);
     }
 
@@ -1551,10 +1532,10 @@ class PoeController extends Controller
 
         $stage_count = FormPpmp::query();
 
-        $stage_count = $stage_count->join('form_poes', 'form_ppmps.poe_id', '=', 'form_poes.id')
-            ->select(['stage_id', DB::raw("COUNT(1) as row_count")])
-            ->groupBy(DB::raw("(stage_id)"))
-            ->where([['form_ppmps.status_id', 2], ['form_ppmps.funded', '1']]);
+        $stage_count = $stage_count->join('form_poes', 'form_ppmps.poe_id', '=', 'form_poes.id')    
+            ->select('form_ppmps.created_at', 'form_poes.stage_id', 'form_poes.service_region_id', DB::raw("COUNT(DISTINCT service_region_id) as row_count"))
+            ->where([['form_ppmps.status_id', 2], ['form_ppmps.funded', '1']])
+            ->groupBy("stage_id");
 
         $formPpmp = FormPpmp::query();
 
@@ -1573,7 +1554,7 @@ class PoeController extends Controller
         }
 
         $formPpmp = $formPpmp->orderBy('id', 'desc')
-            ->groupby('year', 'service_region_id')
+            ->groupby('service_region_id')
             ->paginate(10);
 
         $stage_count = $stage_count->get()->keyBy('stage_id');

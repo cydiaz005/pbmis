@@ -12,44 +12,58 @@ use App\Models\Image;
 use App\Http\Controllers\EmailController;
 use App\Models\TemporaryPassword;
 use App\Actions\Notify\Notify;
+use App\Mail\GeneralMailer;
 use App\Models\Notification;
 use App\Models\Role as Rol;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class UserController extends Controller
 {
     
-    public function all(){
+    public function all()
+    {
         return (Auth::user()->hasPermissionTo('users-approval-suspension-access'))?  view('pages.user.all'):abort(403);
     }
-
     public function superAdmin()
     {
         return (Auth::user()->hasPermissionTo('users-super-administrator-access'))?  view('pages.user.super-admin-user'):abort(403);
     }
-
     public function admin()
     {
         return (Auth::user()->hasPermissionTo('users-administrator-access'))?  view('pages.user.admin-user'):abort(403);
     }
-
     public function twg()
     {
         return (Auth::user()->hasPermissionTo('users-technical-working-froup-access'))?  view('pages.user.twg-user'):abort(403);
     }
-    
     public function pfo()
     {
         return (Auth::user()->hasPermissionTo('users-planning-focal-access'))?  view('pages.user.pfo-user'):abort(403);
     }
-
     public function getSuperAdminAndAdminData()
     {
         return User::whereHas("rol", function($q){
             $q->where("role_id", 1);
             $q->orWhere("role_id",2);
         })->get();
+    }
+    public function getSuperAdminAndAdminEmailAndId()
+    {
+        $users = User::whereHas("rol", function($q){
+            $q->where("role_id", 1);
+            $q->orWhere("role_id",2);
+        })->get();
+        $email_ids = [
+            "emails"=>[],
+            "ids"=>[],
+        ];
+        foreach ($users as $key => $value) {
+            array_push($email_ids['emails'], $value->email);
+            array_push($email_ids['ids'], $value->id);
+        }
+        return $email_ids;
     }
     public function changeRole(Request $request, $id){
         if(!Auth::user()->hasPermissionTo('users-approval-suspension-access')){abort(403);}
@@ -58,12 +72,12 @@ class UserController extends Controller
         ]);
         
         $user = User::find($id);
+        $user_old_role = $user->rol->role->name;
         $role = Rol::where("id",$request->roleId )->first();
 
         if(@$role && @$user){
 
             $super_admin_and_admin_data = $this->getSuperAdminAndAdminData();
-
             $admin_emails = [];
             $admin_ids = [];
             
@@ -74,33 +88,29 @@ class UserController extends Controller
 
             array_push($admin_emails , $user->email);
             array_push($admin_ids , $user->id);
-
-            
-
             
             Notification::where(
                 'receiver_id',$user->id
-            )->where('notif_type', "user-role-status")->delete();
+            )->where('notif_type', "user-role-status")
+            ->delete();
 
             Notify::create($admin_ids, [
                 "type" => "user-role-status",
                 "notifiable" => ['App\Models\User',$id],
                 "sender" => ['App\Models\User', Auth::user()->id],
-                "message" => "Has Change Role to <strong>".$role->name."</strong>",
+                "message" => "changed the role of ".$user->name."'s from <strong>".$user_old_role."</strong> to <strong>".$role->name."</strong>",
             ]);
 
-            $email = new EmailController();
-            $email->approvalChangeRole(
-                array(
-                    "receiver" => $admin_emails,
-                    "subject" => "Updated Status OCD PBMIS",
-                    "user" => $user
-                )
-            );
-
-
-
-            // $this->changeRolesUser();
+            Mail::to($admin_emails)->queue(new GeneralMailer([
+                "subject" => "User role changed",
+                "template_data" => [
+                    "email_message" => $user->name."'s role was changed by ".Auth::user()->name." from <strong>".$user_old_role."</strong> to <strong>".$role->name."</strong>",
+                    "button"=>[
+                        "redirect"=>env('APP_URL')."login",
+                        "text"=>"Login now!",
+                    ]
+                ],
+            ]));
         }
 
         $user->syncRoles([$request->roleId]);
@@ -114,35 +124,65 @@ class UserController extends Controller
         $status = $request->status;
         $user = User::find($id);
         $user->status = $status;
-        $users = User::whereRelation("rol", function($role){
-            $role->where("role_id", 1);
-            $role->orWhere("role_id",2);
-            $role->orWhere("role_id",6);
-        })->get();
-        $users_email = [];
-        $users_id = [];
-        foreach ($users as $key => $value) {
-           array_push( $users_email , $value->email);
-           array_push( $users_id , $value->id);
-        }
+
+        $status_value = "";
+
+        $email_ids = $this->getSuperAdminAndAdminEmailAndId();
+
         //APPROVED BY
         if($status==1){
+            $status_value = "Approved";
             $user->approver()->associate(Auth::user());
-            $this->changeStatusUser("Approved", $user->email, $users_id, "".$user->firstname." ".$user->lastname,  $user->id );
         }
 
         //IF USER IS SUSPENDED
         if($status==2){
+            $status_value = "Suspended";
             $user->syncRoles(['Banned']); //CHANGE ROLE TO BANNED
-            $this->changeStatusUser("Suspended",$user->email, $users_id, "".$user->firstname." ".$user->lastname,  $user->id );
         }
         //IF USER IS PENDING
-         if($status==0){
+        if($status==0){
+            $status_value = "Pending";
             $user->syncRoles(['Guest']); //CHANGE ROLE TO BANNED
-            $this->changeStatusUser("PENDING",$user->email, $users_id, "".$user->firstname." ".$user->lastname, $user->id );
         }
-
         $user->save();
+
+        Mail::to($user->email)->send(new GeneralMailer([
+            "subject" => "User status changed",
+            "template_data" => [
+                "email_message" => "Your status was changed by ".Auth::user()->name." to <strong>".$status_value."</strong>",
+                "button"=>[
+                    "redirect"=>env('APP_URL')."login",
+                    "text"=>"Login now!",
+                ]
+            ],
+        ]));
+
+        Mail::to($email_ids['emails'])->send(new GeneralMailer([
+            "subject" => "User status changed",
+            "template_data" => [
+                "email_message" => $user->name."'s status was changed by ".Auth::user()->name." to <strong>".$status_value."</strong>",
+                "button"=>[
+                    "redirect"=>env('APP_URL')."login",
+                    "text"=>"Login now!",
+                ]
+            ],
+        ]));
+
+        Notify::create($email_ids['ids'], [
+            "type" => "user-change-status",
+            "notifiable" => ['App\Models\User',$user->id],
+            "sender" => ['App\Models\User', Auth::user()->id],
+            "message" => "updated the status of ".$user->name."'s to <strong>".$status_value."</strong>",
+        ]);
+
+        Notify::create([$user->id], [
+            "type" => "user-change-status",
+            "notifiable" => ['App\Models\User',$user->id],
+            "sender" => ['App\Models\User', Auth::user()->id],
+            "message" => "updated your status to <strong>".$status_value."</strong>",
+        ]);
+        
         return response()->json("User Status Updated");
     }
 
@@ -154,7 +194,7 @@ class UserController extends Controller
             'password' => 'required',
             'firstname' => 'required',
             'lastname' => 'required',
-            'ext' => 'required',
+            // 'ext' => 'required',
             'gender' => 'required',
             'divsec_id' => 'required',
             'pos_id' => 'required',

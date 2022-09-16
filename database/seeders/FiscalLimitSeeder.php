@@ -33,6 +33,7 @@ class FiscalLimitSeeder extends Seeder
                             'cat_id' => $fcc->id,
                             'stage_id' => $st->id,
                             'serreg_id' => $sr->id,
+                            'year' => 2022
                         ],
                         [
                             'amount' => rand('1000000','9000000')

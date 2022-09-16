@@ -117,7 +117,7 @@
                         div.innerHTML = `
                         
                         <div class="card-header">
-                             <h3 class="card-title "><span class="text-info fw-bold">${board.subject}</span> <br>
+                             <h3 class="card-title "><span class="text-info fw-bold text-break">${board.subject}</span> <br>
                                 <small><i class="far fa-clock"></i> ${moment(board.start_date).fromNow()}</small>
                             </h3>
                             <div class="card-tools">

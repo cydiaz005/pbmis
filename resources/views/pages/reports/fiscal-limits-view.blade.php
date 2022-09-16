@@ -140,6 +140,9 @@
 					$(this).parent().addClass('active');
 				});
 			});
+            $("#li_reports").addClass('menu-open');
+            $("#li_reports>a.li_parent").addClass('active');
+            $("#li_fiscalreport").addClass('active');
     </script>
     @yield('fl-view-script')
     @endsection

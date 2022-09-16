@@ -7,13 +7,12 @@ use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ServiceRegion;
-use Illuminate\Support\Facades\DB;
 class FiscalLimit extends Model
 {
     use HasFactory;
     use LogsActivity;
-    protected $fillable = ['cat_id','amount','serreg_id','stage_id'];
-    protected $appends = ['year','fiscal_limit_code'];
+    protected $fillable = ['cat_id','amount','serreg_id','stage_id','year'];
+    protected $appends = ['fiscal_limit_code'];
     public function serviceRegion()
     {
         return $this->belongsTo(ServiceRegion::class, 'serreg_id', 'id');
@@ -40,10 +39,6 @@ class FiscalLimit extends Model
     public function getFormattedUpdatedAtAttribute()
     {
         return @\Carbon\Carbon::parse(@$this->attributes['created_at'])->format('M j, Y h:i a');
-    }
-    public function getYearAttribute()
-    {
-        return @\Carbon\Carbon::parse(@$this->attributes['created_at'])->format('Y');
     }
     public function getFiscalLimitCodeAttribute()
     {

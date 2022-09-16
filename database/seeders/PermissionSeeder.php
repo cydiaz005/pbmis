@@ -273,6 +273,7 @@ class PermissionSeeder extends Seeder
         $plansAdministrator->givePermissionTo('bulletin-boards-access');
         $plansAdministrator->givePermissionTo('mail-access');
         // $plansAdministrator->givePermissionTo('users-access');
+        $plansAdministrator->givePermissionTo('users-administrator-access');
         $plansAdministrator->givePermissionTo('users-approval-suspension-access');
         $plansAdministrator->givePermissionTo('users-technical-working-froup-access');
         $plansAdministrator->givePermissionTo('users-planning-focal-access');
@@ -322,6 +323,7 @@ class PermissionSeeder extends Seeder
         $budgetAdministrator->givePermissionTo('bulletin-boards-access');
         $budgetAdministrator->givePermissionTo('mail-access');
         // $budgetAdministrator->givePermissionTo('users-access');
+        $budgetAdministrator->givePermissionTo('users-administrator-access');
         $budgetAdministrator->givePermissionTo('users-approval-suspension-access');
         $budgetAdministrator->givePermissionTo('users-technical-working-froup-access');
         $budgetAdministrator->givePermissionTo('users-planning-focal-access');
@@ -371,6 +373,7 @@ class PermissionSeeder extends Seeder
         $procAdministrator->givePermissionTo('bulletin-boards-access');
         $procAdministrator->givePermissionTo('mail-access');
         // $procAdministrator->givePermissionTo('users-access');
+        $procAdministrator->givePermissionTo('users-administrator-access');
         $procAdministrator->givePermissionTo('users-approval-suspension-access');
         $procAdministrator->givePermissionTo('users-technical-working-froup-access');
         $procAdministrator->givePermissionTo('users-planning-focal-access');

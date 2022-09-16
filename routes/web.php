@@ -34,7 +34,11 @@ use App\Http\Controllers\ResourceAccountController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('test', function () {
+    $s = Auth::user();
+    // return $s->rol->role->name;
+    return view('email_template.general_mailer');
+});
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/', [DashboardController::class, 'redirect']);
     Route::get('landing', [DashboardController::class, 'redirect']);
@@ -120,8 +124,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::prefix('form')->group(function () {
         Route::prefix('working-fiscal-limit')->group(function () {
             Route::get('/', [FiscalLimitController::class, 'index']);
-            Route::get('create', [FiscalLimitController::class, 'create']);
-            Route::get('modify', [FiscalLimitController::class, 'create']);
+            Route::get('create', [FiscalLimitController::class, 'create'])->name('fiscal-limit.create');
+            Route::get('modify', [FiscalLimitController::class, 'create'])->name('fiscal-limit.modify');
             Route::post('save', [FiscalLimitController::class, 'save']);
             Route::post('edit', [FiscalLimitController::class, 'edit']);
             Route::post('fetch', [FiscalLimitController::class, 'getFiscalLimit']);
