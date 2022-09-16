@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DemoUserSeeder extends Seeder
 {
@@ -127,6 +128,7 @@ class DemoUserSeeder extends Seeder
             unset($user["email"]);
             unset($user["role_id"]);
 
+            $user['password'] = Hash::make($user['password']);
             $tao = User::firstOrCreate(["email" => $email], $user);
 
             DB::table('model_has_roles')
