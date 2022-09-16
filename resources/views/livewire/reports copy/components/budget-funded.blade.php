@@ -93,7 +93,7 @@
                             "category" => "MOOE-CDE",
                             "return_reason" => null,
                             "date" =>  $list->created_at,
-                            "amount" => 'PHP '.number_format($list->total, 2),
+                            "amount" => number_format($list->total, 2),
                             "last_editor" =>  "Gabriel Arellano",
                             "updated_at" =>  "2022-03-28 03:41:53",
                             'options' => [

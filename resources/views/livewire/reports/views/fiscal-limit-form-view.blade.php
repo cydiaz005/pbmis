@@ -81,7 +81,7 @@
                         consolidated_budget[key] = [];
                     }
                     consolidated_budget[key].push(fb.amount);
-					$(sr_id).find(cat_id).html('PHP '+formatter(fb.amount));
+					$(sr_id).find(cat_id).html(formatter(fb.amount));
 				});
 
                 Object.keys(consolidated_budget).forEach(key => {
@@ -95,7 +95,7 @@
 
                 Object.keys(regional_total).forEach(value => {
                     let id = "#"+value;
-                    $(id).text("PHP "+formatter(regional_total[value]));
+                    $(id).text(formatter(regional_total[value]));
                 });
 
 
@@ -144,7 +144,7 @@
 
 				fiscal_budget['sr_total'].forEach(element => {
 					let id = 'sr-'+element.serreg_id;
-					(ids.includes(id))? $("#"+id+"> #reg_total").text("PHP "+formatter(element.total)):false;
+					(ids.includes(id))? $("#"+id+"> #reg_total").text(formatter(element.total)):false;
 					console.log(element);
 				});
 
@@ -170,9 +170,9 @@
 
 
 				reference.forEach(budget => {
-					$('#'+id).find('#cat-'+budget.cat_id).text("PHP "+formatter(budget.total));
+					$('#'+id).find('#cat-'+budget.cat_id).text(formatter(budget.total));
 				});
-				sub_row.append('<td>PHP '+formatter(sum)+'</td>');
+				sub_row.append('<td>'+formatter(sum)+'</td>');
 
 
 			}
@@ -191,13 +191,10 @@
 					}
 				});
 
-				// fiscal_budget['cat_total'].forEach(budget => {
-				// 	sub_row.append('<td>PHP '+formatter(budget.total)+'</td>');
-				// });
 				fiscal_budget['cat_total'].forEach(budget => {
-					$('#'+id).find('#cat-'+budget.cat_id).text("PHP "+formatter(budget.total));
+					$('#'+id).find('#cat-'+budget.cat_id).text(formatter(budget.total));
 				});
-				sub_row.append('<td>PHP '+formatter(fiscal_budget['overall_total'])+'</td>');
+				sub_row.append('<td>'+formatter(fiscal_budget['overall_total'])+'</td>');
 
 
 			}

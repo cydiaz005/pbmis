@@ -581,7 +581,7 @@ function FileList(type, opts={}){
 
             service_region.innerHTML = data.accronym;
             pap_title.innerHTML = data.accronym + (type == "budget" ? " Budget Form": type == "apb" ? " APB":"");
-            budgetHtml.innerHTML = "PHP "+numberFormatter(data.budget);
+            budgetHtml.innerHTML = numberFormatter(data.budget);
             if(type == "opc"){
                 pap_title.innerHTML = ` <span class="frmcard-data-id">${data.opc_code}</span>${data.accronym} OPC`;
                 budgetHtml.innerHTML = "";
@@ -735,7 +735,7 @@ function FileList(type, opts={}){
             let buttons_container = card.querySelector('.frmcard_btns');
             let created_at = card.querySelector('.formatted_date');
             pap_title.innerHTML = "Working Fiscal Limit";
-            budgetHtml.innerHTML = "PHP "+numberFormatter(data.budget);
+            budgetHtml.innerHTML = numberFormatter(data.budget);
             created_at.innerHTML=data.year;
             for (const key in buttons) {
                 let div = document.createElement('div');
@@ -2899,13 +2899,13 @@ function exportBudgetReportToPDF(params, callback){
                         for (let d = 1; d <= 12; d++) {
                             ppmp_row.push(
                                 {
-                                    content: item_req_month[d] ? "PHP "+formatter(item_req_month[d]):"",
+                                    content: item_req_month[d] ? formatter(item_req_month[d]):"",
                                 },
                             );
                         }
                         ppmp_row.push(
                             {
-                                content: "PHP "+formatter(item_req_total),
+                                content: formatter(item_req_total),
                             },
                         );
                         body.push(ppmp_row);
@@ -2924,14 +2924,14 @@ function exportBudgetReportToPDF(params, callback){
                 for (let d = 1; d <= 12; d++) {
                     sub_total_row.push(
                         {
-                            content: ppmp_per_month_total[d] ? "PHP "+formatter(ppmp_per_month_total[d]):"",
+                            content: ppmp_per_month_total[d] ? formatter(ppmp_per_month_total[d]):"",
                             styles: {fillColor: "#404396", textColor: "#ffffff"},
                         },
                     );
                 }
                 sub_total_row.push(
                     {
-                        content: "PHP "+formatter(ppmp_sub_total),
+                        content: formatter(ppmp_sub_total),
                         styles: {fillColor: "#404396", textColor: "#ffffff"},
                     },
                 );
@@ -2952,14 +2952,14 @@ function exportBudgetReportToPDF(params, callback){
             grand_total += month_total[d] ? month_total[d]:0;
             grand_total_row.push(
                 {
-                    content: month_total[d] ? "PHP "+formatter(month_total[d]):"",
+                    content: month_total[d] ? formatter(month_total[d]):"",
                     styles: {fillColor: "#1c20ab", textColor: "#ffffff"},
                 },
             );
         }
         grand_total_row.push(
             {
-                content: "PHP "+formatter(grand_total),
+                content: formatter(grand_total),
                 styles: {fillColor: "#1c20ab", textColor: "#ffffff"},
             },
         );
@@ -3186,7 +3186,7 @@ function exportFiscalLimitPDF(params, callback){
                             try {
                                 let amount = data[key][fc_id][0].amount;
                                 row.push({
-                                    content: "PHP "+formatter(amount),
+                                    content: formatter(amount),
                                     styles: opts.styles,
                                 });
                                 if(opts.total_keys){
@@ -3234,7 +3234,7 @@ function exportFiscalLimitPDF(params, callback){
                         total_keys: ['total_sub_total', 'total_grand_total', 'region_total','_grand_totals', '_sub_totals'],
                     });
                     region_row.push({
-                        content: "PHP "+formatter(totals.region_total),
+                        content: formatter(totals.region_total),
                     });
                     body.push(region_row);
                 }
@@ -3249,7 +3249,7 @@ function exportFiscalLimitPDF(params, callback){
                     // total_keys: ['total_sub_total', 'total_grand_total', '_grand_totals'],
                 });
                 subtotal_row.push({
-                    content: "PHP "+formatter(totals.total_sub_total),
+                    content: formatter(totals.total_sub_total),
                     styles: {fillColor: "#404396", textColor: "#ffffff"}
                 });
                 body.push(subtotal_row);
@@ -3266,7 +3266,7 @@ function exportFiscalLimitPDF(params, callback){
                 styles: {fillColor: "#1c20ab", textColor: "#ffffff"}
             });
             grandtotal_row.push({
-                content: "PHP "+formatter(totals.total_grand_total),
+                content: formatter(totals.total_grand_total),
                 styles: {fillColor: "#1c20ab", textColor: "#ffffff"}
             });
             body.push(grandtotal_row);
@@ -3371,7 +3371,7 @@ function exportFiscalLimitExcel(params, callback){
                         for (const fc_id in data[key]) {
                             try {
                                 let amount = data[key][fc_id][0].amount;
-                                row.innerHTML += `<td>PHP ${formatter(amount)}</td>`;
+                                row.innerHTML += `<td>${formatter(amount)}</td>`;
                                 if(opts.total_keys){
                                     for (let i = 0; i < opts.total_keys.length; i++) {
                                         const t_key = opts.total_keys[i];
@@ -3404,21 +3404,21 @@ function exportFiscalLimitExcel(params, callback){
                     add_row(element, tr2, {
                         total_keys: ['total_sub_total', 'total_grand_total', 'region_total','_grand_totals', '_sub_totals'],
                     });
-                    tr2.innerHTML+=`<td> PHP "${formatter(totals.region_total)}`;
+                    tr2.innerHTML+=`<td>${formatter(totals.region_total)}`;
                     tbody.appendChild(tr2);
                 }
 
                 let tr3 = document.createElement('tr');
                 tr3.innerHTML=`<td>Sub Total</td>`;
                 add_row(totals._sub_totals, tr3, {});
-                tr3.innerHTML+=`<td>PHP ${formatter(totals.total_sub_total)}</td>`;
+                tr3.innerHTML+=`<td>${formatter(totals.total_sub_total)}</td>`;
                 tbody.appendChild(tr3);
             }
             //grand total trow
             let tr4 = document.createElement('tr');
             tr4.innerHTML=`<td>Grand Total</td>`;
             add_row(totals._grand_totals, tr4, {});
-            tr4.innerHTML+=`<td>PHP ${formatter(totals.total_grand_total)}</td>`;
+            tr4.innerHTML+=`<td>${formatter(totals.total_grand_total)}</td>`;
             tbody.appendChild(tr4);
             const title = `FISCAL LIMITS ${params.year}`;
 
@@ -3639,7 +3639,7 @@ function exportAPBpdf(params, callback){
                             colSpan: 2,
                         },
                         {
-                            content: "PHP " + formatter(res.total_budget),
+                            content: formatter(res.total_budget),
                         },
                     ],
                     [
@@ -3648,7 +3648,7 @@ function exportAPBpdf(params, callback){
                             colSpan: 2,
                         },
                         {
-                            content: "PHP 0.00",
+                            content: "0.00",
                         },
                     ],
                     [
@@ -3717,7 +3717,7 @@ function exportAPBpdf(params, callback){
                             styles: {fillColor: '#404396', textColor: '#ffffff'},
                         },
                         {
-                            content: "PHP "+formatter(ppmp.poe.total),
+                            content: formatter(ppmp.poe.total),
                             styles: {fillColor: '#404396', textColor: '#ffffff'},
                         },
                         {
@@ -3782,13 +3782,13 @@ function exportAPBpdf(params, callback){
                                     content:  qtr[4] > 0 ? (qtr[4]+" "+qtr_target):"",
                                 },
                                 {
-                                    content:  "PHP "+item_requirement.total,
+                                    content: item_requirement.total,
                                 },
                             ];
                             body.push(item_req_row);
                             item_req_count++;
                         }
-                        subpap_row[1].content = "PHP "+formatter(subpap_total);
+                        subpap_row[1].content = formatter(subpap_total);
                         subpap_count++;
                     }
                 }

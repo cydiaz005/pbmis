@@ -50,7 +50,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="">Job Title</label>
-                    <input type="text" name="job_title" id="job_title" class="form-control form-input">
+                    <input type="text" name="job_title" id="job_title" class="form-control form-input" required>
                 </div>
                
             </div>

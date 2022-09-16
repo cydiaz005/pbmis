@@ -4,6 +4,12 @@
         /* .main-footer {
           margin-left: 0 !important;
       } */
+      table tr:nth-child(5){
+        min-width: 100px !important;
+      }
+      td:nth-child(6){
+        min-width: 135px !important;
+      }
     </style>
     @endsection
 

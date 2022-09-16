@@ -67,7 +67,7 @@
                                 foreach ($item_req->itemMonths as $item_months){
                                     for ($i = 0; $i < 12; $i++){
                                         if($i+1 == $item_months->month){
-                                            $monthly_allocation[$i] = 'PHP '.number_format($item_months->amount, 2);
+                                            $monthly_allocation[$i] = number_format($item_months->amount, 2);
                                             $grand_total[$i] = $grand_total[$i] + $item_months->amount;
                                         }
                                     }
@@ -82,7 +82,7 @@
                                     @foreach ($monthly_allocation as $allocation)
                                     <td>{{$allocation}}</td>
                                     @endforeach 
-                                    <td>PHP {{ number_format($ppmp->total, 2) }}</td>
+                                    <td>{{ number_format($ppmp->total, 2) }}</td>
 
                                 </tr>
                             @endforeach
@@ -107,7 +107,7 @@
                                 
                         $grand_total_sum = $grand_total_sum + $gtotal;
                         dd($gtotal);
-                        <td> PHP {{ number_format($gtotal, 2) }} </td>
+                        <td> {{ number_format($gtotal, 2) }} </td>
                     @endforeach
                     <td> {{$grand_total_sum}} </td>
                 </tr>

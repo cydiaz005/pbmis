@@ -16,7 +16,7 @@
                     <span class="text-uppercase"> {{@$list->serviceRegion->accronym }}</span>
                 </p>
                 <h4 class="frmcard_title text-truncate"> Budget Form Funded 2022 </h4>
-                <p class="frmcard_amount">{{ 'PHP '.number_format($list->total, 2) }}</p>
+                <p class="frmcard_amount">{{ number_format($list->total, 2) }}</p>
                 </div>
             </div>
             </div>

@@ -151,13 +151,13 @@
                                         @foreach ($monthly_allocation as $allotment)
                                         <td>
 
-                                            {{ ($allotment) ? 'PHP '.number_format($allotment, 2) : '' }}
+                                            {{ ($allotment) ? number_format($allotment, 2) : '' }}
 
                                         </td>
 
                                         @endforeach
                                         <td>
-                                            {{ 'PHP '.number_format($item_req->itemMonthSum[0]->sum, 2) }}
+                                            {{ number_format($item_req->itemMonthSum[0]->sum, 2) }}
                                         </td>
 
                                     </tr>
@@ -174,7 +174,7 @@
                             @endfor
 
                             @foreach ($sub_allocations_total as $sub_total)
-                            <td>{{ ($sub_total)? 'PHP '.number_format($sub_total, 2): null }}</td>
+                            <td>{{ ($sub_total)? number_format($sub_total, 2): null }}</td>
                             @endforeach
                         </tr>
 
@@ -201,7 +201,7 @@
                         @endfor
                         @foreach ($sub_total as $total)
                         @if ($total)
-                        <td> PHP {{ number_format($total,2) }} </td>
+                        <td> {{ number_format($total,2) }} </td>
                         @else
                         <td>&nbsp;</td>
                         @endif

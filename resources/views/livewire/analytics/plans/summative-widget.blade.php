@@ -32,12 +32,12 @@
                                 <tr>
                                     <td scope="row">CO Services</td>
                                     <td>{{@$co_summary['num_paps']}}</td>
-                                    <td>&8369; {{@number_format($co_summary['total_budget'],2)}}</td>
+                                    <td>{{@number_format($co_summary['total_budget'],2)}}</td>
                                 </tr>
                                 <tr>
                                     <td scope="row">Regional Offices</td>
                                     <td>{{@$ro_summary['num_paps']}}</td>
-                                    <td>&8369; {{@number_format($ro_summary['total_budget'],2)}}</td>
+                                    <td>{{@number_format($ro_summary['total_budget'],2)}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -71,7 +71,7 @@
                                 <tr>
                                     <td scope="row">{{@$priority->class}}</td>
                                     <td>{{@$priority->num_paps}}</td>
-                                    <td>&8369; {{@number_format($priority->total_budget,2)}}</td>
+                                    <td>{{@number_format($priority->total_budget,2)}}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -107,7 +107,7 @@
                                 <tr>
                                     <td scope="row">{{@$tags->tag}}</td>
                                     <td>{{@$tags->num_paps}}</td>
-                                    <td>&8369; {{@number_format($tags->total_budget,2)}}</td>
+                                    <td>{{@number_format($tags->total_budget,2)}}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -144,7 +144,7 @@
                         <tr>
                             <td scope="row">{{@$target->sector}}</td>
                             <td>{{@$target->num_paps}}</td>
-                            <td>&8369; {{@number_format($target->total_budget,2)}}</td>
+                            <td>{{@number_format($target->total_budget,2)}}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -177,7 +177,7 @@
                         <tr>
                             <td scope="row">{{@$kdpkpks->desc}}</td>
                             <td>{{@$kdpkpks->num_paps}}</td>
-                            <td>&8369; {{@number_format($kdpkpks->total_budget,2)}}</td>
+                            <td>{{@number_format($kdpkpks->total_budget,2)}}</td>
                         </tr>
                         @endforeach
                     </tbody>

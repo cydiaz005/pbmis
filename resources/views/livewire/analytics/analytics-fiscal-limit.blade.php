@@ -138,7 +138,15 @@
                 stacked: true,
             }],
             yAxes: [{
-                stacked: true
+                stacked: true,
+                ticks: {
+                    callback: function(value, index, values) {
+                        return Number(value).toLocaleString('en', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        })
+                    }
+                }
             }]
         }
     });
@@ -302,9 +310,9 @@
                 total+=body[key][budget];
                 value = (body[key][budget])?formatter(body[key][budget]): formatter(0);
 
-                template.push('<td>PHP&nbsp;'+value+'</td>');
+                template.push('<td>'+value+'</td>');
             });
-            template.push('<td>PHP&nbsp;'+formatter(total)+'</td>');
+            template.push('<td>'+formatter(total)+'</td>');
             template.push('</tr>');
             
         });
@@ -443,8 +451,8 @@
             template.push('<a href="#" class="nav-link">');
             template.push(label[index]);
             template.push('<span class="float-right">');
-            template.push('PHP '+formatter(params[1][index])+' / ');
-            template.push('PHP '+formatter(params[0][index]));
+            template.push(formatter(params[1][index])+' / ');
+            template.push(formatter(params[0][index]));
             template.push('</span>');
             template.push('</a>');
             template.push('</li>');

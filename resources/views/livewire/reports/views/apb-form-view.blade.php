@@ -19,11 +19,11 @@
     </tr>
     <tr>
         <th>OVERALL BUDGET:</th>
-        <th colspan="7">PHP {{number_format($overallbudget, 2)}}</th>
+        <th colspan="7">{{number_format($overallbudget, 2)}}</th>
     </tr>
     <tr>
         <th>OPERATIONS</th>
-        <th colspan="7">PHP {{number_format(0, 2)}}</th>
+        <th colspan="7">{{number_format(0, 2)}}</th>
     </tr>
     <tr>
         <th>Organizational Outcome (OO)</th>
@@ -64,7 +64,7 @@
                 @for ($i = 0; $i < 4; $i++)
                     <td></td>
                 @endfor
-                <td>PHP {{number_format($poe->total, 2)}}</td>
+                <td>{{number_format($poe->total, 2)}}</td>
                 <td>
                     @foreach (@$poe->poeTags as $tag)
                         <span class="badge bg-white">
@@ -91,7 +91,7 @@
                     @for ($i = 0; $i < 4; $i++)
                         <td></td>
                     @endfor
-                    <td>PHP {{number_format($sub_total, 2)}}</td>
+                    <td>{{number_format($sub_total, 2)}}</td>
                     <td></td>
                 </tr>
                 @foreach (@$subpap->itemRequirements as $item_req)
@@ -122,7 +122,7 @@
                         <td>{{($quarter[1])? $quarter[1].' '.$subpap->quarterTarget->quarter_target:'';}}</td>
                         <td>{{($quarter[2])? $quarter[2].' '.$subpap->quarterTarget->quarter_target:'';}}</td>
                         <td>{{($quarter[3])? $quarter[3].' '.$subpap->quarterTarget->quarter_target:'';}}</td>
-                        <td>PHP {{ number_format($item_req->itemMonthSum[0]->sum, 2) }}</td>
+                        <td>{{ number_format($item_req->itemMonthSum[0]->sum, 2) }}</td>
                         <td></td>
                     </tr>
                 @endforeach
