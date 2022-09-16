@@ -26,7 +26,7 @@ class DemoUserSeeder extends Seeder
     public function newSeeder()
     {
         $users = [
-            ["firstname"=>"Telmo","middlename"=>"","lastname"=>"Solutions","email"=>"dev@telmosolutions.com","email_verified_at"=>"44803.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"6",],
+            ["firstname"=>"Telmo","middlename"=>"","lastname"=>"Solutions","email"=>"dev@telmosolutions.com","email_verified_at"=>"44803.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>null,"pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"6",],
             ["firstname"=>"Super Admin","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.superadmin@ocd.gov.ph","email_verified_at"=>"44804.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"1",],
             ["firstname"=>"Plans Administrator","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.plansadmin@ocd.gov.ph","email_verified_at"=>"44805.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"7",],
             ["firstname"=>"Budget Admin","middlename"=>"System","lastname"=>"Tester","email"=>"pbmis-test.budgetadmin@ocd.gov.ph","email_verified_at"=>"44806.100775463","password"=>"pbm15*73573r4cc0un7","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"10","serreg_id"=>"21","role_id"=>"8",],
@@ -119,7 +119,7 @@ class DemoUserSeeder extends Seeder
             ["firstname"=>"Franz","middlename"=>"Navaja","lastname"=>"Irag","email"=>"franz.irag@ocd.gov.ph","email_verified_at"=>"44893.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"16","divsec_id"=>"2","serreg_id"=>"12","role_id"=>"10",],
             ["firstname"=>"Jayvee","middlename"=>"Trillo","lastname"=>"Gustilo","email"=>"cbts.ocdcaraga@gmail.com","email_verified_at"=>"44894.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"17","divsec_id"=>"7","serreg_id"=>"14","role_id"=>"10",],
             ["firstname"=>"Elvis","middlename"=>"Dela Raga","lastname"=>"Quitalig","email"=>"elvis.quitalig@ocd.gov.ph","email_verified_at"=>"44895.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"1","approver_id"=>"1","pos_id"=>"14","divsec_id"=>"7","serreg_id"=>"1","role_id"=>"10",],
-            ["firstname"=>"HEIDI LOU","middlename"=>"PANONG","lastname"=>"SUMAMBAN","email"=>"heidilousumamban@gmail.com","email_verified_at"=>"44899.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"0","approver_id"=>"NULL","pos_id"=>"3","divsec_id"=>"3","serreg_id"=>"10","role_id"=>"5",],
+            ["firstname"=>"HEIDI LOU","middlename"=>"PANONG","lastname"=>"SUMAMBAN","email"=>"heidilousumamban@gmail.com","email_verified_at"=>"44899.100775463","password"=>"pbm15*d3f4ul7p455w0rd","status"=>"0","approver_id"=>NULL,"pos_id"=>"3","divsec_id"=>"3","serreg_id"=>"10","role_id"=>"5",],
         ];
 
         foreach ($users as $user) {

@@ -56,7 +56,7 @@
         'breadcrumb' => [
             ['name' => 'Dashboard', 'route' => '/dashboard/admin'],
             ['name' => 'Reports', 'route' => '#'],
-            ['name' => 'APP Form', 'route' => '#'],
+            ['name' => 'APP Report', 'route' => '#'],
         ],
         'pageTitle' => ' Annual Procurement Plan (APP)',
     ])
