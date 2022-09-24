@@ -45,7 +45,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="">Sub Paps</label>
-                    <input type="text" name="subpaps" id="subpaps" class="form-control form-input">
+                    <input type="text" name="subpaps" id="subpaps" class="form-control form-input" required>
                 </div>
             </div>
             <div class="modal-footer">

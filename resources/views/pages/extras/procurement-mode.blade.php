@@ -46,11 +46,11 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="">Section</label>
-                    <input type="text" name="section" id="section" class="form-control form-input">
+                    <input type="text" name="section" id="section" class="form-control form-input" required>
                 </div>
                 <div class="mb-3">
                     <label for="">Title</label>
-                    <input type="text" name="title" id="title" class="form-control form-input">
+                    <input type="text" name="title" id="title" class="form-control form-input" required>
                 </div>
             </div>
             <div class="modal-footer">

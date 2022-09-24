@@ -30,7 +30,7 @@ class RolesandPermission extends Mailable
     {
         return $this
         ->subject($this->data['subject'])
-        ->from('cabral.telmosolutions@gmail.com', 'Avails')
+        ->from('cabral.telmosolutions@gmail.com', 'PBMIS')
         ->view('email_template.role_permission', $this->data);
     }
 }

@@ -48,7 +48,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="">Tag</label>
-                    <input type="text" name="tag" id="tag" class="form-control form-input">
+                    <input type="text" name="tag" id="tag" class="form-control form-input" required>
                 </div>
             </div>
             <div class="modal-footer">

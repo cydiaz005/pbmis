@@ -18,12 +18,10 @@
     let fetching = false;
     sendMailBtn.onclick=sendMailProcess;
     if(saveDraftBtn){
-         saveDraftBtn.onclick=saveDraftProcess;
+        saveDraftBtn.onclick=saveDraftProcess;
     }
 
     if(draftMail){
-        console.log(draftMail)
-      
         if(Array.isArray(draftMail.mail.recipients)){
             draftMail.mail.recipients.forEach(data => {
                 const userData = {
@@ -39,7 +37,6 @@
      
         $('#compose-textarea').summernote('reset');
         $('#compose-textarea').summernote('pasteHTML',  draftMail.mail.message);
-        
     }
   
     $('#compose-textarea').summernote({

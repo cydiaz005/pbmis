@@ -84,11 +84,11 @@
             ]
             
         ])
-        <div class="card-header" style="padding: 20px;border-bottom: 0;">
-        <a href="#createRoleModal" data-toggle="modal" type="button" class="btn btn-primary float-right">
-        <i class="fas fa-plus"></i>&nbsp;
-            Add New Role</a>
-    </div>
+        {{-- <div class="card-header" style="padding: 20px;border-bottom: 0;">
+            <a href="#createRoleModal" data-toggle="modal" type="button" class="btn btn-primary float-right">
+            <i class="fas fa-plus"></i>&nbsp;
+                Add New Role</a>
+        </div> --}}
         <div class="row">
         <div id="unsavedAlert" class="col-12 hidden">
         <div class="d-flex align-items-center justify-content-between  flex-row alert alert-warning" role="alert">
@@ -248,7 +248,7 @@
         </div>
 
     <!-- create role -->
-    <div class="modal fade" id="createRoleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="createRoleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form action="/data-guard/roles-permissions/roles" method="POST" id="">
             @csrf
@@ -272,7 +272,7 @@
             </div>
             </form>
         </div>
-    </div>
+    </div> --}}
  
     @endsection
     

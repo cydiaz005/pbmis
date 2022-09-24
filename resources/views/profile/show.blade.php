@@ -36,7 +36,7 @@
                 @livewire('profile.logout-other-browser-sessions-form')
             </div>
 
-            @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
+            @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures() && !auth()->user()->hasRole('Super Administrator'))
                 <x-jet-section-border />
 
                 <div class="mt-10 sm:mt-0">

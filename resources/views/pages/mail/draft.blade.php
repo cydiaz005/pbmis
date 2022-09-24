@@ -110,10 +110,12 @@
         })
         $("#li_mail").addClass('active');
         $("#reload-draft").on("click", () => {
-            Mail('sent',{
-            url: '/mail/get/draft',
-            container: '#sentbox-container', 
-        });
+            mail = new  Mail('sent',{
+                url: '/mail/get/draft',
+                container: '#sentbox-container', 
+                type_read: "draft"
+            });
+            // window.location.reload();
         })
         let checkingBox = false;
         $("#checkAll").on("click", (e) => {

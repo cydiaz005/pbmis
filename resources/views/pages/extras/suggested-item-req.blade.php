@@ -47,7 +47,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="">Ireq</label>
-                    <input type="text" name="ireq" id="ireq" class="form-control form-input">
+                    <input type="text" name="ireq" id="ireq" class="form-control form-input" required>
                 </div>
             </div>
             <div class="modal-footer">

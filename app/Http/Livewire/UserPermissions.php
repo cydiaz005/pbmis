@@ -84,7 +84,7 @@ class UserPermissions extends Component
                         'key'=>'users-administrator-access'
                     ],
                     [
-                        'label'=>'Technical Working Froup - Access',
+                        'label'=>'Technical Working Group - Access',
                         'key'=>'users-technical-working-froup-access'
                     ],
                     [
@@ -127,7 +127,7 @@ class UserPermissions extends Component
                         'key'=>'fund-chargeability-access'
                     ],
                     [
-                        'label'=>'Char of Accounts - Access',
+                        'label'=>'Chart of Accounts - Access',
                         'key'=>'chart-of-accounts-access'
                     ],
                     [

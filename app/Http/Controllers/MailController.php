@@ -245,7 +245,7 @@ class MailController extends Controller
     public function searchMail(Request $request){
         $query = $request->input('query');
         $except = $request->input('except');
-        $results = User::select('id', 'email', DB::raw("CONCAT(users.firstname,' ',users.lastname) as name" ), "profile_photo_path as img")
+        $results = User::select('id', 'email', 'firstname', 'middlename','lastname', "profile_photo_path as img")
         ->whereNotIn('id', $except)
         ->where('id', '!=', Auth::user()->id)
         ->where("status", '1')

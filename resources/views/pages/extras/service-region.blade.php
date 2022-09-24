@@ -47,11 +47,11 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="">Service/Region</label>
-                        <input type="text" name="service_region" id="service_region" class="form-control form-input">
+                        <input type="text" name="service_region" id="service_region" class="form-control form-input" required>
                     </div>
                     <div class="mb-3">
                         <label for="">Accronym</label>
-                        <input type="text" name="accronym" id="accronym" class="form-control form-input">
+                        <input type="text" name="accronym" id="accronym" class="form-control form-input" required>
                     </div>
                    
                 </div>

@@ -52,11 +52,11 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="">Name</label>
-                    <input type="text" name="name" id="name" class="form-control form-input">
+                    <input type="text" name="name" id="name" class="form-control form-input" required>
                 </div>
                 <div class="mb-3">
                     <label for="">Accronym</label>
-                    <input type="text" name="accronym" id="accronym" class="form-control form-input">
+                    <input type="text" name="accronym" id="accronym" class="form-control form-input" required>
                 </div>
 
                 <div class="form-group">

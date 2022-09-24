@@ -44,7 +44,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="">Sector</label>
-                    <input type="text" name="sector" id="sector" class="form-control form-input">
+                    <input type="text" name="sector" id="sector" class="form-control form-input" required>
                 </div>
             </div>
             <div class="modal-footer">

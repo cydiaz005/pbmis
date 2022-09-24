@@ -58,7 +58,7 @@ $pc_data = App\Models\PriorityClass::all();
                 </div>
                 <div class="mb-3">
                     <label for="">DESC</label>
-                    <input type="text" name="desc" id="desc" class="form-control form-input">
+                    <input type="text" name="desc" id="desc" class="form-control form-input" required>
                 </div>
             </div>
             <div class="modal-footer">

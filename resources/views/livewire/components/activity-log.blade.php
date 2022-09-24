@@ -31,7 +31,9 @@
             </div>
             @endforeach
         </div>
-        <a href="/audit-trail" class="">Show all logs</a>
+        @if (auth()->user()->hasPermissionTo('audit-trail-access'))
+            <a href="/audit-trail" class="">Show all logs</a>
+        @endif
     </div>
 </div>
 <div class="modal fade" id="activity-log-modal" role="dialog">

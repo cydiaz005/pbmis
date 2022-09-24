@@ -44,11 +44,11 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="">Code</label>
-                    <input type="text" name="code" id="code" class="form-control form-input">
+                    <input type="text" name="code" id="code" class="form-control form-input" required>
                 </div>
                 <div class="mb-3">
                     <label for="">Expense Object</label>
-                    <input type="text" name="expense_object" id="expense_object" class="form-control form-input">
+                    <input type="text" name="expense_object" id="expense_object" class="form-control form-input" required>
                 </div>
             </div>
             <div class="modal-footer">

@@ -37,7 +37,7 @@
 
     <div class="modal fade" id="createDivisionSectionModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="/field-dependency/profile/division-section" method="POST" >
+        <form action="/field-dependency/profile/division-section" method="POST">
         @csrf
         <div class="modal-content">
             <div class="modal-header">
@@ -49,11 +49,11 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="">Name</label>
-                    <input type="text" name="name" id="name" class="form-control form-input">
+                    <input type="text" name="name" id="name" class="form-control form-input" required>
                 </div>
                 <div class="mb-3">
                     <label for="">Accronym</label>
-                    <input type="text" name="accronym" id="accronym" class="form-control form-input">
+                    <input type="text" name="accronym" id="accronym" class="form-control form-input" required>
                 </div>
             </div>
             <div class="modal-footer">

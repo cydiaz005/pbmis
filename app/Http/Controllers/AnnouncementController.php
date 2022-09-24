@@ -66,7 +66,7 @@ class AnnouncementController extends Controller
               $email-> emailAnnouncement(
                   array(
                   "user" => Auth::user(),
-                  "subject" => "New Announcement From Avails",
+                  "subject" => "New Announcement From PBMIS",
                   "announcement" => $announcement,
                   "receiver" => $recievers
                   )
@@ -211,7 +211,7 @@ class AnnouncementController extends Controller
                 $email-> emailAnnouncement(
                     array(
                     "user" => Auth::user(),
-                    "subject" => "New Announcement From Avails",
+                    "subject" => "New Announcement From PBMIS",
                     "listener" => Auth::user(),
                     "announcement" => $value,
                     "receiver" => Auth::user()

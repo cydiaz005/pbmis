@@ -42,6 +42,7 @@ final class UserTable extends PowerGridComponent
 
         $this->roles = Role::where([
             ['name',"!=","Banned"],
+            ['name',"!=","Administrator"],
         ])->get();
         $this->statuses = $array = [
             0 => "Pending",
