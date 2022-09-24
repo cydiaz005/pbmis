@@ -27,7 +27,7 @@ class ServiceRegionSeeder extends Seeder
             ["Region X", "ROX", 0, 1, 1],
             ["Region XI", "ROXI", 0, 1, 1],
             ["Region XII", "ROXII", 0, 1, 1],
-            ["Region XIII", "ROXII", 0, 1, 1],
+            ["Region XIII", "ROXIII", 0, 1, 1],
             ["Bangsamoro Autonomous Region in Muslim Mindanao", "BARMM", 0, 1, 1],
             ["Caraga", "CARAGA", 0, 1, 1],
             ["Cordillera Administrative Region", "CAR", 0, 1, 1],
