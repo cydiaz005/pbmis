@@ -1480,10 +1480,10 @@
 				category_code_id: item_category_code.value, 
 				subpaps: spaps,
 			}
+			check_error((data.subpaps.length > 0 ? true:null), "No subpap created");
 			check_error(data.thematic_area_cluster, "Thematic Areas/Cluster not set");
 			check_error(data.geograpical_loc, "Geographical location not set");
 			check_error(data.category_code_id, "Category code not set");
-			check_error((data.subpaps.length > 0), "No subpap");
 
 			if(!error){
 				$('.spinner_modal').modal('show');
