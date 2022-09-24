@@ -225,11 +225,13 @@ function Notification(){
     }
     function generateNotification(data){
         let arr = data.notif_type.split("-");
-        let sender_name = `${data.sender.firstname} ${data.sender.lastname}`
-        let sender_img = checkLogo(data.sender.profile_photo_path !== ''? data.sender.profile_photo_path:data.sender.profile_photo_url, sender_name)
-        // console.log('sender_img', sender_img);
-        // let sender_img = checkLogo(data.sender.profile_photo_path || data.sender.profile_photo_url, sender_name)
-        console.log('data.sender',data.sender);
+        let sender_name = "";
+        let sender_img = checkLogo(null, "OCD");
+        
+        if(data.sender){
+            sender_name = `${data.sender.firstname} ${data.sender.lastname}`
+            sender_img = checkLogo(data.sender.profile_photo_path !== ''? data.sender.profile_photo_path:data.sender.profile_photo_url, sender_name)
+        }
   
         let html = generateHtml(data);
         html.sender_name.innerHTML='<strong >'+sender_name+"</strong>";
