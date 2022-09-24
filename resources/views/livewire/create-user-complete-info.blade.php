@@ -32,7 +32,7 @@
     
     <div class="col-md-12">
         <div class="form-group">
-            <select class="form-control form-input" name="divsec_id">
+            <select class="form-control form-input" name="divsec_id" required>
                 <option value="">Division/Section</option>
                 @foreach(\App\Models\DivisionSection::all() as $divsec)
                     <option value="{{$divsec->id}}" >{{$divsec->name}} ({{$divsec->accronym}})</option>
@@ -42,7 +42,7 @@
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <select class="form-control form-input" name="pos_id">
+            <select class="form-control form-input" name="pos_id" required>
                 <option value="">Position</option>
                 @foreach(\App\Models\Position::all() as $pos)
                     <option value="{{$pos->id}}">{{$pos->job_title}}</option>
@@ -52,7 +52,7 @@
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <select class="form-control form-input" name="serreg_id">
+            <select class="form-control form-input" name="serreg_id" required>
                 <option value="">Service/Region</option>
                 @foreach(\App\Models\ServiceRegion::all() as $serreg)
                     <option value="{{$serreg->id}}" >{{$serreg->service_region}} ({{$serreg->accronym}})</option>
