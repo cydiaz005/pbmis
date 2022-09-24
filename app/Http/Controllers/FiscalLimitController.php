@@ -51,7 +51,7 @@ class FiscalLimitController extends Controller
         $excluded_years = FiscalLimit::where('stage_id', $stage_id)->select('year')->groupBy('year')->pluck('year')->toArray();
         
         $years_for_create = [];
-        for($i = date("Y"); $i <= (date("Y") + 3); $i++){
+        for($i = date("Y"); $i <= (date("Y") + 6); $i++){
             if(!in_array($i, $excluded_years))
             array_push($years_for_create, $i);
         }

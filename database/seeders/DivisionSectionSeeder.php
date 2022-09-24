@@ -41,6 +41,7 @@ class DivisionSectionSeeder extends Seeder
             ["name"=>"Logistics Management Section","accronym"=>"ROCD",],
             ["name"=>"Rehabilitation And Recovery Management Section","accronym"=>"RRMS",],
             ["name"=>"Training And Education Research, Policy And Standards Development Division","accronym"=>"TERPSDD",],
+            ["name"=>"National Disaster Risk Reduction and Management Training and Research Institute", "accronym"=>"NDRRMTRI"],
         ];
 
         foreach ($division_sections as $division_section) {

@@ -33,7 +33,7 @@ class ServiceRegionSeeder extends Seeder
             ["Cordillera Administrative Region", "CAR", 0, 1, 1],
             ["National Capital Region", "NCR", 0, 1, 1],
             ["Administrative and Financial Management Service", "AFMS", 1, 1, 2],
-            ["Preparedness Management Service", "PMS", 1, 1, 2],
+            ["Interim Disaster Preapredness Service", "IDPS", 1, 1, 2],
             ["Operations Service", "OS", 1, 1, 2],
             ["Policy Development and Planning Service", "PDPS", 1, 1, 2],
             ["Rehabilitation and Recovery Management Service", "RRMS", 1, 1, 2],
@@ -41,7 +41,6 @@ class ServiceRegionSeeder extends Seeder
             ["Quick Response Fund", "QRF", 1, 0, 2],
             ["Disaster Management Operations - Fiscal Space", "DMO", 1, 0, 2],
             ["Management Reserve - Fiscal Space", "MRE", 1, 0, 2],
-            ["National Disaster Risk Reduction and Management Training and Research Institute", "NDRRMTRI", 1, 0, 2],
         ];
 
         foreach ($regions as $r) {
