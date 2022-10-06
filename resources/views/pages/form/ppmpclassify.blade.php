@@ -219,7 +219,8 @@
                         },
                     }
                     btns['return']=function(){
-                        document.querySelector('#modal-return-pap-title').innerHTML=data[key].poe.paptxt || data[key].poe.suggested_pap.paps;
+                        console.log("data", data[key]);
+                        document.querySelector('#modal-return-pap-title').innerHTML=data[key].poe.pap_txt || data[key].poe.suggested_pap.paps;
                         $('#confirmReturn').modal('show');
                         document.querySelector('#modal-return-pap-btn').onclick=function(){
                             $('#confirmReturn').modal('hide');

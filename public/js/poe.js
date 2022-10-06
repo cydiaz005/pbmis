@@ -201,7 +201,9 @@ function FileList(type, opts={}){
             let edited_by_container = card.querySelector('.edited_by');
             let buttons_container = card.querySelector('.frmcard_btns');
             let created_at = card.querySelector('.formatted_date');
+            let total_el = card.querySelector('.frmcard_total');
 
+            total_el.innerHTML= "₱"+numberFormatter(data.total);
             service_region.innerHTML = data.service_region.accronym;
             pap_title.innerHTML = "<span class='frmcard-data-id'> ID #"+data.id+"</span>" + (data.pap_txt || data.suggested_pap.paps);
             category.innerHTML = data.category.category;
@@ -243,7 +245,9 @@ function FileList(type, opts={}){
             let reason_truncated = card.querySelector('.reason-truncated');
             let reason_returned = card.querySelector('.reason-complete');
             let returner = card.querySelector('.returner-name');
+            let total_el = card.querySelector('.frmcard_total');
 
+            total_el.innerHTML= "₱"+numberFormatter(data.total);
             service_region.innerHTML = data.service_region.accronym;
             pap_title.innerHTML = "<span class='frmcard-data-id'> ID #"+data.id+"</span>" + (data.pap_txt || data.suggested_pap.paps);
             category.innerHTML = data.category.category;
@@ -422,6 +426,8 @@ function FileList(type, opts={}){
             let category = card.querySelector('.frmcard_author');
             let buttons_container = card.querySelector('.frmcard_btns');
             let service_region = card.querySelector('.service-region');
+            let total_el = card.querySelector('.frmcard_total');
+            total_el.innerHTML= "₱"+numberFormatter(data.total);
             service_region.innerHTML = data.service_region.accronym;
             pap_title.innerHTML = data.pap_txt || data.suggested_pap.paps;
             category.innerHTML = data.category.category;
@@ -792,6 +798,7 @@ function FileList(type, opts={}){
         template+='<p class="frmcard_service">Service/Region: <span class="text-uppercase service-region">Region I</span></p>';
         template+='<h4 class="frmcard_title text-truncate">PAP Title here</h4>';
         template+='<p class="frmcard_author">MOOE - GAS</p>';
+        template+='<p class="frmcard_total" style="font-weight: 800; color: var(--secondary);"></p>';
         template+='</div>';
         template+='</div>';
         template+='</div>';
@@ -911,6 +918,7 @@ function FileList(type, opts={}){
         template+='<p class="frmcard_service">Service/Region: <span class="text-uppercase service-region">Region I</span></p>';
         template+='<h4 class="frmcard_title text-truncate">PPMP - PAP Title here</h4>';
         template+='<p class="frmcard_author">Author</p>';
+        template+='<p class="frmcard_total" style="font-weight: 800; color: var(--secondary);"></p>';
         template+='</div>';
         template+='</div>';
         template+='</div>';
@@ -939,6 +947,7 @@ function FileList(type, opts={}){
         template+='<p class="frmcard_service">Service/Region: <span class="text-uppercase service-region">Region I</span></p>';
         template+='<h4 class="frmcard_title text-truncate" style="width:95%">PAP Title here</h4>';
         template+='<p class="frmcard_author">MOOE - GAS</p>';
+        template+='<p class="frmcard_total" style="font-weight: 800; color: var(--secondary);"></p>';
         template+='</div>';
         template+='</div>';
         template+='</div>';

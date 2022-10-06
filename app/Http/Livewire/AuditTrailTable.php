@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\User;
 use PowerComponents\LivewirePowerGrid\Button;
 
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -27,19 +28,20 @@ final class AuditTrailTable extends PowerGridComponent
     | Provides data to your Table using a Model or Collection
     |
     */
-    public function datasource(): ?Collection
+    public function datasource(): ? EloquentBuilder
     {
+        return Activity::with(['causer']);
         //convert activity logs to array
-        $activity_logs = json_decode(json_encode(Activity::with(['causer'])->get()));
+        // $activity_logs = json_decode(json_encode(Activity::with(['causer'])->get()));
+        // // $activity_logs = [];
+        // //map activity logs array and mutate fields
+        // array_map(function ($item) {
+        //     return mutateItemFields($item);
+        // }, $activity_logs);
 
-        //map activity logs array and mutate fields
-        array_map(function ($item) {
-            return mutateItemFields($item);
-        }, $activity_logs);
-
-        return collect(
-            $activity_logs
-        );
+        // return collect(
+        //     $activity_logs
+        // );
     }
 
     /*

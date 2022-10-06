@@ -422,7 +422,7 @@ class PoeController extends Controller
         $formPoe->geolocation = $request->input('geograpical_loc');
         $formPoe->mfo_id = $request->input('mfo_id');
         $formPoe->key_id = $request->input('kdp_id');
-        $formPoe->service_region_id = Auth::user()->serreg_id;
+        // $formPoe->service_region_id = Auth::user()->serreg_id;
         $formPoe->category_id = $request->input('category_code_id');
         $formPoe->thematic_area_cluster_id = $request->input('thematic_area_cluster');
         $formPoe->locked = '0';

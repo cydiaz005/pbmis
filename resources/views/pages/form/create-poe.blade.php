@@ -836,7 +836,7 @@
 					const element = selectedMonths[index];
 					curr_val += (toInt(item_month_values.children[element].getElementsByTagName('input')[1].value) || 0);
 				}
-				let v = total_val - curr_val;
+				let v = total_val.toFixed(2) - curr_val.toFixed(2);
 				el_v.innerHTML="Remaining: "+formatter(v);
 				if(v < 0){
 					el_v.className='text-danger';
@@ -1315,7 +1315,7 @@
 				}
 				let errElement = document.querySelector('#total-error');
 
-				if(toInt(data.item_total) != toInt(totalMonthValues)){
+				if(toInt(data.item_total) != toInt(totalMonthValues).toFixed(2)){
 					let val = formatter(toInt(data.item_total) - toInt(totalMonthValues));
 					// errElement.innerHTML='Total did not match. ('+val+')';
 					toastr.error('Total did not match.');

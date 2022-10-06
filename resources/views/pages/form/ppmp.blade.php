@@ -256,7 +256,7 @@
                         },
                         return: function(){
                             console.log(element);
-                            document.querySelector('#modal-return-pap-title').innerHTML=element.poe.paptxt || element.poe.suggested_pap.paps;
+                            document.querySelector('#modal-return-pap-title').innerHTML=element.poe.pap_txt || element.poe.suggested_pap.paps;
                             $('#confirmReturn').modal('show');
                             document.querySelector('#modal-return-pap-btn').onclick=function(){
                                 $('#confirmReturn').modal('hide');
@@ -332,7 +332,7 @@
                         },
                         edit: function(){
                             new PromptConfirmation('#confirmEdit', {
-                                url: "/form/poe/edit/"+element.id,
+                                url: "/form/poe/edit/"+element.poe_id,
                                 redirect: true,
                             });
                         },
@@ -547,7 +547,7 @@
                         },
                         return: function(){
                             console.log(element);
-                            document.querySelector('#modal-return-pap-title').innerHTML=element.poe.paptxt || element.poe.suggested_pap.paps;
+                            document.querySelector('#modal-return-pap-title').innerHTML=element.poe.pap_txt || element.poe.suggested_pap.paps;
                             $('#confirmReturn').modal('show');
                             document.querySelector('#modal-return-pap-btn').onclick=function(){
                                 $('#confirmReturn').modal('hide');
