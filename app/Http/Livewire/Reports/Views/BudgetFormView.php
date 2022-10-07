@@ -43,6 +43,7 @@ class BudgetFormView extends Component
         ->where('form_ppmps.status_id', 2)
         ->where('form_poes.service_region_id', strval($this->serreg_id))
         ->where('form_ppmps.funded', strval($this->funded_status))
+        ->where('year', $this->year)
         ->select(
             "form_poes.id",
             "form_poes.suggested_pap_id",

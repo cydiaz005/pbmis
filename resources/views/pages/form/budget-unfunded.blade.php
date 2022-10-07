@@ -84,7 +84,7 @@
                                     <div class="card card-default">
                                         <div class="card-body" style="padding: 20px;">
                                             <p style="margin-bottom: 30px;font-size: 18px;">
-                                                <strong>Budget Form (Unfunded) 2022</strong>
+                                                <strong id="budget-form-title">Budget Form (Unfunded) {{date('Y')}}</strong>
                                             </p>
                                 
                                             <div id="funded-forms" style="max-height: 50rem; overflow-y: auto !important">
@@ -198,6 +198,7 @@
             lastClickedId=undefined;
             published.destroy();
             document.querySelector("#funded-forms").innerHTML='<div class="text-center my-5 py-5 pre-loader">No selected.</div>';
+            document.querySelector("#budget-form-title").innerHTML='Budget Form (Funded) '+fileList.filters.year;
         });
 
     </script>

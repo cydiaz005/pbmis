@@ -41,7 +41,18 @@
         ]
     ])
         {{-- <canvas id="myChart" width="400" height="400"></canvas> --}}
-    <div class="d-flex justify-content-end pt-5 px-5">
+    <div class="d-flex justify-content-between align-items-center pt-5 px-5">
+        <div class="form-group" style="min-width: 7rem">
+            <label class="m-0 text-muted small">Fiscal Year</label>
+            <select id="filter-year" class="form-control form-input mt-0">
+                {{-- @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y'); $i++)
+                        <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">{{$i}}</option>
+                @endfor --}}
+                @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y') + 6; $i++)
+                        <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">F.Y. {{$i}}</option>
+                @endfor
+            </select>
+        </div>
         <a href="/dashboard/procurement/list" class="small-box-footer" style="color: var(--ocd-primary);">View List <i class="ml-2 fas fa-arrow-circle-right"></i></a>
     </div>
     <div class="p-md-5 mx-md-5" id="chart-container">
@@ -172,9 +183,12 @@
                 barChart.update();
             }
         }
-
+        document.querySelector("#filter-year").onchange=function(){
+            fetchData();
+        }
         fetchData();
         function fetchData(){
+            let year = document.querySelector("#filter-year").value;
             fetch("/dashboard/procurement/get-data", {       
                 method: "POST",
                 headers: {
@@ -182,7 +196,7 @@
                     "Content-Type": "application/json",
                     "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
                 },
-                body: [],
+                body: JSON.stringify({year}),
             }).then(function (response) {
                 if (!response.ok) {
                     throw new Error("HTTP status " + response.status);

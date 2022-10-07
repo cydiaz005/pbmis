@@ -223,13 +223,14 @@ class PoeController extends Controller
         if (!Auth::user()->hasPermissionTo('forms-access')) {
             abort(403);
         }
-        if (!@$request->input('papname') || !@$request->input('mfo') || !@$request->input('kdp')) {
+        if (!@$request->input('papname') || !@$request->input('mfo') || !@$request->input('kdp') || !@$request->input('year')) {
             abort(404);
         }
         $parameter = [
             "papname" => @$request->input('papname'),
             "mfo" => @$request->input('mfo'),
             "kdp" => @$request->input('kdp'),
+            "year" => @$request->input('year'),
         ];
         $encrypted_parameter = Crypt::encrypt($parameter);
         return redirect('form/poe/create/' . $encrypted_parameter);
@@ -257,16 +258,19 @@ class PoeController extends Controller
             else{
                 $decrypted_parameter = Crypt::decrypt($parameter);
                 $kdp = KdpKpKs::where('id', (int)$decrypted_parameter['kdp'])->first();
-                $mfo = Mfo::where('id', (int)$decrypted_parameter['mfo'])->first();
+                $mfo = MfoKey::with('mfo')->get()->keyBy('mfo_id');
+                // $kdp = KdpKpKs::where('id', (int)$decrypted_parameter['kdp'])->first();
+                // $mfo = Mfo::where('id', (int)$decrypted_parameter['mfo'])->first();
                 $fc = FundChargeabilityClass::with(['allotmentClass', 'fundChargeability'])->get();
                 $service_regions = ServiceRegion::all();
                 $target_sectors = TargetSector::all();
                 $pap_tags = PapTag::all();
                 $procurement_modes = ProcurementMode::all();
                 return view('pages.form.create-poe', [
+                    "year"=>$decrypted_parameter['year'],
                     "papname" => $decrypted_parameter['papname'],
-                    "mfo_id" => $mfo->id,
-                    "mfo" => $mfo->desc,
+                    "mfo_id" => (int)$decrypted_parameter['mfo'],
+                    "mfo" => $mfo,
                     "kdp_id" => $kdp->id,
                     "kdp" => $kdp->desc,
                     "fc" => $fc,
@@ -334,6 +338,7 @@ class PoeController extends Controller
         $formPoe->thematic_area_cluster_id = $request->input('thematic_area_cluster');
         $formPoe->total = $request->input('total');
         $formPoe->stage_id = Stage::where('active', '1')->first()->id;
+        $formPoe->year = $request->input('year');
         $formPoe->save();
 
         $target_sectors = $request->input('target_sector');
@@ -417,7 +422,7 @@ class PoeController extends Controller
         $formPoe = FormPoe::find($request->input('poe_id'));
         $pap_id = ListOfPap::where('paps', $request->input('pap_name'))->pluck('id')->first();
         $formPoe->suggested_pap_id = (isset($pap_id)) ? $pap_id : null;
-        $formPoe->creator_id = Auth::user()->id;
+        // $formPoe->creator_id = Auth::user()->id;
         $formPoe->pap_txt = (isset($pap_id)) ? null : $request->input('pap_name');
         $formPoe->geolocation = $request->input('geograpical_loc');
         $formPoe->mfo_id = $request->input('mfo_id');
@@ -429,6 +434,7 @@ class PoeController extends Controller
         $formPoe->locker_user_id = null;
         $formPoe->datetime_locked = null;
         $formPoe->total = $request->input('total');
+        $formPoe->year = $request->input('year');
         $formPoe->update();
 
         FormPoeTargetSector::where('poe_id', $formPoe->id)->delete();
@@ -557,12 +563,14 @@ class PoeController extends Controller
             $formPoe = $formPoe->where('service_region_id', $request->filters['service_region']);
             $stage_count = $stage_count->where('service_region_id', $request->filters['service_region']);
         }
-        if (@is_numeric(@$request->filters['month'])) {
-            $formPoe = $formPoe->whereMonth('created_at', $request->filters['month']);
+        if (isset($request->filters['month'])) {
+            $date = Carbon::parse($request->filters['month']."-01");
+            $formPoe = $formPoe->whereMonth('created_at', $date->month);
+            $formPoe = $formPoe->whereYear('created_at', $date->year);
         }
         if (@is_numeric(@$request->filters['year'])) {
-            $formPoe = $formPoe->whereYear('created_at', $request->filters['year']);
-            $stage_count = $stage_count->whereYear('created_at', $request->filters['year']);
+            $formPoe = $formPoe->where('year', $request->filters['year']);
+            $stage_count = $stage_count->where('year', $request->filters['year']);
         }
 
         if (Auth::user()->hasRole(['Planning Focal/Officer'])) {
@@ -1013,11 +1021,13 @@ class PoeController extends Controller
             if (@is_numeric(@$filters['service_region'])) {
                 $query = $query->where('service_region_id', $filters['service_region']);
             }
-            if (@is_numeric(@$filters['month'])) {
-                $query = $query->whereMonth('created_at', $filters['month']);
+            if (isset($filters['month'])){
+                $date = Carbon::parse($filters['month']."-01");
+                $query = $query->whereMonth('created_at', $date->month);
+                $query = $query->whereYear('created_at', $date->year);
             }
             if (@is_numeric(@$filters['year'])) {
-                $query = $query->whereYear('created_at', $filters['year']);
+                $query = $query->where('year', $filters['year']);
             }
         });
 
@@ -1072,11 +1082,13 @@ class PoeController extends Controller
             if (@is_numeric(@$filters['service_region'])) {
                 $query = $query->where('service_region_id', $filters['service_region']);
             }
-            if (@is_numeric(@$filters['month'])) {
-                $query = $query->whereMonth('created_at', $filters['month']);
+            if (isset($filters['month'])) {
+                $date = Carbon::parse($filters['month']."-01");
+                $query = $query->whereMonth('created_at', $date->month);
+                $query = $query->whereYear('created_at', $date->year);
             }
             if (@is_numeric(@$filters['year'])) {
-                $query = $query->whereYear('created_at', $filters['year']);
+                $query = $query->where('year', $filters['year']);
             }
         });
 
@@ -1364,6 +1376,7 @@ class PoeController extends Controller
                 "pap_tags" => $pap_tags,
                 "thematicAreasClusters" => ThematicAreasCluster::all(),
                 "quarterTargets" => QuarterTarget::all(),
+                "mfo" => MfoKey::with('mfo.priorityClass')->get()->keyBy('mfo_id')
             ]);
         }
     }
@@ -1444,17 +1457,16 @@ class PoeController extends Controller
         $stage_count = FormPpmp::query();
 
         $stage_count = $stage_count->join('form_poes', 'form_ppmps.poe_id', '=', 'form_poes.id')
-            ->select(['stage_id', DB::raw("COUNT(1) as row_count")])
             ->groupBy(DB::raw("(stage_id)"))
-            ->where('form_ppmps.status_id', 2);
-
+            ->where('form_ppmps.status_id', 2)
+            ->select(['stage_id', DB::raw("COUNT(*) as row_count")]);
 
 
         $formPpmp = FormPpmp::query();
 
         $formPpmp = $formPpmp->join('form_poes', 'form_ppmps.poe_id', '=', 'form_poes.id')
             ->join('service_regions', 'form_poes.service_region_id', '=', 'service_regions.id')
-            ->select('form_ppmps.*', 'form_poes.stage_id', 'form_poes.service_region_id', 'service_regions.accronym', 'service_regions.service_region', DB::raw('YEAR(form_ppmps.created_at) year, MONTH(form_ppmps.created_at) month, SUM(total) budget'))
+            ->select('form_ppmps.*', 'form_poes.year', 'form_poes.stage_id', 'form_poes.service_region_id', 'service_regions.accronym', 'service_regions.service_region', DB::raw('MONTH(form_ppmps.created_at) month, SUM(total) budget'))
             ->where([['form_ppmps.status_id', 2], ['stage_id', $request->filters['stage']], ['funded', '1']]);
 
         if (@is_numeric(@$filters['service_region'])) {
@@ -1462,8 +1474,8 @@ class PoeController extends Controller
             $stage_count = $stage_count->where('service_region_id', $filters['service_region']);
         }
         if (@is_numeric(@$filters['year'])) {
-            $formPpmp = $formPpmp->whereYear('form_ppmps.created_at', $filters['year']);
-            $stage_count = $stage_count->whereYear('form_ppmps.created_at', $filters['year']);
+            $formPpmp = $formPpmp->where('form_poes.year', $filters['year']);
+            $stage_count = $stage_count->where('form_poes.year', $filters['year']);
         }
 
         $formPpmp = $formPpmp->orderBy('id', 'desc')
@@ -1498,7 +1510,7 @@ class PoeController extends Controller
 
         $formPpmp = $formPpmp->join('form_poes', 'form_ppmps.poe_id', '=', 'form_poes.id')
             ->join('service_regions', 'form_poes.service_region_id', '=', 'service_regions.id')
-            ->select('form_ppmps.*', 'form_poes.stage_id', 'form_poes.service_region_id', 'service_regions.accronym', 'service_regions.service_region', DB::raw('YEAR(form_ppmps.created_at) year, MONTH(form_ppmps.created_at) month, SUM(total) budget'))
+            ->select('form_ppmps.*', 'form_poes.year', 'form_poes.stage_id', 'form_poes.service_region_id', 'service_regions.accronym', 'service_regions.service_region', DB::raw('MONTH(form_ppmps.created_at) month, SUM(total) budget'))
             ->where([['form_ppmps.status_id', 2], ['stage_id', $request->filters['stage']], ['funded', '0']]);
 
         if (@is_numeric(@$filters['service_region'])) {
@@ -1506,8 +1518,8 @@ class PoeController extends Controller
             $stage_count = $stage_count->where('service_region_id', $filters['service_region']);
         }
         if (@is_numeric(@$filters['year'])) {
-            $formPpmp = $formPpmp->whereYear('form_ppmps.created_at', $filters['year']);
-            $stage_count = $stage_count->whereYear('form_ppmps.created_at', $filters['year']);
+            $formPpmp = $formPpmp->where('form_poes.year', $filters['year']);
+            $stage_count = $stage_count->where('form_poes.year', $filters['year']);
         }
 
         $formPpmp = $formPpmp->orderBy('id', 'desc')
@@ -1549,8 +1561,8 @@ class PoeController extends Controller
             $stage_count = $stage_count->where('service_region_id', $filters['service_region']);
         }
         if (@is_numeric(@$filters['year'])) {
-            $formPpmp = $formPpmp->whereYear('form_ppmps.created_at', $filters['year']);
-            $stage_count = $stage_count->whereYear('form_ppmps.created_at', $filters['year']);
+            $formPpmp = $formPpmp->where('form_poes.year', $filters['year']);
+            $stage_count = $stage_count->where('form_poes.year', $filters['year']);
         }
 
         $formPpmp = $formPpmp->orderBy('id', 'desc')

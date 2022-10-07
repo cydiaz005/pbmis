@@ -205,7 +205,7 @@
 
 
     <!-- create pap -->
-    <div class="modal fade" id="createPAPmodal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="createPAPmodal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form action="/form/poe/poe-create" method="POST" id="">
             @csrf
@@ -243,36 +243,76 @@
             </div>
             </form>
         </div>
-    </div>
+    </div> --}}
+    @include('pages.form.poepapkdpmfo-modal', ["mfo"=>$mfo])
     @livewire('modal-confirmation')
     @endsection
     
     @section('script')
     <script src="{{asset('js/poe.js')}}"></script>
     <script>
-        let fetching = false;
-        $('.select2').select2({
-        theme: 'bootstrap4'
-        })
-        $('#mfo').on('change', function(){
-            const mfo_id = $(this).val();
-            getKDPs(mfo_id);
-        });
         const user_id = {{Auth::user()->id}};
-        const pap = new Searchable('#papname', {
-            url: window.location.origin+'/form/poe/search/pap',
-            disableNoDataFound: true,
-            searchingPropmt: false,
-            props: {
-                id: 'id',
-                text: 'paps',
-            },
-            onClick: 'triggerClick',
-            triggerClick: function(data, onRemove){
-                pap.getElement().value = data.text;
-                pap.removeData();
-            }
-        });
+        
+        // let fetching = false;
+        // $('.select2').select2({
+        //     theme: 'bootstrap4'
+        // })
+        // $('#mfo').on('change', function(){
+        //     const mfo_id = $(this).val();
+        //     $('#kdp-container').slideUp();
+        //     getKDPs(mfo_id);
+        // });
+        
+        // const pap = new Searchable('#papname', {
+        //     url: window.location.origin+'/form/poe/search/pap',
+        //     disableNoDataFound: true,
+        //     searchingPropmt: false,
+        //     props: {
+        //         id: 'id',
+        //         text: 'paps',
+        //     },
+        //     onClick: 'triggerClick',
+        //     triggerClick: function(data, onRemove){
+        //         pap.getElement().value = data.text;
+        //         pap.removeData();
+        //     }
+        // });
+        // function getKDPs(mfo_id) {
+        //     if(fetching){return}
+        //     fetching = true;
+        //     fetch(window.location.origin+"/form/poe/get/kdp/"+mfo_id, {
+        //         method: "get",
+        //         headers: {
+        //             Accept: "application/json, text/plain, */*",
+        //             // "Content-Type": "application/json",
+        //             "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+        //         },
+        //     })
+        //     .then(function (response) {
+        //         if (!response.ok) {
+        //             throw new Error("HTTP status " + response.status);
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(function (res) {
+        //         console.log(res);
+        //         let kdp = document.querySelector('#kdp');
+        //         kdp.innerHTML='';
+        //         for (let i = 0; i < res.length; i++) {
+        //             const element = res[i];
+        //             let opt = document.createElement('option');
+        //             opt.value = res[i].kdp.id;
+        //             opt.innerHTML=res[i].kdp.desc;
+        //             kdp.appendChild(opt);
+        //         }
+        //         fetching = false;
+        //         $('#kdp-container').slideDown();
+        //     });
+        // }
+
+        let poe_data = new PoePapKdpMfo({
+			create: true,
+		});
 
         
         @if(auth()->user()->hasRole(['Planning Focal/Officer']))
@@ -281,38 +321,7 @@
         const filters = ['search', 'stage', 'service_region', 'month', 'year'];
         @endif
 
-        function getKDPs(mfo_id) {
-            if(fetching){return}
-            fetching = true;
-            fetch(window.location.origin+"/form/poe/get/kdp/"+mfo_id, {
-                method: "get",
-                headers: {
-                    Accept: "application/json, text/plain, */*",
-                    // "Content-Type": "application/json",
-                    "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
-                },
-            })
-            .then(function (response) {
-                if (!response.ok) {
-                    throw new Error("HTTP status " + response.status);
-                }
-                return response.json();
-            })
-            .then(function (res) {
-                console.log(res);
-                let kdp = document.querySelector('#kdp');
-                kdp.innerHTML='';
-                for (let i = 0; i < res.length; i++) {
-                    const element = res[i];
-                    let opt = document.createElement('option');
-                    opt.value = res[i].kdp.id;
-                    opt.innerHTML=res[i].kdp.desc;
-                    kdp.appendChild(opt);
-                }
-                fetching = false;
-                $('#kdp-container').slideDown();
-            });
-        }
+
 
         const fileList = new FileList('poe', {
             filters: filters,

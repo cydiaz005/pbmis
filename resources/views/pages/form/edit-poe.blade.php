@@ -4,14 +4,14 @@
         .formname {
             color: var(--ocd-primary);
         }
-        ul{
+        .createpoe-container ul{
             display: flex;
             widows: 50rem !important;
             margin: 0;
             padding: 0;
             position: relative;
         }
-        ul.header > li{
+        .createpoe-container ul.header > li{
             border: 1px solid #5f5f5f;
             padding: 1rem;
             text-align: center;
@@ -19,24 +19,24 @@
             word-wrap: break-word!important;
             font-weight: bold;
         }
-        ul.cell > li{
+        .createpoe-container ul.cell > li{
             border: 1px solid #5f5f5f;
             border-top: none;
         }
-        li{
+        .createpoe-container li{
             list-style: none;
         }
-        td > input, td > select, td > span{
+        .createpoe-container td > input, td > select, td > span{
             width: 100%;
             border: none;
             outline: none;
             text-align: center;
         }
-        li > span{
+        .createpoe-container li > span{
             text-align: center;
             display: block;
         }
-        li > input:focus,  li > select:focus{
+        .createpoe-container li > input:focus,  li > select:focus{
             width: 100%;
             outline: none;
         }
@@ -77,10 +77,10 @@
 				min-width: 7rem;
 				max-width: 7rem;
 		  }
-      .procurement-width {
-        	min-width: 10rem;
-          	max-width: 10rem;
-      }
+		.procurement-width {
+			min-width: 10rem;
+			max-width: 10rem;
+		}
         .circle{
             border-radius: 50%;
             height: 1.2rem;
@@ -539,33 +539,52 @@
 						</div>
 					  	<div class="table-con">
 							<div class="card-header" style="border-bottom: 0;">
-								<div class="d-flex justify-content-between mb-2">
-									<div class="pap-con col-md-4">
-										<h3 class="card-title">PAP: {{(@$poe->pap_txt) ?: @$poe->suggestedPap->paps}}</h3>
+								<div class="row">
+									<div class="col-8">
+										<div class="card">
+											<div class="card-body position-relative">
+												<i class="fas fa-edit btn py-0 btn-link" data-toggle="modal" data-target="#createPAPmodal" style="position:absolute; top: 8px; right:0px; z-index: 200"></i>
+												<div class="d-flex justify-content-between mb-2">
+													<div class="pap-con col-md-6">
+														<h3 class="card-title">PAP: <span id="poe-papname">{{(@$poe->pap_txt) ?: @$poe->suggestedPap->paps}}</span></h3>
+													</div>
+													<div class="total-budget-con col-md-6">
+														<p class="card-title total-budget">Year: <span id="poe-year">{{@$poe->year}}</span></p>
+													</div>
+												</div>
+												<div class="row mx-0 mb-3">
+													<div class="pap-con col-md-6">
+														<h3 class="card-title">MFO: <span id="poe-mfo">{{@$mfo[$poe->mfo_id]->mfo->priorityClass->accronym}}-{{@$mfo[$poe->mfo_id]->mfo->desc}}</span></h3>
+													</div>
+													<div class="pap-con col-md-6">
+														<h3 class="card-title">KDP: <span id="poe-kdp">{{@$poe->kdp->desc}}</span></h3>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
-									<div class="total-budget-con col-md-4">
-										<p class="card-title total-budget">Total Budget: <span id="total-pap-budget"></span></p>
-									</div>
-									<div class="d-flex justify-end papbtn-con  col-md-4">
-										<a id="addSubpapModalBtn" data-toggle="modal" type="button" class="btn btn-default" style="margin-left: 20px; background-color: #788896">
-											<i class="fas fa-plus"></i>&nbsp;
-											ADD SUBPAP
-										</a>
-										<a id="saveFormBtn" data-toggle="modal" type="button" class="btn btn-primary ml-3">
-											<i class="fas fa-save"></i>&nbsp;
-											UPDATE FORM
-										</a>
-										<a class="nav-link ml-2 text-dark" id="toggle-fullscreen" href="#" role="button">
-											<i class="fas fa-expand-arrows-alt"></i>
-										</a>
+									<div class="col-4">
+										<div class="d-flex justify-end papbtn-con">
+											<a id="addSubpapModalBtn" data-toggle="modal" type="button" class="btn btn-default" style="margin-left: 20px; background-color: #788896">
+												<i class="fas fa-plus"></i>&nbsp;
+												ADD SUBPAP
+											</a>
+											<a id="saveFormBtn" data-toggle="modal" type="button" class="btn btn-primary ml-3">
+												<i class="fas fa-save"></i>&nbsp;
+												UPDATE FORM
+											</a>
+											<a class="nav-link ml-2 text-dark" id="toggle-fullscreen" href="#" role="button">
+												<i class="fas fa-expand-arrows-alt"></i>
+											</a>
+										</div>
 									</div>
 								</div>
-								<div class="row mx-0 mb-3">
+								<div class="row mx-0 mb-4">
 									<div class="pap-con col-md-4">
-										<h3 class="card-title">MFO: {{@$poe->mfo->desc}}</h3>
+										<h3 class="card-title">Total Budget: <span id="total-pap-budget"></span></h3>
 									</div>
 									<div class="pap-con col-md-4">
-										<h3 class="card-title">KDP: {{@$poe->kdp->desc}}</h3>
+										<h3 class="card-title">Creator: {{$poe->creator->firstname}} {{$poe->creator->middlename ? $poe->creator->middlename." ".$poe->creator->lastname:$poe->creator->lastname}}</h3>
 									</div>
 								</div>
 								<div class="row m-0">
@@ -672,6 +691,7 @@
         </div>
     </div>
 	@livewire('modal-confirmation')
+	@include('pages.form.poepapkdpmfo-modal', ["mfo"=>$mfo])
     @endsection
     
     @section('script')
@@ -695,7 +715,15 @@
 		const subpapname = document.querySelector('#subpapname');
 		const subpap_quarter_target = document.querySelector('#subpap_quarter_target');
 		const saveFormBtn = document.querySelector('#saveFormBtn');
-		
+
+		let poe_data = new PoePapKdpMfo({
+			values: {
+				papname: '{{(@$poe->pap_txt) ?: @$poe->suggestedPap->paps}}',
+				mfo: '{{$poe->mfo_id}}',
+				kdp: '{{$poe->key_id}}',
+				year: '{{@$poe->year}}',
+			}
+		});
 		const ac = new Searchable('#item_account_code', {
 			url: window.location.origin+'/form/poe/search/account-code',
 			disableNoDataFound: true,
@@ -1066,6 +1094,7 @@
 					this.data = data;
 					this.source_id = source_id;
 					this.cell = cell;
+					this.total = 0;
 				}
 				SubPapApi.prototype.getData = function () {
 					return {
@@ -1081,7 +1110,8 @@
 					}
 				}
 				SubPapApi.prototype.getTotal = function () {
-					return this.data.total.innerHTML;
+					return this.data.item_total;
+					// return this.data.total.innerHTML;
 				}
 				SubPapApi.prototype.update = function (data) {
 					for (const key in data) {
@@ -1220,7 +1250,6 @@
 				let delete_subpap = actionDropdown.querySelector('.delete-item');
 				let add_comment = actionDropdown.querySelector('.add-item-comment');
 				let setData = function(data, forUpdate=false){
-					
 					let cellData = [
 						actionDropdown,
 						data.item_account_code,
@@ -1248,6 +1277,9 @@
 							const element = prev_item_months[index];
 							addMonthTotal((element.month), toInt(element.amount), true);
 						}
+						prev_item_months = [...data.item_months];
+						total.innerHTML=data.item_total;
+						computeSubPapTotal();
 					}
 					for (let index = 0; index < data.item_months.length; index++) {
 						const element = data.item_months[index];
@@ -1422,7 +1454,7 @@
 					subpap_months_added_count[m]--;
 					let td = subpap_header_tr.children[(monthStartIndex - 5) + (toInt(m) - 1)];
 					subpap_months_added[m] -= a;
-					if(subpap_months_added[m] == 0){
+					if(subpap_months_added[m] <= 0){
 						delete subpap_months_added[m];
 						td.style='';
 						td.innerHTML='';
@@ -1461,7 +1493,11 @@
 				};
 			}
 			this.getTotal = function () {
-				return parseFloat(totalEl.innerHTML.replace(/,/g, ''))
+				let sum = 0;
+				for (const key in contents) {
+					sum += toInt(contents[key].getTotal());
+				}
+				return sum;
 			}
 			this.addItemRequirement=function(item_requirements){
 				for (let i = 0; i < item_requirements.length; i++) {
@@ -1549,18 +1585,20 @@
 			for (const key in subpaps) {
 				spaps.push(subpaps[key].getData());
 			}
+			let poe_main_data = poe_data.getData();
 			let data = {
                 poe_id: poe_id,
 				target_sector: $('#target_sector').val(),
 				form_related: $('#form_related').val(),
 				geograpical_loc: $('#geograpical_loc').val(),
 				thematic_area_cluster: $('#thematic_area_cluster').val(),
-				pap_name: "{{(@$poe->pap_txt) ?: $poe->suggestedPap->paps}}",
-				mfo_id: "{{@$poe->mfo_id}}", 
-				kdp_id: "{{@$poe->key_id}}", 
+				pap_name: poe_main_data.papname,
+				mfo_id: poe_main_data.mfo,
+				kdp_id: poe_main_data.kdp,
 				total: computeSubPapTotalTotalan(),
 				category_code_id: item_category_code.value, 
 				subpaps: spaps,
+				year: poe_main_data.year,
 			}
 			check_error(data.thematic_area_cluster, "Thematic Areas/Cluster not set");
 			check_error(data.geograpical_loc, "Geographical location not set");

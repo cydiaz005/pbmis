@@ -15,7 +15,7 @@ class FormPoe extends Model
     use LogsActivity;
     use SoftDeletes;
 
-    protected $fillable=["suggested_pap_id","creator_id","pap_txt","geolocation","status_id","mfo_id","key_id","service_region_id","category_id","locker_user_id","thematic_area_cluster_id","stage_id","total","datetime_locked","locked","created_at","updated_at"];
+    protected $fillable=["suggested_pap_id","creator_id","pap_txt","geolocation","status_id","mfo_id","key_id","service_region_id","category_id","locker_user_id","thematic_area_cluster_id","stage_id","total","datetime_locked","locked","year","created_at","updated_at"];
 
     protected $appends=["formatted_created_at", "formatted_updated_at", "poe_code"];
     protected $dates = ['datetime_locked'];

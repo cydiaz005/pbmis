@@ -12,7 +12,8 @@
         @if(@in_array("stage", @$filters))
         <div class="col">
             <div class="form-group">
-                <select id="filter-stage" class="form-control form-input">
+                <label class="m-0 text-muted small">Stage</label>
+                <select id="filter-stage" class="form-control form-input mt-0">
                     @foreach (\App\Models\Stage::all() as $stage)
                         <option {{$stage->active ? "selected":""}} value="{{$stage->id}}">[ {{$stage->accronym}} ] {{$stage->name}}</option>
                     @endforeach
@@ -23,7 +24,8 @@
         @if(@in_array("region", @$filters))
         <div class="col">
             <div class="form-group">
-                <select id="filter-serreg" class="form-control form-input">
+                <label class="m-0 text-muted small">Service Region</label>
+                <select id="filter-serreg" class="form-control form-input mt-0">
                     <option selected value="*">All Offices</option>
                     @foreach (\App\Models\ServiceRegion::all() as $region)
                         {{-- <option value="{{$region->id}}">{{$region->service_region}}</option> --}}
@@ -36,7 +38,9 @@
         @if(@in_array("month", @$filters))
         <div class="col">
             <div class="form-group">
-              <select id="filter-month" class="form-control form-input">
+                <label class="m-0 text-muted small">Date Created</label>
+                <input type="month" class="form-control form-input mt-0" id="filter-month">
+              {{-- <select id="filter-month" class="form-control form-input">
                 <option selected value="*">All Months</option>
                 <option value="1">January</option>
                 <option value="2">February</option>
@@ -50,32 +54,34 @@
                 <option value="10">October</option>
                 <option value="11">November</option>
                 <option value="12">December</option>            
-              </select>
+              </select> --}}
             </div>
         </div>
         @endif
         @if(@in_array("semester", @$filters))
         <div class="col">
             <div class="form-group">
-              <select id="filter-semester" class="form-control form-input">
-                <option selected value="*">All Semester</option>
-                <option value="1">1st Semester</option>
-                <option value="2">2nd Semester</option>        
-              </select>
+                <label class="m-0 text-muted small">Semester</label>
+                <select id="filter-semester" class="form-control form-input mt-0">
+                    <option selected value="*">All Semester</option>
+                    <option value="1">1st Semester</option>
+                    <option value="2">2nd Semester</option>        
+                </select>
             </div>
         </div>
         @endif
         @if(@in_array("year", @$filters))
         <div class="col">
             <div class="form-group">
-              <select id="filter-year" class="form-control form-input">
-                  {{-- @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y'); $i++)
-                        <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">{{$i}}</option>
-                  @endfor --}}
-                  @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y') + 3; $i++)
-                        <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">{{$i}}</option>
-                  @endfor
-              </select>
+                <label class="m-0 text-muted small">Fiscal Year</label>
+                <select id="filter-year" class="form-control form-input mt-0">
+                    {{-- @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y'); $i++)
+                            <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">{{$i}}</option>
+                    @endfor --}}
+                    @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y') + 6; $i++)
+                            <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">F.Y. {{$i}}</option>
+                    @endfor
+                </select>
             </div>
         </div>
         @endif

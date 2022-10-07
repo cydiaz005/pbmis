@@ -103,7 +103,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-						<label class="input-label" for="year">Year</label><br>
+						<label class="input-label" for="year">Fiscal Year</label><br>
                         <select name="year" class="select2 form-control" for="year" id="fiscal_year" required>
                             <option hidden value="">Select Year</option>
                             @foreach ($years_for_create as $year)

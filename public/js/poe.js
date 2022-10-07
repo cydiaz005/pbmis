@@ -122,7 +122,7 @@ function FileList(type, opts={}){
     function renderEvent(e,params){
         console.log("render event");
         if(eventListeners[e]){
-            eventListeners[e]();
+            eventListeners[e](params);
         }
     }
     function File(opts){
@@ -429,7 +429,7 @@ function FileList(type, opts={}){
             let total_el = card.querySelector('.frmcard_total');
             total_el.innerHTML= "₱"+numberFormatter(data.total);
             service_region.innerHTML = data.service_region.accronym;
-            pap_title.innerHTML = data.pap_txt || data.suggested_pap.paps;
+            pap_title.innerHTML = `<span class="frmcard-data-id"> ID #${data.id}</span> ${data.pap_txt || data.suggested_pap.paps}`;
             category.innerHTML = data.category.category;
 
             for (const key in buttons) {
@@ -3852,127 +3852,6 @@ function exportAPBpdf(params, callback){
         }
     });
 }
-// function exportOPCexcel(id, callback){
-//     new HttpRequest({
-//         url: "/reports/opc/"+id,
-//         method: 'get',
-//         dataType: 'text',
-//         done: function(res){
-//             // console.log("res",res);
-//             // return;
-//             let div = document.createElement('div');
-//             div.innerHTML=res;
-//             const ops_table = div.querySelector('#pageOneTable');
-//             const opc_table = div.querySelector('#pageTwoTable');
-
-            
-
-//             var ops_ws = XLSX.utils.table_to_sheet(ops_table);
-//             var opc_ws = XLSX.utils.table_to_sheet(opc_table);
-
-//             var workbook = XLSX.utils.book_new();
-
-//             XLSX.utils.book_append_sheet(workbook, ops_ws, "OPS");
-//             XLSX.utils.book_append_sheet(workbook, opc_ws, "OPC");
-
-
-//             let addStyles=function(ws){
-//                 for (const key in ws) {
-//                     if(!key.includes("!")){
-//                         ws[key].s = {
-//                             alignment: {
-//                                 wrapText: true,
-//                                 vertical: 'center',
-//                             }
-//                         }
-//                     }
-//                 }
-
-//                 //add style to headers
-//                 const header_cell = ["A","B","C","D","E","F","G","H","I","J"];
-//                 for (let j = 0; j < header_cell.length; j++) {
-//                     for (let i = 1; i <= 2; i++) {
-//                         let key = header_cell[j] + i;
-//                         if(!ws[key]){
-//                             ws[key]={
-//                                 s: "",
-//                                 t: "s",
-//                                 v: ""
-//                             }
-//                         }
-//                         ws[key].t = "s";
-//                         ws[key].s = {
-//                             alignment: {
-//                                 wrapText: true,
-//                                 vertical: 'center',
-//                             },
-//                             font: {
-//                                 name: "Calibri",
-//                                 sz: 12,
-//                                 bold: true,
-//                                 // color: { rgb: "FFFFAA00" },
-//                             },
-//                             border: {
-//                                 top: {
-//                                     style: 'medium',
-//                                     color: 'FFFFAA00',
-//                                 },
-//                                 right: {
-//                                     style: 'medium',
-//                                     color: 'FFFFAA00',
-//                                 },
-//                                 left: {
-//                                     style: 'medium',
-//                                     color: 'FFFFAA00',
-//                                 },
-//                                 bottom: {
-//                                     style: 'medium',
-//                                     color: 'FFFFAA00',
-//                                 },
-//                             },
-//                         }
-//                     }
-//                 }
-//             }
-
-
-//             addStyles(ops_ws);
-//             addStyles(opc_ws);
-
-//             ops_ws['!cols'] = [
-//                 {wch:50},
-//                 {wch:30},
-//                 {wch:30},
-//                 {wch:30},
-
-//                 {wch:20},
-//                 {wch:20},
-//                 {wch:20},
-//                 {wch:20},
-//                 {wch:20},
-//             ];
-
-//             opc_ws['!cols'] = [
-//                 {wch:50},
-//                 {wch:30},
-//                 {wch:20},
-//                 {wch:20},
-//                 {wch:20},
-
-//                 {wch:15},
-//                 {wch:15},
-//                 {wch:15},
-//                 {wch:15},
-
-//                 {wch:30},
-//             ];
-            
-//             XLSX.writeFile(workbook, "test.xlsx");
-//             callback ? callback():null;
-//         }
-//     });
-// }
-
 function exportOPCexcel(params, callback){
     new HttpRequest({
         url: "/reports/opc/data",
@@ -4664,4 +4543,109 @@ function exportOPCpdf(params, callback){
     });
     				
 				
+}
+function PoePapKdpMfo(opts){
+    let data = opts.values;
+    console.log("data", data);
+    let fetching = false;
+    $('.select2').select2({
+        theme: 'bootstrap4'
+    });
+    $('#mfo').on('change', function(){
+        const mfo_id = $(this).val();
+        $('#kdp-container').slideUp();
+        $('#kdp').val("").trigger('change');
+        getKDPs(mfo_id);
+    });
+    
+    const pap = new Searchable('#papname', {
+        url: window.location.origin+'/form/poe/search/pap',
+        disableNoDataFound: true,
+        searchingPropmt: false,
+        props: {
+            id: 'id',
+            text: 'paps',
+        },
+        onClick: 'triggerClick',
+        triggerClick: function(data, onRemove){
+            pap.getElement().value = data.text;
+            pap.removeData();
+        }
+    });
+    function getKDPs(mfo_id ,callback) {
+        if(fetching){return}
+        fetching = true;
+        fetch(window.location.origin+"/form/poe/get/kdp/"+mfo_id, {
+            method: "get",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                // "Content-Type": "application/json",
+                "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+            },
+        })
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
+            return response.json();
+        })
+        .then(function (res) {
+            console.log("kdp",res);
+            let kdp = document.querySelector('#kdp');
+            kdp.innerHTML='';
+            for (let i = 0; i < res.length; i++) {
+                const element = res[i];
+                let opt = document.createElement('option');
+                opt.value = res[i].kdp.id;
+                opt.innerHTML=res[i].kdp.desc;
+                kdp.appendChild(opt);
+            }
+            fetching = false;
+            $('#kdp-container').slideDown();
+            if(callback){
+                callback();
+            }
+        });
+    }
+
+    if(data){
+        setData();
+    }
+
+    function setData(){
+        if(data.papname){
+            document.querySelector("#papname").value=data.papname;
+        }
+        if(data.mfo){
+            $('#mfo').val(data.mfo).trigger('change');
+            getKDPs(data.mfo, function(){
+                $('#kdp').val(data.kdp).trigger('change');
+            });
+        }
+        if(data.year){
+            document.querySelector("#pap-year").value = data.year;
+        }
+        console.log("PoePapKdpMfo",data);
+    }
+    if(!opts.create){
+        document.querySelector('[type="submit"]').innerHTML="Update";
+        document.querySelector("#createPAPmodal form").onsubmit=function(e){
+            e.preventDefault();
+            document.querySelector("#poe-papname").innerHTML=document.querySelector("#papname").value;
+            document.querySelector("#poe-mfo").innerHTML=$('#mfo').select2('data')[0].text;
+            document.querySelector("#poe-kdp").innerHTML=$('#kdp').select2('data')[0].text;
+            document.querySelector("#poe-year").innerHTML=document.querySelector("#pap-year").value;
+    
+            data.papname = document.querySelector("#papname").value;
+            data.mfo = $('#mfo').val();
+            data.kdp = $('#kdp').val();
+            data.year = document.querySelector("#pap-year").value;
+    
+            $('#createPAPmodal').modal('hide');
+        }
+    }
+    
+    this.getData=function(){
+        return data;
+    }
 }

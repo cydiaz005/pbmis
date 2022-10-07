@@ -443,7 +443,7 @@
 						<h3 class="card-title">PAP: {{(@$poe->pap_txt) ?: $poe->suggestedPap->paps}}</h3>
 					</div>
 					<div class="total-budget-con col-md-4">
-						<p class="card-title total-budget">Total Budget: <span id="total-pap-budget"></span></p>
+						<p class="card-title">Year: {{$poe->year}}</p>
 					</div>
 					<div class="papbtn-con  col-md-4">
 						<div class="pr-3">
@@ -460,6 +460,11 @@
 					</div>
 					<div class="pap-con col-md-4">
 						<h3 class="card-title">KDP: {{@$poe->kdp->desc}}</h3>
+					</div>
+				</div>
+				<div class="row mx-0 mb-4">
+					<div class="total-budget-con col-md-4">
+						<p class="card-title total-budget">Total Budget: <span id="total-pap-budget"></span></p>
 					</div>
 				</div>
 				<div class="row m-0">

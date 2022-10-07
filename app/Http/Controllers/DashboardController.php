@@ -141,7 +141,8 @@ class DashboardController extends Controller
 
     public function pfo()
     {
-        $data = DB::table('form_poes')->where('service_region_id', Auth::user()->serreg_id)->selectRaw('COUNT(CASE WHEN status_id = 1 THEN 1 END) as draft, COUNT(CASE WHEN status_id = 2 THEN 1 END) as published, COUNT(CASE WHEN status_id = 4 THEN 1 END) as returned, COUNT(CASE WHEN status_id = 5 THEN 1 END) as resolved')->first();
+        $stage_id = Stage::where('active','1')->first()->id;
+        $data = DB::table('form_poes')->whereNull('deleted_at')->where('stage_id', $stage_id)->where('service_region_id', Auth::user()->serreg_id)->selectRaw('COUNT(CASE WHEN status_id = 1 THEN 1 END) as draft, COUNT(CASE WHEN status_id = 2 THEN 1 END) as published, COUNT(CASE WHEN status_id = 4 THEN 1 END) as returned, COUNT(CASE WHEN status_id = 5 THEN 1 END) as resolved')->first();
         return (Auth::user()->hasPermissionTo('dashboard-fp-o-access'))?  view('pages.dashboard.pf-o', ['data'=>$data]):abort(403);
     }
 
@@ -172,14 +173,16 @@ class DashboardController extends Controller
         return (Auth::user()->hasPermissionTo('dashboard-procurement-access'))?  view('pages.dashboard.procurement'):abort(403);
     }
 
-    public function getProcurementData()
+    public function getProcurementData(Request $request)
     {
+        $year = $request->year;
         $stage_id = Stage::where('active','1')->first()->id;
         $fpir = FormPoeItemRequirement::with(['subpap.poe.categoryClass.allotmentClass', 'subpap.poe.categoryClass.fundChargeability', 'itemMonths'])
         ->select(['form_poe_item_requirements.*'])
         // ->groupBy('procurement_mode_id')
-        ->whereHas('subpap.poe', function($q) use($stage_id){
-            $q->where('stage_id', $stage_id);
+        ->whereHas('subpap.poe', function($q) use($stage_id, $year){
+            $q->where('stage_id', $stage_id)
+            ->where('year', $year);
         })
         ->whereHas('subpap.poe.ppmp', function($q){
             $q->where('funded', '1');

@@ -27,7 +27,17 @@ class AppFormController extends Controller
                 "sidebar_id" => "#li_appform",
             ]);
         }
-        return view("pages.form.app-form");
+        $stage_id = Stage::where('active', '1')->first()->id;
+        $excluded_years = FormApp::where('stage_id', $stage_id)->select('year')->groupBy('year')->pluck('year')->toArray();
+        $years_for_create = [];
+        for($i = date("Y"); $i <= (date("Y") + 6); $i++){
+            if(!in_array($i, $excluded_years))
+            array_push($years_for_create, $i);
+        }
+
+        return view("pages.form.app-form", [
+            'years_for_create' => $years_for_create,
+        ]);
     }
     public function showReport()
     {
@@ -101,10 +111,9 @@ class AppFormController extends Controller
     public function fetch(Request $request)
     {
         $stage_id = Stage::where('active', '1')->first()->id;
-
+        $year = $request->year;
         $formPpmp = FormPpmp::query();
         $formPpmp = $formPpmp->where('funded', '1')
-        ->whereYear('created_at', $request->year)
         ->with([
             'poe',
             'poe.suggestedPap',
@@ -120,8 +129,9 @@ class AppFormController extends Controller
         ->whereHas('poe.categoryClass', function($q){
             $q->where('ac_id', 1)->orWhere('ac_id', 3);
         })
-        ->whereHas('poe', function($q) use($stage_id){
-            $q->where('stage_id', $stage_id);
+        ->whereHas('poe', function($q) use($stage_id, $year){
+            $q->where('stage_id', $stage_id)
+            ->where('year', $year);
         });
 
         if(@$request->app_form_id){
