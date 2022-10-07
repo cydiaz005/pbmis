@@ -284,7 +284,7 @@
 		} */
 		.table-con{
 			width: 100%;
-			max-height: 60rem;
+			max-height: 70rem;
 			transition: width 0.2s ease-in;
 		}
 		.paptbl-con.active {

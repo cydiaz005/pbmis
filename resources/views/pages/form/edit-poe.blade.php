@@ -246,7 +246,7 @@
 		}
 		.table-con{
 			width: 100%;
-			max-height: 50rem;
+			max-height: 70rem;
 			transition: width 0.2s ease-in;
 		}
 		.table-con.irc-toggle{
@@ -345,58 +345,58 @@
 								<!-- <p class="subpap-title-label" style="font-size: 15px; font-weight: 600">Subpap: <span class="subpap-code" >sss</span></p> -->
 						   	</div>	
 						   <div class="card-body" style="padding: 0.5rem;">
-							   <div class="form-group">
+							   	<div class="form-group">
 								  <input class="form-control" id="item_subpap_title" placeholder="Subpap code" disabled>
-							  </div>
-							  <div class="form-group">
-								  <textarea class="form-control"  rows="3" placeholder="Account code" id="item_account_code"></textarea>
-							  </div>
-							  <div class="form-group">
-								  <textarea class="form-control" id="item_requirement" rows="3" placeholder="Enter item requirement"></textarea>
-							  </div>
-							  <div class="form-group">
-								  <select id="item_procurement_mode" class="form-select appearance-none border rounded w-full pl-2 pr-3" style="height: 40px; color: gray;">
-									  <option value="" disabled selected hidden>Select procurement mode</option>
-									  @foreach ($procurement_modes as $procurement_mode)
-										  <option data-id="{{$procurement_mode->id}}" value="{{$procurement_mode->id}}">{{$procurement_mode->title}}</option>
-									  @endforeach
-								  </select>
-							  </div>
-							  <div class="form-group">
-								  <input  id="item_unit" class="form-control"  placeholder="Unit">
-							  </div>
-							  <div class="form-group">
-								  <input id="item_cost" class="form-control"  placeholder="Per capita cost">
-							  </div>
-							  <div class="form-group row">
-								  <div class="col-md-6">
-									  <input  id="item_qty_pax" class="form-control"  placeholder="Qty/pax">
-								  </div>
-								  <div class="col-md-6">
-									  <input  id="item_days" class="form-control" placeholder="No. of days">
-								  </div>
-							  </div>
-							  <div class="form-group fa-sm">
-								  Total: <span id="item-req-con-total">0</span>
-							  </div>
-							  <label for="month-selection">Select Month</label>
-							  <div class="form-group grid-container" id="item_months">
-								  <div class="grid-item">Jan</div>
-								  <div class="grid-item">Feb</div>
-								  <div class="grid-item">Mar</div>  
-								  <div class="grid-item">Apr</div>
-								  <div class="grid-item">May</div>
-								  <div class="grid-item">Jun</div>  
-								  <div class="grid-item">Jul</div>
-								  <div class="grid-item">Aug</div>
-								  <div class="grid-item">Sep</div>  
-								  <div class="grid-item">Oct</div>
-								  <div class="grid-item">Nov</div>
-								  <div class="grid-item">Dec</div>
-							  </div>
-							  <div>
-								  <small class="text-danger" id="total-error"></small>
-							  </div>
+								</div>
+								<div class="form-group">
+									<textarea class="form-control"  rows="3" placeholder="Account code" id="item_account_code"></textarea>
+								</div>
+								<div class="form-group">
+									<textarea class="form-control" id="item_requirement" rows="3" placeholder="Enter item requirement"></textarea>
+								</div>
+								<div class="form-group">
+									<select id="item_procurement_mode" class="form-select appearance-none border rounded w-full pl-2 pr-3" style="height: 40px; color: gray;">
+										<option value="" disabled selected hidden>Select procurement mode</option>
+										@foreach ($procurement_modes as $procurement_mode)
+											<option data-id="{{$procurement_mode->id}}" value="{{$procurement_mode->id}}">{{$procurement_mode->title}}</option>
+										@endforeach
+									</select>
+								</div>
+								<div class="form-group">
+									<input  id="item_unit" class="form-control"  placeholder="Unit">
+								</div>
+								<div class="form-group">
+									<input id="item_cost" class="form-control"  placeholder="Per capita cost">
+								</div>
+								<div class="form-group row">
+									<div class="col-md-6">
+										<input  id="item_qty_pax" class="form-control"  placeholder="Qty/pax">
+									</div>
+									<div class="col-md-6">
+										<input  id="item_days" class="form-control" placeholder="No. of days">
+									</div>
+								</div>
+								<div class="form-group fa-sm">
+									Total: <span id="item-req-con-total">0</span>
+								</div>
+								<label for="month-selection">Select Month</label>
+								<div class="form-group grid-container" id="item_months">
+									<div class="grid-item">Jan</div>
+									<div class="grid-item">Feb</div>
+									<div class="grid-item">Mar</div>  
+									<div class="grid-item">Apr</div>
+									<div class="grid-item">May</div>
+									<div class="grid-item">Jun</div>  
+									<div class="grid-item">Jul</div>
+									<div class="grid-item">Aug</div>
+									<div class="grid-item">Sep</div>  
+									<div class="grid-item">Oct</div>
+									<div class="grid-item">Nov</div>
+									<div class="grid-item">Dec</div>
+								</div>
+								<div>
+									<small class="text-danger" id="total-error"></small>
+								</div>
 								<div class="form-group">
 									<div class="form-group" id="item_month_values">
 										<div class="form-group" style="display: none">
@@ -521,10 +521,10 @@
 										</div>
 									</div>
 								</div>
-							  <div class="form-group">
-								  <a type="button" class="btn btn-primary btn-sm btn-block" id="add-item-requirement">Add</a>
-							  </div>
-						   </div> 
+								<div class="form-group">
+									<a type="button" class="btn btn-primary btn-sm btn-block" id="add-item-requirement">Add</a>
+								</div>
+						   	</div> 
 						</div>
 						<!-- Comments section -->
 						<div class="card card-default comment-section" id="comment-section" style="box-shadow: none">
