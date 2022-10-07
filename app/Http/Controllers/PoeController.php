@@ -523,7 +523,7 @@ class PoeController extends Controller
 
     public function getPoe(Request $request)
     {
-        $relations = ['category', 'creator', 'serviceRegion', 'suggestedPap'];
+        $relations = ['category', 'creator.division_section', 'serviceRegion', 'suggestedPap'];
 
         if ($request->status == 4 || $request->status == 5 || $request->status == 0) {
             array_push($relations, 'returnable');
@@ -1033,7 +1033,7 @@ class PoeController extends Controller
 
         $formPpmp = $formPpmp->with([
             'poe',
-            'poe.creator',
+            'poe.creator.division_section',
             'poe.category',
             'returnable.returner',
             'poe.serviceRegion',

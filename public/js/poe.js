@@ -196,15 +196,19 @@ function FileList(type, opts={}){
             card.className = 'card frmcard';
             card.innerHTML = getTemplate();
             let pap_title = card.querySelector('.frmcard_title');
+            let fiscal_year = card.querySelector('.frmcard_fy_year');
             let service_region = card.querySelector('.service-region');
+            let division_section = card.querySelector('.division-section');
             let category = card.querySelector('.frmcard_author');
             let edited_by_container = card.querySelector('.edited_by');
             let buttons_container = card.querySelector('.frmcard_btns');
             let created_at = card.querySelector('.formatted_date');
             let total_el = card.querySelector('.frmcard_total');
 
+            fiscal_year.innerHTML="F.Y. "+data.year;
             total_el.innerHTML= "₱"+numberFormatter(data.total);
             service_region.innerHTML = data.service_region.accronym;
+            division_section.innerHTML = data.creator.division_section.accronym;
             pap_title.innerHTML = "<span class='frmcard-data-id'> ID #"+data.id+"</span>" + (data.pap_txt || data.suggested_pap.paps);
             category.innerHTML = data.category.category;
             created_at.innerHTML=data.formatted_created_at;
@@ -795,7 +799,10 @@ function FileList(type, opts={}){
         template+='<img class="frmcard_img" src="'+window.location.origin+'/images/poeicon.png">';
         template+='</div>';
         template+='<div class="col-md-10 frmcardivname">';
-        template+='<p class="frmcard_service">Service/Region: <span class="text-uppercase service-region">Region I</span></p>';
+        template+='<p class="frmcard_service">';
+        template+='<span style="margin-right: 4px">Service/Region: <span class="text-uppercase service-region">IDPS</span></span> | ';
+        template+='<span style="margin-left: 4px">Division/Section: <span class="text-uppercase division-section">IDPS</span></span>';
+        template+='</p>';
         template+='<h4 class="frmcard_title text-truncate">PAP Title here</h4>';
         template+='<p class="frmcard_author">MOOE - GAS</p>';
         template+='<p class="frmcard_total" style="font-weight: 800; color: var(--secondary);"></p>';
@@ -805,6 +812,7 @@ function FileList(type, opts={}){
         template+='<div class="col-md-4">';
         template+='<div class="row align-items-center">';
         template+='<div class="col-md-12 text-right created_at">';
+        template+='<strong class="frmcard_fy_year">F.Y. 2022</strong>';
         template+='<h4 class="frmcard_date">Date Created:</h4>';
         template+='<p class="frmcard_date formatted_date">12/12/2021</p>';
         template+='</div>';
