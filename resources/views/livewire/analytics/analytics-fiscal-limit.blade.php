@@ -1,6 +1,7 @@
 <div id="fmd-analytics-loading" class="alert alert-primary" role="alert">
     Loading ...
 </div>
+
 <div id="fmd-analytics" class="d-none">
 <div class="container">
     <div class="row" style="margin-bottom: 20px;">

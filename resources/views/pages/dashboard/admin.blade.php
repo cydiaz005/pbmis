@@ -18,7 +18,7 @@
             ['name' => 'Budget', 'route' => '#'],
         ]
     ])
-   
+    
     @livewire('analytics.analytics-fiscal-limit')
     @endsection
     

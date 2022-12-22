@@ -32,7 +32,7 @@ class PermissionList extends Component
                 'key'=>'dashboard-super-admin-access'
             ],
             [
-                'label'=>'Admin Dashboard - Access',
+                'label'=>'Budget Dashboard - Access',
                 'key'=>'dashboard-admin-access'
             ],
             [
