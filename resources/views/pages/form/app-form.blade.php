@@ -144,29 +144,43 @@
     </div>
     <div class="modal fade" id="create-app-form-modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create APP Form</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="">Fiscal Year</label>
-                        <select name="app-form-year" id="app-form-year" class="form-control form-input" required>
-                            <option hidden value="">Select Year</option>
-                            @foreach ($years_for_create as $year)
-                                <option value="{{$year}}">{{$year}}</option>
-                            @endforeach
-                        </select>
+            <form action="/form/app-form/pre-creation-data" method="post">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create APP Form</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-4">
+                            <label for="" class="mb-0">Fiscal Year</label>
+                            <select name="app-form-year" id="app-form-year" class="form-control form-input" required>
+                                <option hidden value="">Select Year</option>
+                                @foreach ($years_for_create as $year)
+                                    <option value="{{$year}}">{{$year}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @if(auth()->user()->hasRole(['Administrator']) || auth()->user()->hasRole(['Developer']))
+                        <div class="mb-3">
+                            <label for="" class="mb-0">Service Region</label>
+                            <select name="app-service-region" id="app-form-year" class="form-control form-input" required>
+                                <option hidden value="">Select Service Region</option>
+                                @foreach ($service_regions as $service_region)
+                                    <option value="{{$service_region->id}}">{{$service_region->service_region}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="create-app-form-btn">Create</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="create-app-form-btn">Create</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -181,9 +195,9 @@
     <script>
         let fetching = false;
 
-        document.querySelector("#create-app-form-btn").onclick=function(){
-            window.location.href="/form/app-form/create/"+document.querySelector('#app-form-year').value
-        }
+        // document.querySelector("#create-app-form-btn").onclick=function(){
+        //     window.location.href="/form/app-form/pre-creation-data/"+document.querySelector('#app-form-year').value
+        // }
         const user_id = {{Auth::user()->id}};
         const pap = new Searchable('#papname', {
             url: window.location.origin+'/form/poe/search/pap',

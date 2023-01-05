@@ -623,10 +623,12 @@ function FileList(type, opts={}){
             let budgetHtml = card.querySelector('.frmcard_author');
             let edited_by_container = card.querySelector('.edited_by');
             let buttons_container = card.querySelector('.frmcard_btns');
+            let fiscal_year = card.querySelector('.frmcard_fy_year');
             let created_at = card.querySelector('.formatted_date');
             let created_at_label = created_at.previousElementSibling;
             created_at_label.innerHTML="Date Created";
-            pap_title.innerHTML = "APP Form "+data.year;
+            fiscal_year.innerHTML="F.Y. "+data.year;
+            pap_title.innerHTML = data.service_region.service_region;
             created_at.innerHTML=data.formatted_created_at;
             for (const key in buttons) {
                 let div = document.createElement('div');
@@ -840,6 +842,7 @@ function FileList(type, opts={}){
         template+='<div class="col-md-4">';
         template+='<div class="row align-items-center">';
         template+='<div class="col-md-12 text-right created_at">';
+        template+='<strong class="frmcard_fy_year">F.Y. 2022</strong>';
         template+='<h4 class="frmcard_date">Date Created:</h4>';
         template+='<p class="frmcard_date formatted_date">12/12/2021</p>';
         template+='</div>';

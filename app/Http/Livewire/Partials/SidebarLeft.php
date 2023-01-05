@@ -386,6 +386,13 @@ class SidebarLeft extends Component
                         'permission' => 'categorized-accounts-access',
                     ],
                     [
+                        'li_id' => 'li_mov',
+                        'icon' => 'nav-icon far fa-circle',
+                        'label' => 'Means of Verification',
+                        'route' => '/field-dependency/data-entry/means-of-verification',
+                        'permission' => 'categorized-accounts-access',
+                    ],
+                    [
                         'li_id' => 'li_paptagging',
                         'icon' => 'nav-icon far fa-circle',
                         'label' => 'PAP Tagging',

@@ -631,12 +631,19 @@
 											@endforeach
 										</select>
 									</div>
+									@php
+										$tacs=[];
+										$r = $poe->thematicAreaClusters;
+										for ($i=0; $i < count($r); $i++) { 
+											array_push($tacs,$r[$i]->tac_id);
+										}
+									@endphp
 									<div class="form-group  col-md-4">
 										<label class="input-label" for="thematic_area_cluster">Thematic Areas/Clusters</label><br>
-										<select id="thematic_area_cluster" class="form-select appearance-none border rounded w-full pl-2 pr-3 " style="height: 40px; color: gray;">
-											<option value="" disabled selected hidden>Select</option>
+										<select id="thematic_area_cluster" class="selectpicker" data-live-search="true" multiple>
 											@foreach ($thematicAreasClusters as $tac)
-												<option @if($tac->id == $poe->thematic_area_cluster_id) {{'selected'}} @endif data-id="{{$tac->id}}" value="{{$tac->id}}">{{$tac->thematic_area_cluster}}</option>
+												<option {{(in_array($tac->id,$tacs)) ? 'selected':''}} value="{{$tac->id}}">{{$tac->thematic_area_cluster}}</option>
+												
 											@endforeach
 										</select>
 									</div>

@@ -65,6 +65,10 @@ class FormPoe extends Model
     {
         return $this->hasMany(FormPoeTargetSector::class, 'poe_id', 'id');
     }
+    public function thematicAreaClusters()
+    {
+        return $this->hasMany(FormPoeThematicAreasCluster::class, 'poe_id', 'id');
+    }
     public function mfo()
     {
         return $this->hasOne(Mfo::class, 'id', 'mfo_id');
@@ -111,5 +115,18 @@ class FormPoe extends Model
         if(@$this->attributes['id']){
             return "POE-".str_pad($this->attributes['id'], 5, '0', STR_PAD_LEFT);
         }
+    }
+    public function scopeTotalProgrammedBudget($query, $service_region_id)
+    {
+        $active_stage_id = Stage::where('active', '1')->first()->id;
+        return $query->where('service_region_id', $service_region_id)
+        ->where('stage_id', $active_stage_id)
+        ->where('status_id', 2)
+        ->whereHas('ppmp', function($q){
+            $q->where('funded', 1)
+            ->where('status_id', 2);
+        })
+        ->where('year', date('Y'))
+        ->sum('total');
     }
 }

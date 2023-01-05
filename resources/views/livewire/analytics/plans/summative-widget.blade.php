@@ -5,13 +5,17 @@
         background-color: var(--ocd-tertiary-dark);
         color: var(--ocd-primary);
     }
+    .data-con {
+        flex: 1;
+        padding: 1em;
+    }
 </style>
 @endsection
 
 <div>
-   <div class="row">
-        <div class="col-4">
-            <div class="card">
+    <div class="row mb-3">
+        <div class="col-6">
+            <div class="card h-100">
                 <div class="card-header">
                     Summative Data Graph (Per Office)
                 </div>
@@ -48,8 +52,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <div class="card">
+        <div class="col-6">
+            <div class="card h-100">
                 <div class="card-header">
                     Summative Data Graph (Priority Class)
                 </div>
@@ -83,8 +87,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <div class="card">
+    </div>
+    <div class="row mb-3">
+        <div class="col-6">
+            <div class="card h-100">
                 <div class="card-header">
                     Summative Data Graph (PAP Tags)
                 </div>
@@ -103,11 +109,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($tagging_summary as $tags)
+                            @foreach ($pap_tags as $tags)
                                 <tr>
                                     <td scope="row">{{@$tags->tag}}</td>
-                                    <td>{{@$tags->num_paps}}</td>
-                                    <td>{{@number_format($tags->total_budget,2)}}</td>
+                                    <td>{{@$tags->poe_count}}</td>
+                                    <td>{{@number_format($tags->poe_sum_total,2)}}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -119,76 +125,111 @@
                 </div>
             </div>
         </div>
-   </div>
-
-   <div class="row">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-header">
-                Summative Data Graph (Per Target Sector)
-            </div>
-            <div class="card-body">
-                   <div class="row">
-                        <canvas id="widget-sectors" class="bar-widgets"></canvas>
+        <div class="col-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    NDRRMP Tagging
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <canvas id="widget-thematic_properties" class="pie-widgets"></canvas>
                     </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Summative Data</th>
-                            <th>No. of PAPs</th>
-                            <th>Total Budget</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($sector_summary as $target)
-                        <tr>
-                            <td scope="row">{{@$target->sector}}</td>
-                            <td>{{@$target->num_paps}}</td>
-                            <td>{{@number_format($target->total_budget,2)}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                <a href="/dashboard/plans-list-of-paps/target-sector" class="small-box-footer" style="color: var(--ocd-primary);">View more details <i class="fas fa-arrow-circle-right"></i></a>
+                    <div class="row analytics-tbl">
+                        
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Summative Data</th>
+                                    <th>No. of PAPs</th>
+                                    <th>Total Budget</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($thematic_area_clusters as $thematic_area_cluster)
+                                <tr>
+                                    <td scope="row">{{@$thematic_area_cluster->thematic_area_cluster}}</td>
+                                    <td>{{@$thematic_area_cluster->all_poes_count}}</td>
+                                    <td>{{@number_format($thematic_area_cluster->all_poes_sum_total,2)}}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="/dashboard/plans-list-of-paps/paptag" class="small-box-footer" style="color: var(--ocd-primary);">View more details <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-6">
-        <div class="card">
-            <div class="card-header">
-                Summative Data Graph (Per KDP/KP/KS)
+    <div class="row">
+        <div class="col-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    Summative Data Graph (Per Target Sector)
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                            <canvas id="widget-sectors" class="bar-widgets"></canvas>
+                        </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Summative Data</th>
+                                <th>No. of PAPs</th>
+                                <th>Total Budget</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($sector_summary as $target)
+                            <tr>
+                                <td scope="row">{{@$target->sector}}</td>
+                                <td>{{@$target->num_paps}}</td>
+                                <td>{{@number_format($target->total_budget,2)}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a href="/dashboard/plans-list-of-paps/target-sector" class="small-box-footer" style="color: var(--ocd-primary);">View more details <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
             </div>
-            <div class="card-body">
-                   <div class="row">
-                        <canvas id="widget-kdpkpks" class="bar-widgets"></canvas>
-                    </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Summative Data</th>
-                            <th>No. of PAPs</th>
-                            <th>Total Budget</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($kdpkpks_summary as $kdpkpks)
-                        <tr>
-                            <td scope="row">{{@$kdpkpks->desc}}</td>
-                            <td>{{@$kdpkpks->num_paps}}</td>
-                            <td>{{@number_format($kdpkpks->total_budget,2)}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                <a href="/dashboard/plans-list-of-paps/kdpkpks" class="small-box-footer" style="color: var(--ocd-primary);">View more details <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+        <div class="col-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    Summative Data Graph (Per KDP/KP/KS)
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                            <canvas id="widget-kdpkpks" class="bar-widgets"></canvas>
+                        </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Summative Data</th>
+                                <th>No. of PAPs</th>
+                                <th>Total Budget</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($kdpkpks_summary as $kdpkpks)
+                            <tr>
+                                <td scope="row">{{@$kdpkpks->desc}}</td>
+                                <td>{{@$kdpkpks->num_paps}}</td>
+                                <td>{{@number_format($kdpkpks->total_budget,2)}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a href="/dashboard/plans-list-of-paps/kdpkpks" class="small-box-footer" style="color: var(--ocd-primary);">View more details <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
             </div>
         </div>
     </div>
-   </div>
 </div>
 
 @section('analytics-script')
@@ -196,26 +237,33 @@
     var co_summary = {{ Js::from(@$co_summary) }};
     var ro_summary = {{ Js::from(@$ro_summary) }};
     var pclass_summary = {{ Js::from(@$pclass_summary) }};
-    var tagging_summary = {{ Js::from(@$tagging_summary) }};
+    var tagging_summary = @json($pap_tags);
+    var thematic_area_clusters = {{ Js::from(@$thematic_area_clusters) }};
+    // var tagging_summary = {{ Js::from(@$tagging_summary) }};
     var sector_summary = {{ Js::from(@$sector_summary) }};
     var kdpkpks_summary = {{ Js::from(@$kdpkpks_summary) }};
-
-
 
     var pclass_properties  = {labels:[], data:[]};
     var tagging_properties  = {labels:[], data:[]};
     var sector_properties  = {labels:[], data:[]};
     var kdpkpks_properties  = {labels:[], data:[]};
+    var thematic_properties  = {labels:[], data:[]};
 
+    console.log("thematic_area_clusters", [...thematic_area_clusters]);
 
     pclass_summary.forEach(element => {
         pclass_properties['labels'].push(element.class);
         pclass_properties['data'].push(element.total_budget);
     });
 
+    thematic_area_clusters.forEach(element => {
+        tagging_properties['labels'].push(element.thematic_area_cluster);
+        tagging_properties['data'].push(element.all_poes_sum_total);
+    });
+
     tagging_summary.forEach(element => {
-        tagging_properties['labels'].push(element.tag);
-        tagging_properties['data'].push(element.total_budget);
+        thematic_properties['labels'].push(element.tag);
+        thematic_properties['data'].push(element.poe_sum_total);
     });
 
     sector_summary.forEach(element => {
@@ -267,7 +315,7 @@
     });
 
     $papTagChart = new Chart(document.getElementById("widget-pap-tags"), {
-        type: 'pie',
+        type: 'bar',
         data: {
         labels: tagging_properties.labels,
         datasets: [{
@@ -279,10 +327,35 @@
             title: {
                 display: true,
                 text: 'OCD Offices'
-            }
+            },
+            plugins: {
+                legend: false // Hide legend
+            },
         },
     });
-    console.log({sector_properties});
+
+    new Chart(document.getElementById("widget-thematic_properties"), {
+        type: 'bar',
+        data: {
+        labels: thematic_properties.labels,
+        datasets: [{
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: thematic_properties.data,
+        }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'OCD Offices'
+            },
+            plugins: {
+                legend: false // Hide legend
+            },
+        },
+    });
+
+
+    console.log("sector_properties",{sector_properties});
     $targetSectorChart = new Chart(document.getElementById("widget-sectors"), {
         type: 'bar',
         data: {
@@ -294,8 +367,8 @@
         },
         options: {
             indexAxis: 'y',
-            legend: {
-                display: false
+            plugins: {
+                legend: false // Hide legend
             },
             title: {
                 display: false,
@@ -315,7 +388,9 @@
         },
         options: {
             indexAxis: 'y',
-            legend: 'false'
+            plugins: {
+                legend: false // Hide legend
+            },
         },
     });
 

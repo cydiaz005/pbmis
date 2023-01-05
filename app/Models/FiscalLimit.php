@@ -46,4 +46,11 @@ class FiscalLimit extends Model
             return "FL-".str_pad($this->attributes['id'], 5, '0', STR_PAD_LEFT);
         }
     }
+    public function scopeTotalLimit($query, $service_region_id)
+    {
+        $active_stage_id = Stage::where('active', '1')->first()->id;
+        return $query->where('serreg_id', $service_region_id)
+        ->where('stage_id', $active_stage_id)
+        ->sum('amount');
+    }
 }

@@ -84,6 +84,11 @@
 
 	<div class="row">
 		<div class="col-md-8">
+			<div class="mb-3">
+				<h3 class="h3 tertiary-dark bg-secondary p-3">
+					<span class="font-weight-normal">Total Programmed Budget:</span> <strong>₱{{number_format($total_programmed_budget, 2, '.', ',')}}</strong>
+				</h3>
+			</div>
 			<div class="row">
 				@foreach ($poe as $key=>$count)
 					<div class="col-lg-4 col-12">

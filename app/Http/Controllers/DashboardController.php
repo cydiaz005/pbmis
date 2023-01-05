@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AllotmentClass;
 use App\Models\DivisionSection;
+use App\Models\FiscalLimit;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -135,6 +136,7 @@ class DashboardController extends Controller
                 'returned'=>$ppmp->returned,
                 'resolved'=>$ppmp->resolved,
             ],
+            'total_programmed_budget'=>FormPoe::totalProgrammedBudget(Auth::user()->serreg_id),
         ];
         return (Auth::user()->hasPermissionTo('dashboard-twg-access'))?  view('pages.dashboard.twg', $data):abort(403);
     }
@@ -143,23 +145,15 @@ class DashboardController extends Controller
     {
         $stage_id = Stage::where('active','1')->first()->id;
         $data = DB::table('form_poes')->whereNull('deleted_at')->where('stage_id', $stage_id)->where('service_region_id', Auth::user()->serreg_id)->selectRaw('COUNT(CASE WHEN status_id = 1 THEN 1 END) as draft, COUNT(CASE WHEN status_id = 2 THEN 1 END) as published, COUNT(CASE WHEN status_id = 4 THEN 1 END) as returned, COUNT(CASE WHEN status_id = 5 THEN 1 END) as resolved')->first();
-        return (Auth::user()->hasPermissionTo('dashboard-fp-o-access'))?  view('pages.dashboard.pf-o', ['data'=>$data]):abort(403);
+        return (Auth::user()->hasPermissionTo('dashboard-fp-o-access'))?  view('pages.dashboard.pf-o', [
+            'data'=>$data, 
+            'total_programmed_budget'=>FormPoe::totalProgrammedBudget(Auth::user()->serreg_id),
+            'fiscal_limit'=>FiscalLimit::totalLimit(Auth::user()->serreg_id),
+        ]):abort(403);
     }
 
     public function plans()
     {
-        
-
-        // $target_sector = FormPoe::select('target_sectors.sector', DB::raw("count(form_poes.id) as num_paps"), DB::raw("SUM(form_poes.total) as total_budget"))
-        // ->join('form_poe_target_sectors','form_poe_target_sectors.poe_id', 'form_poes.id')
-        // ->join('target_sectors', 'target_sectors.id', 'form_poe_target_sectors.target_sector_id')
-        // ->join('form_ppmps', 'form_ppmps.poe_id', 'form_poes.id')
-        // ->where('form_poes.status_id','2')
-        // ->where('form_ppmps.status_id','2')
-        // ->where('form_ppmps.funded','1')
-        // ->groupBy('form_poe_target_sectors.target_sector_id')
-        // ->get();
-        // return response()->json($target_sector);
         return (Auth::user()->hasPermissionTo('dashboard-plans-access'))?  view('pages.dashboard.plans'):abort(403);
     }
 

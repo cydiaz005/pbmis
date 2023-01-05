@@ -566,8 +566,7 @@
 					</div>
 					<div class="form-group  col-md-4">
 						<label class="input-label" for="thematic_area_cluster">Thematic Areas/Clusters</label><br>
-						<select id="thematic_area_cluster" class="form-select appearance-none border rounded w-full pl-2 pr-3 " style="height: 40px; color: gray;">
-							<option value="" disabled selected hidden>Select</option>
+						<select id="thematic_area_cluster" class="selectpicker" data-live-search="true" multiple>
 							@foreach ($thematicAreasClusters as $tac)
 								<option data-id="{{$tac->id}}" value="{{$tac->id}}">{{$tac->thematic_area_cluster}}</option>
 							@endforeach
@@ -1519,7 +1518,8 @@
 			check_error(data.thematic_area_cluster, "Thematic Areas/Cluster not set");
 			check_error(data.geograpical_loc, "Geographical location not set");
 			check_error(data.category_code_id, "Category code not set");
-
+			console.log("data", data);
+			// return;
 			if(!error){
 				$('.spinner_modal').modal('show');
 				fetch(window.location.origin+"/form/poe/save", {

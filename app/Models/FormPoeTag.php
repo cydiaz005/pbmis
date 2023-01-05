@@ -12,6 +12,10 @@ class FormPoeTag extends Model
     use HasFactory;
     use LogsActivity;
 
+    public function poe()
+    {
+        return $this->hasOne(FormPoe::class, 'id', 'poe_id');
+    }
     public function papTag()
     {
         return $this->hasOne(PapTag::class, 'id', 'paptag_id');

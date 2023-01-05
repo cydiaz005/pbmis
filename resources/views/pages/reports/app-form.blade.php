@@ -197,6 +197,7 @@
                                 params: {
                                     year: element.year,
                                     app_form_id: element.id,
+                                    service_region_id: element.service_region_id,
                                 }
                             });
                             appForm.generateReport('excel');
@@ -211,6 +212,7 @@
                                 params: {
                                     year: element.year,
                                     app_form_id: element.id,
+                                    service_region_id: element.service_region_id,
                                 }
                             });
                             appForm.generateReport('pdf');

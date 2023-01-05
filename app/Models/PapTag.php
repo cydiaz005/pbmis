@@ -13,6 +13,16 @@ class PapTag extends Model
     use LogsActivity;
     protected $fillable = ['tag'];
 
+
+    public function formPoeTag()
+    {
+        return $this->hasOne(FormPoeTag::class, 'paptag_id', 'id');
+    }
+    public function poe()
+    {
+        return $this->belongsToMany(FormPoe::class, 'form_poe_tags', 'paptag_id','poe_id');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

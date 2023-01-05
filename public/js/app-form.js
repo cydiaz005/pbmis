@@ -85,11 +85,11 @@ function AppForm(opts){
                     rowSpan: 2,
                     styles: { valign: 'middle', lineWidth: 1},
                 },
-                {
-                    content: 'Item Requirement',
-                    rowSpan: 2,
-                    styles: { valign: 'middle', lineWidth: 1},
-                },
+                // {
+                //     content: 'Item Requirement',
+                //     rowSpan: 2,
+                //     styles: { valign: 'middle', lineWidth: 1},
+                // },
                 {
                     content: 'Procurement Program/Project',
                     rowSpan: 2,
@@ -176,7 +176,7 @@ function AppForm(opts){
                         body.push([
                             ppmp_code,
                             item_requirements.chart_of_account.code,
-                            item_requirements.itemreq_txt || item_requirements.suggested_item_requirement.ireq,
+                            // item_requirements.itemreq_txt || item_requirements.suggested_item_requirement.ireq,
                             item_requirements.app_form.app_procurement_program,
                             `${division_section}-${ppmp.poe.service_region.accronym}`,
                             item_requirements.procurement_mode.title,
@@ -218,6 +218,8 @@ function AppForm(opts){
     }
     function exportExcel(data){
         let report_table = createElement('table');
+
+        // <th rowspan="2">Item Requirement</th>
         report_table.innerHTML=`
             <thead>
                 <tr>
@@ -230,7 +232,7 @@ function AppForm(opts){
                 <tr>
                     <th rowspan="2">Code (PAP)</th>
                     <th rowspan="2">Account Code</th>
-                    <th rowspan="2">Item Requirement</th>
+                
                     <th rowspan="2">Procurement Program/Project</th>
                     <th rowspan="2">PMO/End-User</th>
                     <th rowspan="2">Mode of Procurement</th>
@@ -269,10 +271,11 @@ function AppForm(opts){
                         const item_requirements = subpap.item_requirements[z];
                         let tr3 = createElement('tr');
                         tbody.appendChild(tr3);
+                        // <td class="read-only">${item_requirements.itemreq_txt || item_requirements.suggested_item_requirement.ireq}</td>
                         tr3.innerHTML=`
                             <td class="disabled read-only">${ppmp_code}</td>
                             <td class="read-only">${item_requirements.chart_of_account.code}</td>
-                            <td class="read-only">${item_requirements.itemreq_txt || item_requirements.suggested_item_requirement.ireq}</td>
+                            
                             <td class="text-area-td app-procurement-program"></td>
                             <td class="read-only">${division_section}-${ppmp.poe.service_region.accronym}</td>
                             <td class="read-only">${item_requirements.procurement_mode.title}</td>

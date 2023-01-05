@@ -17,6 +17,7 @@ class CreateFormAppsTable extends Migration
             $table->id();
             // $table->foreignId('status_id')->constrained('form_statuses')->onDelete('cascade')->onUpdate('cascade'); 
             $table->foreignId('stage_id')->constrained()->onDelete('cascade')->onUpdate('cascade'); 
+            $table->foreignId('service_region_id')->constrained()->onDelete('cascade')->onUpdate('cascade'); 
             $table->integer('year');
             $table->timestamps();
         });

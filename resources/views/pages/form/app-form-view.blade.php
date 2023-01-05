@@ -112,6 +112,7 @@
             params: {
                 year: '{{$year}}',
                 app_form_id: '{{$id}}',
+                service_region_id: '{{$service_region_id}}',
             }
         });
         appForm.getItems();

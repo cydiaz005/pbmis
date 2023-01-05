@@ -110,6 +110,7 @@
             table: "#app-table",
             params: {
                 year: '{{$year}}',
+                service_region_id: '{{$service_region_id}}',
             }
         });
         appForm.getItems();
@@ -125,7 +126,7 @@
                     "Content-Type": "application/json",
                     "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
                 },
-                body: JSON.stringify({rows: app_rows, year: '{{$year}}'}),
+                body: JSON.stringify({rows: app_rows, year: '{{$year}}', service_region_id: '{{$service_region_id}}'}),
             }).then(function (response) {
                 if (!response.ok) {
                     throw new Error("HTTP status " + response.status);

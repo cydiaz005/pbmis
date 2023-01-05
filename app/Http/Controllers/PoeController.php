@@ -44,6 +44,7 @@ use App\Jobs\PublishedPoeEmailAndNotif;
 use App\Jobs\PublishedPpmpEmailAndNotif;
 use App\Jobs\RegionalEmailAndNotif;
 use App\Jobs\ReturnedPpmpEmailAndNotif;
+use App\Models\FormPoeThematicAreasCluster;
 use App\Models\FundChargeability;
 use Illuminate\Support\Facades\DB;
 
@@ -335,11 +336,19 @@ class PoeController extends Controller
         $formPoe->key_id = $request->input('kdp_id');
         $formPoe->service_region_id = Auth::user()->serreg_id;
         $formPoe->category_id = $request->input('category_code_id');
-        $formPoe->thematic_area_cluster_id = $request->input('thematic_area_cluster');
+        // $formPoe->thematic_area_cluster_id = $request->input('thematic_area_cluster');
         $formPoe->total = $request->input('total');
         $formPoe->stage_id = Stage::where('active', '1')->first()->id;
         $formPoe->year = $request->input('year');
         $formPoe->save();
+
+        $thematic_area_clusters = $request->input('thematic_area_cluster');
+        foreach ($thematic_area_clusters as $thematic_area_cluster) {
+            $tac = new FormPoeThematicAreasCluster;
+            $tac->poe_id = $formPoe->id;
+            $tac->tac_id = $thematic_area_cluster;
+            $tac->save();
+        }
 
         $target_sectors = $request->input('target_sector');
         foreach ($target_sectors as $target_sector) {
@@ -429,13 +438,23 @@ class PoeController extends Controller
         $formPoe->key_id = $request->input('kdp_id');
         // $formPoe->service_region_id = Auth::user()->serreg_id;
         $formPoe->category_id = $request->input('category_code_id');
-        $formPoe->thematic_area_cluster_id = $request->input('thematic_area_cluster');
+        // $formPoe->thematic_area_cluster_id = $request->input('thematic_area_cluster');
         $formPoe->locked = '0';
         $formPoe->locker_user_id = null;
         $formPoe->datetime_locked = null;
         $formPoe->total = $request->input('total');
         $formPoe->year = $request->input('year');
         $formPoe->update();
+
+        FormPoeThematicAreasCluster::where('poe_id', $formPoe->id)->delete();
+        $thematic_area_clusters = $request->input('thematic_area_cluster');
+        foreach ($thematic_area_clusters as $thematic_area_cluster) {
+            $tac = new FormPoeThematicAreasCluster;
+            $tac->poe_id = $formPoe->id;
+            $tac->tac_id = $thematic_area_cluster;
+            $tac->save();
+        }
+
 
         FormPoeTargetSector::where('poe_id', $formPoe->id)->delete();
         $target_sectors = $request->input('target_sector');
@@ -1737,5 +1756,10 @@ class PoeController extends Controller
         $total_budget = $formPpmp->sum('poe.total');
         $formPpmp = $formPpmp->groupBy('poe.categoryClass.fundChargeability.id');
         return ['form_ppmp' => $formPpmp, 'fund_chargeability' => $fc, 'total_budget' => $total_budget];
+    }
+
+    public function test1($serreg_id)
+    {
+        return FormPoe::totalProgrammedBudget($serreg_id);
     }
 }

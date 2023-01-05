@@ -182,6 +182,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
             Route::post('fetch', [AppFormController::class, 'fetch']);
             Route::post('save', [AppFormController::class, 'save']);
             Route::post('list', [AppFormController::class, 'list']);
+            Route::post('pre-creation-data', [AppFormController::class, 'encryptUrlParams']);
         });
         Route::prefix('opc')->group(function () {
             Route::get('{id}', [OpcController::class, 'fetchOneOpc']);
@@ -287,6 +288,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
             Route::get('fund-chargeability', [FieldDependencyController::class, 'fundChargeability']);
             Route::get('chart-of-accounts', [FieldDependencyController::class, 'chartOfAccounts']);
             Route::get('categorized-account', [FieldDependencyController::class, 'categorizedAccount']);
+            Route::get('means-of-verification', [FieldDependencyController::class, 'meansOfVerification']);
             Route::get('pap-tagging', [FieldDependencyController::class, 'papTags']);
             Route::get('default-pap', [FieldDependencyController::class, 'suggestedPap']);
             Route::get('default-sub-pap', [FieldDependencyController::class, 'suggestedSubPap']);
@@ -315,6 +317,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
             Route::post('default-sub-pap', [FieldDependencyController::class, 'storeSuggestedSubPap']);
             Route::post('default-itemRequirement', [FieldDependencyController::class, 'storeItemRequirement']);
             Route::post('mfo', [FieldDependencyController::class, 'storeMfo']);
+            Route::post('mov', [FieldDependencyController::class, 'storeMov']);
             Route::post('kdpkdks', [FieldDependencyController::class, 'storeKdpkdks']);
             Route::post('stages', [FieldDependencyController::class, 'storeStage']);
             Route::post('performance-measures', [FieldDependencyController::class, 'storePerformanceMeasures']);
@@ -336,6 +339,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
             Route::delete('default-sub-pap/{id}', [FieldDependencyController::class, 'deleteSuggestedSubPap']);
             Route::delete('default-itemRequirement/{id}', [FieldDependencyController::class, 'deleteItemRequirement']);
             Route::delete('mfo/{id}', [FieldDependencyController::class, 'deleteMfo']);
+            Route::delete('mov/{id}', [FieldDependencyController::class, 'deleteMov']);
             Route::delete('kdpkdks/{id}', [FieldDependencyController::class, 'deleteKdpkdks']);
             Route::delete('stages/{id}', [FieldDependencyController::class, 'deleteStage']);
             Route::delete('performance-measures/{id}', [FieldDependencyController::class, 'deletePerformanceMeasures']);
@@ -420,3 +424,4 @@ Route::get('report/{type}/{id}', function ($type, $id) {
 Route::get("user/verify/email/pre-registration/{token}", [UserController::class, 'verifiedUser']);
 
 Route::get("/test-due", [PoeController::class, 'PPMPDUE']);
+Route::get("/test/{id}", [PoeController::class, 'test1']);

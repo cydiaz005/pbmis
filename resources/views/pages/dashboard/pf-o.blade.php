@@ -102,6 +102,16 @@
 			</div>
 		</div>
 		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body" style="color: var(--ocd-primary)">
+					<h3 class="text-center mb-3 text-dark">
+						<strong>FISCAL LIMIT </strong>
+					</h3>
+					<span class="font-weight-normal">Fiscal Limit:</span> <strong>₱{{number_format($fiscal_limit, 2, '.', ',')}}</strong>
+					<br>
+					<span class="font-weight-normal">Total Programmed Budget:</span> <strong>₱{{number_format($total_programmed_budget, 2, '.', ',')}}</strong>
+				</div>
+			</div>
 			@livewire('components.activity-log', ['log_names' => ['poe']])
 		</div>
 	</div>

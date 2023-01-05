@@ -6,11 +6,17 @@ use Spatie\Activitylog\LogOptions;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class QuarterTarget extends Model
 {
     use HasFactory;
     use LogsActivity;
+    use SoftDeletes;
+
+    protected $fillable = [
+        "quarter_target"
+    ];
 
     public function getActivitylogOptions(): LogOptions
     {

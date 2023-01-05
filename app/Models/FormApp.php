@@ -12,6 +12,7 @@ class FormApp extends Model
     protected $fillable = [
         "status_id",
         "stage_id",
+        "service_region_id",
         "year",
     ];
     protected $appends=["formatted_created_at", "formatted_updated_at"];
@@ -27,5 +28,10 @@ class FormApp extends Model
     public function rows()
     {
         return $this->hasMany(FormAppRow::class, 'app_id', 'id');
+    }
+    
+    public function serviceRegion()
+    {
+        return $this->hasOne(ServiceRegion::class, 'id', 'service_region_id');
     }
 }

@@ -68,25 +68,25 @@
     @section('script')
     <script>
 
-Livewire.on('onDeleteItem', async ({key}) => {
-    if(key){
-        try {
-            await $.ajax({
-                type:'DELETE',
-                url: window.location.origin+"/field-dependency/data-entry/pap-tagging/"+key,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                success:function(response){
-                    console.log({response});
+        Livewire.on('onDeleteItem', async ({key}) => {
+            if(key){
+                try {
+                    await $.ajax({
+                        type:'DELETE',
+                        url: window.location.origin+"/field-dependency/data-entry/pap-tagging/"+key,
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        success:function(response){
+                            console.log({response});
+                        }
+                    });
+                } catch (error) {
+                    
                 }
-            });
-        } catch (error) {
-            
-        }
-        finally{
-            location.reload();
-        }
-    }
-})
+                finally{
+                    location.reload();
+                }
+            }
+        })
         $("#li_field").addClass('menu-open');
         $("#li_field>a.li_parent").addClass('active');
         $("#li_paptagging").addClass('active');

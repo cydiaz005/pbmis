@@ -31,6 +31,7 @@ use App\Models\PerformanceMeasures;
 use App\Models\Office;
 use App\Http\Controllers\EmailController;
 use App\Actions\Notify\Notify;
+use App\Models\QuarterTarget;
 use App\Models\User;
 class FieldDependencyController extends Controller
 {
@@ -120,6 +121,11 @@ class FieldDependencyController extends Controller
     public function editOfficePerMfo($id){
         return (Auth::user()->hasPermissionTo('report-opc-access'))?  view('pages.office-mfo-edit',['id'=>$id]):abort(403);    
 
+    }
+
+    public function meansOfVerification()
+    {
+        return (Auth::user()->hasPermissionTo('field-dependency-access'))?  view('pages.extras.means-of-verification'):abort(403); 
     }
 
     /*
@@ -538,6 +544,17 @@ class FieldDependencyController extends Controller
         return back()->with('success', 'Item created successfully');
 
     }
+    public function storeMov(Request $request)
+    {
+        if(!Auth::user()->hasPermissionTo('field-dependency-access')){abort(403);}
+        if($request->mov == ""){
+            return back()->with('failed', 'Failed');
+        }
+        QuarterTarget::create([
+            'quarter_target' => $request->mov,
+        ]);
+        return back()->with('success', 'Item created successfully');
+    }
     public function deleteMfo($id)
     {
         if(!Auth::user()->hasPermissionTo('field-dependency-access')){abort(403);}
@@ -550,6 +567,12 @@ class FieldDependencyController extends Controller
             }
             $mfo_to_d->decrement('order');
         }
+        return back()->with('success', 'Item deleted successfully');
+    }
+    public function deleteMov($id)
+    {
+        if(!Auth::user()->hasPermissionTo('field-dependency-access')){abort(403);}
+        QuarterTarget::destroy($id);
         return back()->with('success', 'Item deleted successfully');
     }
 
