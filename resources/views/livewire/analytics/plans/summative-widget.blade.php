@@ -250,6 +250,7 @@
     var thematic_properties  = {labels:[], data:[]};
 
     console.log("thematic_area_clusters", [...thematic_area_clusters]);
+    console.log("tagging_summary", [...tagging_summary]);
 
     pclass_summary.forEach(element => {
         pclass_properties['labels'].push(element.class);
@@ -257,13 +258,13 @@
     });
 
     thematic_area_clusters.forEach(element => {
-        tagging_properties['labels'].push(element.thematic_area_cluster);
-        tagging_properties['data'].push(element.all_poes_sum_total);
+        thematic_properties['labels'].push(element.thematic_area_cluster);
+        thematic_properties['data'].push(element.all_poes_sum_total);
     });
 
     tagging_summary.forEach(element => {
-        thematic_properties['labels'].push(element.tag);
-        thematic_properties['data'].push(element.poe_sum_total);
+        tagging_properties['labels'].push(element.tag);
+        tagging_properties['data'].push(element.poe_sum_total);
     });
 
     sector_summary.forEach(element => {
