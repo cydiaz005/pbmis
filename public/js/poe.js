@@ -256,9 +256,17 @@ function FileList(type, opts={}){
             pap_title.innerHTML = "<span class='frmcard-data-id'> ID #"+data.id+"</span>" + (data.pap_txt || data.suggested_pap.paps);
             category.innerHTML = data.category.category;
             date_returned.innerHTML=data.formatted_updated_at;
-            reason_truncated.innerHTML=data.returnable.reason;
-            reason_returned.innerHTML=data.returnable.reason;
-            returner.innerHTML=data.returnable.returner.firstname+" "+data.returnable.returner.lastname;
+            if(data.returnable){
+                reason_truncated.innerHTML=data.returnable.reason;
+                reason_returned.innerHTML=data.returnable.reason;
+                returner.innerHTML=data.returnable.returner.firstname+" "+data.returnable.returner.lastname;
+            }
+            else{
+                reason_truncated.innerHTML="";
+                reason_returned.innerHTML="";
+                returner.innerHTML="Anonymous";
+            }
+            
             for (const key in buttons) {
                 let div = document.createElement('div');
                 let btn;
@@ -703,9 +711,17 @@ function FileList(type, opts={}){
             pap_title.innerHTML = "OPC/OPS";
             category.innerHTML = data.semester == "1" ? "1st Semester":"2nd Semester";
             date_returned.innerHTML=data.formatted_updated_at;
-            reason_truncated.innerHTML=data.returnable.reason;
-            reason_returned.innerHTML=data.returnable.reason;
-            returner.innerHTML=data.returnable.returner.firstname+" "+data.returnable.returner.lastname;
+            if(data.returnable){
+                reason_truncated.innerHTML=data.returnable.reason;
+                reason_returned.innerHTML=data.returnable.reason;
+                returner.innerHTML=data.returnable.returner.firstname+" "+data.returnable.returner.lastname;
+            }
+            else{
+                reason_truncated.innerHTML="";
+                reason_returned.innerHTML="";
+                returner.innerHTML="Anonymous";
+            }
+            
             for (const key in buttons) {
                 let div = document.createElement('div');
                 let btn;
