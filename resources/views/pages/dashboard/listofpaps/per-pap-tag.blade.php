@@ -71,6 +71,19 @@
         'pageTitle' => 'LIST OF PAPS (PER PRIORITY CLASSIFICATION)',
 
     ])
+	<form action="{{ url()->current() }}" method="get" id="fy-dform">
+		<div class="row align-items-center px-3 pb-3">
+			<label class="m-0 text-muted small mr-2">Fiscal Year</label>
+			<select onchange="document.getElementById('fy-dform').submit()" name="year" class="form-control form-control-sm form-input mt-0" style="max-width: 7rem">
+				@for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y') + 6; $i++)
+					@php
+						$selected_year = request('year') ?: date('Y') + 1;
+					@endphp
+						<option {{$i == $selected_year ? "selected":""}} value="{{$i}}">F.Y. {{$i}}</option>
+				@endfor
+			</select>
+		</div>
+	</form>
 	<div class="card card-primary card-outline card-outline-tabs" style="border-top: none">
 		<div class="card-body table-con">
 			<table class="table-width">
@@ -141,7 +154,7 @@
 			}
 			new HttpRequest({
 				url: "/form/poe/fetch/by-group",
-				data: {paptag: pc_id},
+				data: {paptag: pc_id, year: "{{$selected_year}}"},
 				done: function(res){
 					toggled_data.push(pc_id);
 					console.log("res", res);

@@ -81,14 +81,21 @@
             ['name' => 'TWG', 'route' => '#'],
         ]
     ])
-
 	<div class="row">
 		<div class="col-md-8">
-			<div class="mb-3">
-				<h3 class="h3 tertiary-dark bg-secondary p-3">
-					<span class="font-weight-normal">Total Programmed Budget:</span> <strong>₱{{number_format($total_programmed_budget, 2, '.', ',')}}</strong>
-				</h3>
-			</div>
+			<form action="{{ url()->current() }}" method="get" id="fy-dform">
+				<div class="row align-items-center px-3 pb-3">
+					<label class="m-0 text-muted small mr-2">Fiscal Year</label>
+					<select onchange="document.getElementById('fy-dform').submit()" name="year" class="form-control form-control-sm form-input mt-0" style="max-width: 7rem">
+						@for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y') + 6; $i++)
+							@php
+								$selected_year = request('year') ?: date('Y') + 1;
+							@endphp
+								<option {{$i == $selected_year ? "selected":""}} value="{{$i}}">F.Y. {{$i}}</option>
+						@endfor
+					</select>
+				</div>
+			</form>
 			<div class="row">
 				@foreach ($poe as $key=>$count)
 					<div class="col-lg-4 col-12">

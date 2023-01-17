@@ -27,8 +27,11 @@
                                 When the active stage is changed, this causes all published forms to be re-evaluated as drafts.
                                 The remaining unpublished forms are discarded automatically.
                             </p>
+                            <p class="text mt-3" style="color: #FFF;">
+                                Affected Fiscal Year: <strong>{{date("Y") + 1}}</strong>
+                            </p>
                         </div>
-                        <div class="col-12 pt-5">
+                        <div class="col-12 pt-4">
                             <p class="text" style="color: #FFF;">Are you sure you want to change the stage from <strong>{{$active_stage->name}} ({{$active_stage->accronym}})</strong> to <strong>{{$next_stage->name}} ({{$next_stage->accronym}})</strong>?</p>
                             <button class="btn btn-primary mt-2" id="stage-confirm">Confirm</button>
                         </div>

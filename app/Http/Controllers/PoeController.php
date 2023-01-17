@@ -612,7 +612,9 @@ class PoeController extends Controller
     }
     public function fetchByGroup(Request $request)
     {
+        $year = request('year') ?: date("Y")+1;
         $formPoe = FormPoe::query();
+        $formPoe = $formPoe->where('year', $year);
         if(@$request->service_region_id){
             $formPoe = $formPoe->where('service_region_id', $request->service_region_id);
         }

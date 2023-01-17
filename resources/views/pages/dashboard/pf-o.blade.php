@@ -83,6 +83,19 @@
     ])
 	<div class="row">
 		<div class="col-md-8">
+			<form action="{{ url()->current() }}" method="get" id="fy-dform">
+				<div class="row align-items-center px-3 pb-3">
+					<label class="m-0 text-muted small mr-2">Fiscal Year</label>
+					<select onchange="document.getElementById('fy-dform').submit()" name="year" class="form-control form-control-sm form-input mt-0" style="max-width: 7rem">
+						@for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y') + 6; $i++)
+							@php
+								$selected_year = request('year') ?: date('Y') + 1;
+							@endphp
+								<option {{$i == $selected_year ? "selected":""}} value="{{$i}}">F.Y. {{$i}}</option>
+						@endfor
+					</select>
+				</div>
+			</form>
 			<div class="row">
 			@foreach ($data as $key=>$count)
 				<div class="col-lg-4 col-12">

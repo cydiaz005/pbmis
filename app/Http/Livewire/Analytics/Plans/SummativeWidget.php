@@ -21,9 +21,7 @@ class SummativeWidget extends Component
     public $kdpkpks_summary;
     public $pap_tags;
     public $thematic_area_clusters;
-
-
-
+    public $year;
 
     public function render()
     {
@@ -33,19 +31,17 @@ class SummativeWidget extends Component
     {
    
         $ro_lists =  FormPoe::where('status_id','2')
+        ->where('year', $this->year)
         ->whereRelation('ppmp', 'funded', '=', '1')
         ->whereRelation('ppmp', 'status_id', '=', '2')
         ->whereRelation('serviceRegion', 'office_id', '=', '1');
 
         $co_lists =  FormPoe::where('status_id','2')
+        ->where('year', $this->year)
         ->whereRelation('ppmp', 'funded', '=', '1')
         ->whereRelation('ppmp', 'status_id', '=', '2')
         ->whereRelation('serviceRegion', 'office_id', '=', '2');
 
-
-
-
-      
         $this->ro_summary = [
             "num_paps"=> $ro_lists->count(),
             "total_budget"=> $ro_lists->sum('total'),
@@ -66,6 +62,7 @@ class SummativeWidget extends Component
         ->where('form_poes.status_id','2')
         ->where('form_ppmps.status_id','2')
         ->where('form_ppmps.funded','1')
+        ->where('year', $this->year)
         ->groupBy('mfos.pc_id')
         ->get();
 
@@ -84,18 +81,18 @@ class SummativeWidget extends Component
         // ->where('form_ppmps.funded','1')
         // ->groupBy('form_poe_tags.paptag_id')
         // ->get();
-
-        $this->pap_tags = PapTag::withSum(['poe' => function($query) {
+        $y = $this->year;
+        $this->pap_tags = PapTag::withSum(['poe' => function($query) use($y){
             $query->whereHas('ppmp', function($q){
                 $q->where('funded', '1');
                 $q->where('status_id', '2');
-            })->where('year', date('Y'));
+            })->where('year', $y);
         }], 'total')
-        ->withCount(['poe' => function($query) {
+        ->withCount(['poe' => function($query) use($y){
             $query->whereHas('ppmp', function($q){
                 $q->where('funded', '1');
                 $q->where('status_id', '2');
-            })->where('year', date('Y'));
+            })->where('year', $y);
         }])
         ->get();
 
@@ -109,6 +106,7 @@ class SummativeWidget extends Component
         ->where('form_poes.status_id','2')
         ->where('form_ppmps.status_id','2')
         ->where('form_ppmps.funded','1')
+        ->where('year', $this->year)
         ->groupBy('form_poe_target_sectors.target_sector_id')
         ->orderBy('total_budget', 'desc')
         ->get();
@@ -124,6 +122,7 @@ class SummativeWidget extends Component
             DB::raw('SUM(form_poes.total) as total_budget'),
             DB::raw('count(form_poes.id) as num_paps')
         )
+        ->where('form_poes.year', $this->year)
         ->groupBy('form_poes.key_id')
         ->orderBy('total_budget','desc')
         ->get();
@@ -131,17 +130,18 @@ class SummativeWidget extends Component
 
     public function thematic()
     {
-        $this->thematic_area_clusters = ThematicAreasCluster::withSum(['allPoes' => function($query) {
+        $y = $this->year;
+        $this->thematic_area_clusters = ThematicAreasCluster::withSum(['allPoes' => function($query) use($y){
             $query->whereHas('ppmp', function($q){
                 $q->where('funded', '1');
                 $q->where('status_id', '2');
-            })->where('year', date('Y'));
+            })->where('year', $y);
         }], 'total')
-        ->withCount(['allPoes' => function($query) {
+        ->withCount(['allPoes' => function($query) use($y){
             $query->whereHas('ppmp', function($q){
                 $q->where('funded', '1');
                 $q->where('status_id', '2');
-            })->where('year', date('Y'));
+            })->where('year', $y);
         }])
         ->get();
     }
@@ -150,6 +150,7 @@ class SummativeWidget extends Component
 
     public function mount()
     {
+        $this->year = request('year') ?: date("Y")+1;
         $this->offices();
         $this->priorityClass();
         $this->poeTags();

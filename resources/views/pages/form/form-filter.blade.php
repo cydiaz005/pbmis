@@ -79,7 +79,7 @@
                             <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">{{$i}}</option>
                     @endfor --}}
                     @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y') + 6; $i++)
-                            <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">F.Y. {{$i}}</option>
+                            <option {{$i == \Carbon\Carbon::now()->format('Y') + 1 ? "selected":""}} value="{{$i}}">F.Y. {{$i}}</option>
                     @endfor
                 </select>
             </div>

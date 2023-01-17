@@ -42,14 +42,11 @@
     ])
         {{-- <canvas id="myChart" width="400" height="400"></canvas> --}}
     <div class="d-flex justify-content-between align-items-center pt-5 px-5">
-        <div class="form-group" style="min-width: 7rem">
-            <label class="m-0 text-muted small">Fiscal Year</label>
-            <select id="filter-year" class="form-control form-input mt-0">
-                {{-- @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y'); $i++)
-                        <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">{{$i}}</option>
-                @endfor --}}
+        <div class="row align-items-center px-3" style="min-width: 20rem">
+            <label class="m-0 text-muted small mr-2">Fiscal Year</label>
+            <select id="filter-year" class="form-control form-control-sm form-input mt-0" style="max-width: 7rem">
                 @for($i = 2022; $i <= \Carbon\Carbon::now()->format('Y') + 6; $i++)
-                        <option {{$i == \Carbon\Carbon::now()->format('Y') ? "selected":""}} value="{{$i}}">F.Y. {{$i}}</option>
+                        <option {{$i == \Carbon\Carbon::now()->format('Y') + 1 ? "selected":""}} value="{{$i}}">F.Y. {{$i}}</option>
                 @endfor
             </select>
         </div>
