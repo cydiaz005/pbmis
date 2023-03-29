@@ -48,9 +48,9 @@ class SettingController extends Controller
 
     public function setActiveStage(Request $request)
     {
-
+        abort_if(!@$request->stage_affetced_year, 403);
         (!(Hash::check($request['password'], Auth::user()->password)))? abort(500, 'Password mismatch'):0;
-        ChangeStageJob::dispatch();
+        ChangeStageJob::dispatch($request->stage_affetced_year);
         Setting::updateOrCreate(["key"=>"changing_stage"],["value"=>1]);
         return;        
     }

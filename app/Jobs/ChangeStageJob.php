@@ -23,16 +23,16 @@ use Illuminate\Support\Str;
 class ChangeStageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Trackable;
-
+    public $year;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     //
-    // }
+    public function __construct($year)
+    {
+        $this->year = $year;
+    }
 
     /**
      * Execute the job.
@@ -44,7 +44,7 @@ class ChangeStageJob implements ShouldQueue
         $stage = Stage::where("active","1")->first()->append('next_stage_id');
         $next_stage_id = $stage->next_stage_id;
         $new_stage = Stage::find($next_stage_id);
-        $year = date('Y') + 1;
+        $year = $this->year;
         $max = 10;
         $change_status_key = Str::random(16);
         Setting::updateOrCreate(["key"=>"change_status_key"],["value"=>$change_status_key]);
@@ -78,7 +78,6 @@ class ChangeStageJob implements ShouldQueue
                         "key_id" => $poe->key_id,
                         "service_region_id" => $poe->service_region_id,
                         "category_id" => $poe->category_id,
-                        // "thematic_area_cluster_id" => $poe->thematic_area_cluster_id,
                         "stage_id" => $new_stage->id,
                         "total" => $poe->total,
                         "year" => $year,

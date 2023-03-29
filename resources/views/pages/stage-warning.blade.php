@@ -28,7 +28,12 @@
                                 The remaining unpublished forms are discarded automatically.
                             </p>
                             <p class="text mt-3" style="color: #FFF;">
-                                Affected Fiscal Year: <strong>{{date("Y") + 1}}</strong>
+                                Affected Fiscal Year: 
+                                <select name="stage-affetced-year" id="stage-affetced-year" class="text-dark">
+                                    @for($i = date("Y"); $i <= date("Y") + 1; $i ++)
+                                        <option value="{{$i}}" {{date("Y")==$i ? "selected":""}}>{{$i}}</option>
+                                    @endfor
+                                </select>
                             </p>
                         </div>
                         <div class="col-12 pt-4">
@@ -93,6 +98,7 @@
         var filter_stage = $('#filter-stage');
         var stage_confirm = $('#stage-confirm');
         var stage_password = $('#confirm-password');
+        var stage_affetced_year = $('#stage-affetced-year');
         var submit = $('#stage-submit');
         var Toast = Swal.mixin({
             toast: true,
@@ -116,10 +122,14 @@
             let data = {
                 stage : filter_stage.val(),
                 password : stage_password.val(),
+                stage_affetced_year : stage_affetced_year.val(),
             }
 
             if (!data.password) {
                 toastr.error('Password is required.')
+            }
+            else if (!data.stage_affetced_year || data.stage_affetced_year == "") {
+                toastr.error('Affected Year is required.')
             }
             else{
                 $(".spinner_modal").modal({

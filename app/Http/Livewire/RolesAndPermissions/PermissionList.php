@@ -244,7 +244,11 @@ class PermissionList extends Component
             [
                 'label'=>'Account Settings - Access',
                 'key'=>'account-settings-access',
-            ]
+            ],
+            [
+                'label'=>'Stage - Access',
+                'key'=>'stages-access',
+            ],
         ];
     }
 }
