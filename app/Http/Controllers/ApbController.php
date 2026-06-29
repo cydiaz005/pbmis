@@ -16,6 +16,8 @@ class ApbController extends Controller
             "year"=>$request->year,
             'serreg_id' => $request->serreg_id,
             'funded_status' => $request->funded_status,
+            'stage_id' => $request->stage_id,
         ])->render();
     }
 }
+

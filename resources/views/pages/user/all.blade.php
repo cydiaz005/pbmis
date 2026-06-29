@@ -126,6 +126,26 @@
         });
         location.reload();
       }
+      async function onChangeService (userId,serreg_id){
+        $(".spinner_modal").modal({
+          show: true,
+          keyboard: false,
+          backdrop: "static"
+        })
+        await $.ajax({
+            type:'PUT',
+            url: window.location.origin+"/user/"+userId+"/change-service",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data: {
+                serreg_id
+            },
+            success:function(response){
+                console.log({response});
+                $(".spinner_modal").modal("hide")
+            }
+        });
+        location.reload();
+      }
         $("#li_users").addClass('menu-open');
         $("#li_users>a.li_parent").addClass('active');
         $("#li_approval").addClass('active');

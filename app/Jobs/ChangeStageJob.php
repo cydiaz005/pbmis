@@ -24,6 +24,13 @@ class ChangeStageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Trackable;
     public $year;
+    
+    /**
+     * Added Retries and Timeout limits
+     */
+    public $tries = 2;
+    public $timeout = 300;
+
     /**
      * Create a new job instance.
      *

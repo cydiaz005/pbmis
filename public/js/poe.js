@@ -1595,7 +1595,8 @@ function exportPpmp(poe_id, papdata,callback){
 
         let tr4 = createElement('tr');
         let category = createElement('td', '', 'Category Code: '+papdata.category.category);
-        let thematic = createElement('td', '', 'Thematic Areas/Clusters: '+papdata.thematic_area_cluster.thematic_area_cluster);
+        let thematic = createElement('td', '', 'Thematic Areas/Clusters: ' + (papdata?.thematic_area_cluster?.thematic_area_cluster || 'N/A'));
+
         let service_region = createElement('td', '', 'Service Region: '+papdata.service_region.service_region);
         category.colSpan="2";
         thematic.colSpan="2";
@@ -2064,7 +2065,8 @@ function exportData(poe_id, papdata, callback){
 
         let tr4 = createElement('tr');
         let category = createElement('td', '', 'Category Code: '+papdata.category.category);
-        let thematic = createElement('td', '', 'Thematic Areas/Clusters: '+papdata.thematic_area_cluster.thematic_area_cluster);
+        let thematic = createElement('td', '', 'Thematic Areas/Clusters: ' + (papdata?.thematic_area_cluster?.thematic_area_cluster || 'N/A'));
+
         let service_region = createElement('td', '', 'Service Region: '+papdata.service_region.service_region);
         category.colSpan="2";
         thematic.colSpan="2";
@@ -2267,7 +2269,7 @@ function formatter(num){
 function exportPoePDF(data, callback){
     var doc = new jsPDF('l', 'pt', [1920, 1080]);
     // doc.text('TEst', (doc.internal.pageSize.getWidth() / 2), 50, null, null, 'center');
-    doc.text('TEst', (doc.internal.pageSize.getWidth() / 2), 50, {align: 'center'});
+    //doc.text('TEst', (doc.internal.pageSize.getWidth() / 2), 50, {align: 'center'});
     // doc.text('TEst', null, 50, {align: 'center'});
     let body = []
     let head = [[]];
@@ -2341,7 +2343,7 @@ function exportPoePDF(data, callback){
                     content: "Category Code: " + data.category.category,
                 },
                 {
-                    content: "Thematic Areas/Clusters: " + data.thematic_area_cluster.thematic_area_cluster,
+                    content: "Thematic Areas/Clusters: " + (data?.thematic_area_cluster?.thematic_area_cluster ?? 'N/A'),
                 },
                 {
                     content: "Service Region: " + data.service_region.accronym,
@@ -2507,7 +2509,7 @@ function exportPpmpPDF(data, callback){
     console.log("data",data);
     var doc = new jsPDF('l', 'pt', [3920, 1080]);
     // doc.text('TEst', (doc.internal.pageSize.getWidth() / 2), 50, null, null, 'center');
-    doc.text('TEst', (doc.internal.pageSize.getWidth() / 2), 50, {align: 'center'});
+    //doc.text('TEst', (doc.internal.pageSize.getWidth() / 2), 50, {align: 'center'});
     // doc.text('TEst', null, 50, {align: 'center'});
     let body = []
     let head = [[]];
@@ -2578,7 +2580,7 @@ function exportPpmpPDF(data, callback){
                     content: "Category Code: " + data.category.category,
                 },
                 {
-                    content: "Thematic Areas/Clusters: " + data.thematic_area_cluster.thematic_area_cluster,
+                    content: "Thematic Areas/Clusters: " + (data?.thematic_area_cluster?.thematic_area_cluster ?? 'N/A'),
                 },
                 {
                     content: "Service Region: " + data.service_region.accronym,

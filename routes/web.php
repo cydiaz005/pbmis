@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         Route::get('planning-focal-office', [UserController::class, 'pfo']);
         Route::put('/{id}/change-role', [UserController::class, 'changeRole']);
         Route::put('/{id}/change-status', [UserController::class, 'changeStatus']);
+        Route::put('/{id}/change-service', [UserController::class, 'changeServiceUser']);
     });
     Route::group(['prefix' => 'mail', 'middleware' => 'mail_access'], function () {
         Route::get('/compose', [MailController::class, 'mailCompose']);

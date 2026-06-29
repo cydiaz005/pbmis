@@ -5,7 +5,8 @@ namespace App\Http\Livewire\Reports\Views;
 use Livewire\Component;
 use App\Models\PapTag;
 use App\Models\FormPoe;
-
+use App\Models\FundChargeability;
+use App\Models\FormPpmp;
 
 
 class ApbFormView extends Component
@@ -13,6 +14,7 @@ class ApbFormView extends Component
 
     public $year;
     public $serreg_id;
+    public $stage_id;
     public $funded_status;
     public $pap_tags;
     public $reports;
@@ -43,6 +45,8 @@ class ApbFormView extends Component
                 'subpap.itemRequirements.itemMonths',
                 'subpap.itemRequirements.itemMonthSum',
             )
+            ->whereYear('form_ppmps.created_at', strval($this->year))
+            ->where('form_poes.stage_id', strval($this->stage_id))
             ->where('form_poes.status_id', 2)
             ->where('form_ppmps.status_id', 2)
             ->where('form_ppmps.funded', '1')
@@ -84,4 +88,46 @@ class ApbFormView extends Component
         $this->reports = $reports;
         $this->funded_chargeability = array_keys($reports);
     }
+
+    public function _mount()
+    {
+        $this->pap_tags = PapTag::all();
+
+        $stage_id = strval($this->stage_id);
+        $year = strval($this->year);
+        $service_region_id = strval($this->serreg_id);
+        $fc = FundChargeability::all()->keyBy('id');
+
+        $formPpmp = FormPpmp::query();
+        $formPpmp = $formPpmp->where('funded', '1')
+            ->whereYear('created_at', $year)
+            ->with([
+                'poe',
+                'poe.suggestedPap',
+                'poe.subpap.suggestedSubPap',
+                'poe.subpap.quarterTarget',
+                'poe.subpap.itemRequirements.suggestedItemRequirement',
+                'poe.subpap.itemRequirements.chartOfAccount',
+                'poe.subpap.itemRequirements.itemMonths',
+                'poe.creator.division_section',
+                'poe.serviceRegion',
+                'poe.categoryClass.fundChargeability',
+                'poe.poeTags.papTag'
+            ])
+            ->whereHas('poe', function ($q) use ($stage_id, $service_region_id) {
+                $q->where('stage_id', $stage_id)
+                    ->where('service_region_id', $service_region_id);
+            })->get()
+
+            ->keyBy(function ($files) {
+                $keys = $files->categoryClass->fundChargeability->type . '-' . $files->id;
+                return $keys;
+            });
+
+        $formPpmp = $formPpmp->groupBy('poe.categoryClass.fundChargeability.id');
+
+        $this->reports = $formPpmp;
+        $this->funded_chargeability = $fc;
+    }
 }
+

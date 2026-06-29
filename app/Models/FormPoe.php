@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Support\Facades\DB;
 
 class FormPoe extends Model
 {
@@ -89,6 +89,10 @@ class FormPoe extends Model
     {
         return $this->belongsTo(FormPpmp::class, 'id','poe_id');
     }
+    public function ppmpOne()
+    {
+        return $this->hasOne(FormPpmp::class, 'poe_id','id');
+    }
     public function stage()
     {
         return $this->belongsTo(Stage::class);
@@ -122,11 +126,12 @@ class FormPoe extends Model
         return $query->where('service_region_id', $service_region_id)
         ->where('stage_id', $active_stage_id)
         ->where('status_id', 2)
-        ->whereHas('ppmp', function($q){
-            $q->where('funded', 1)
+        ->whereHas('ppmpOne', function($q){
+            $q->whereIn('funded', [2])
             ->where('status_id', 2);
         })
-        ->where('year', date('Y'))
+        // ->where('year', date('Y'))
         ->sum('total');
     }
 }
+

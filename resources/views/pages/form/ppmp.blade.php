@@ -493,7 +493,7 @@
                             new PromptConfirmation('#confirmDelete', modalData);
                         },
                         view: function(){
-                            window.location.href = window.location.origin+"/form/poe/view/"+element.id;
+                            window.location.href = window.location.origin+"/form/ppmp/view/"+element.id;//poebefore
                         },
                         publish: function(){
                             new PromptConfirmation('#confirmPublish', {

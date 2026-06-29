@@ -84,7 +84,7 @@
                                         <div class="card card-default">
                                             <div class="card-body" style="padding: 20px;">
                                                 <p style="margin-bottom: 30px;font-size: 18px;">
-                                                    <strong id="budget-form-title">Budget Form (Funded) {{date('Y')}}</strong>
+                                                    <strong id="budget-form-title">Budget Form (Funded) </strong>
                                                 </p>
                                     
                                                 <div id="funded-forms" style="max-height: 50rem; overflow-y: auto !important">
@@ -121,7 +121,9 @@
             $("#li_forms>a.li_parent").addClass('active');
             $("#li_fundedform").addClass('active');
 
+            //const fileList1 = new FileList('ppmp');
             const fileList1 = new FileList('ppmp');
+            
             const published = new fileList1.newList({
                 url: '/form/ppmp/get/funded-forms',
                 status: "published",
@@ -131,6 +133,12 @@
                 controller: function(data){
                     for (let i = 0; i < data.length; i++) {
                         const element = data[i];
+                        const createdAtDate = new Date(element.created_at);
+                        const year = createdAtDate.getFullYear()+1;
+                        
+                        const stage = element.poe.stage_id;
+
+                       if(fileList.filters.year == year && fileList.filters.stage == stage){
                         let card = published.generatePpmpClassification(data[i], {
                             return: function(){
                                 document.querySelector('#modal-return-pap-title').innerHTML=element.poe.pap_txt || element.poe.suggested_pap.paps;
@@ -159,6 +167,7 @@
                                 window.location.href = window.location.origin+"/form/ppmp/view/"+element.id;
                             },
                         });
+                        }
                     }
                 }
             });
@@ -204,3 +213,4 @@
         </script>
     @endsection
 </x-app-layout>
+

@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\ServiceRegion;
 use App\Models\Image;
 use App\Http\Controllers\EmailController;
 use App\Models\TemporaryPassword;
@@ -184,6 +185,59 @@ class UserController extends Controller
         ]);
         
         return response()->json("User Status Updated");
+    }
+
+    public function changeServiceUser(Request $request, $id){
+        if(!Auth::user()->hasPermissionTo('users-approval-suspension-access')){abort(403);}
+        $request->validate([
+            'serreg_id' => 'required',
+        ]);
+
+        $user = User::find($id);
+        if(!$user){
+            return response()->json('User not found', 404);
+        }
+
+        $old_service = $user->serreg_id;
+        $service = ServiceRegion::find($request->serreg_id);
+
+        if(!$service){
+            return response()->json('Service not found', 404);
+        }
+
+        $user->serreg_id = $service->id;
+        $user->save();
+
+        // notify admins and the user about the change
+        $email_ids = $this->getSuperAdminAndAdminEmailAndId();
+        $service_name = $service->service_region;
+
+        Notify::create($email_ids['ids'], [
+            "type" => "user-change-service",
+            "notifiable" => ['App\\Models\\User',$user->id],
+            "sender" => ['App\\Models\\User', Auth::user()->id],
+            "message" => "changed the service of <strong>".$user->name."</strong> to <strong>".$service_name."</strong>",
+        ]);
+
+        Notify::create([$user->id], [
+            "type" => "user-change-service",
+            "notifiable" => ['App\\Models\\User',$user->id],
+            "sender" => ['App\\Models\\User', Auth::user()->id],
+            "message" => "updated your service to <strong>".$service_name."</strong>",
+        ]);
+
+        Mail::to($email_ids['emails'])->queue(new GeneralMailer([
+            "subject" => "User service changed",
+            "template_data" => [
+                "email_message" => $user->name."'s service was changed by ".Auth::user()->name." to <strong>".$service_name."</strong>",
+                "button"=>[
+                    "redirect"=>env('APP_URL')."login",
+                    "text"=>"Login now!",
+                ]
+            ],
+        ]));
+
+        return response()->json("User Service Updated");
     }
 
     public function storeAndBoard(Request $request){

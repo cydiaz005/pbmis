@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Actions\Fortify;
-
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\ResetsUserPasswords;
+use Illuminate\Auth\Events\PasswordReset;
 
 class ResetUserPassword implements ResetsUserPasswords
 {
@@ -21,10 +22,20 @@ class ResetUserPassword implements ResetsUserPasswords
     {
         Validator::make($input, [
             'password' => $this->passwordRules(),
-        ])->validate();
+            ])->after(function ($validator) use ($user, $input) {
+     
+                if (Hash::check($input['password'], $user->password)) {
+                    $validator->errors()->add('password', 'New password must be different from the old password.');
+                }
+        })->validate();
 
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
+
+        event(new PasswordReset($user));
+
+        // ✅ Redirect to login page after password reset
+        session()->flash('status', 'Password reset successfully. Please log in.');
     }
 }

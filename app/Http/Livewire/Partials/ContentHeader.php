@@ -21,6 +21,8 @@ class ContentHeader extends Component
     public function mount()
     {
         $this->total_programmed_budget = FormPoe::totalProgrammedBudget(Auth::user()->serreg_id);
-        $this->fiscal_limit = FiscalLimit::totalLimit(Auth::user()->serreg_id);
+        $fiscal_limit = FiscalLimit::totalLimit(Auth::user()->serreg_id);
+        $this->fiscal_limit = $fiscal_limit - $this->total_programmed_budget;
     }
 }
+

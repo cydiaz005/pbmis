@@ -60,6 +60,14 @@
     ])
     <div class="px-4 pt-4" style="background-color: #ebecf0 !important; margin-top: 20px; margin-bottom: 20px;padding:20px;">
         @include('pages.form.form-filter',[ "filters"=>["stage","region","year"]])
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            const filters = @json($filters ?? []);
+            console.log('sStage:', filters.stage);
+            console.log('rRegion:', filters.region);
+            console.log('Yyear:', filters.year);
+            });
+        </script>
     </div>
     <div class="card card-default">
         <div class="card-body" style="padding: 0;">
@@ -84,7 +92,9 @@
                                     <div class="card card-default">
                                         <div class="card-body" style="padding: 20px;">
                                             <p style="margin-bottom: 30px;font-size: 18px;">
-                                                <strong id="budget-form-title">Budget Form (Unfunded) {{date('Y')}}</strong>
+                                                <strong id="budget-form-title">Budget Form (Unfunded) {{date('Y')}}</strong><script>
+                                                    console.log("Current yYear: {{ date('Y') }}");
+                                                </script>
                                             </p>
                                 
                                             <div id="funded-forms" style="max-height: 50rem; overflow-y: auto !important">
@@ -131,6 +141,15 @@
             controller: function(data){
                 for (let i = 0; i < data.length; i++) {
                     const element = data[i];
+                    const createdAtDate = new Date(element.created_at);
+                    const year = createdAtDate.getFullYear()+1;
+console.log('Yeardiaz:', year);
+
+                    const stage = element.poe.stage_id;
+console.log('Stagediaz:', stage);
+                    console.log('fileList.filters.year:', fileList.filters.year);
+                    console.log('fileList.filters.stage:', fileList.filters.stage);
+                    if(fileList.filters.year == year && fileList.filters.stage == stage){
                     let card = published.generatePpmpClassification(data[i], {
                         return: function(){
                             document.querySelector('#modal-return-pap-title').innerHTML=element.poe.pap_txt || element.poe.suggested_pap.paps;
@@ -157,8 +176,9 @@
                         },
                         viewEye: function(){
                             window.location.href = window.location.origin+"/form/ppmp/view/"+element.id;
-                        },
-                    });
+                            },
+                        });
+                    }
                 }
             }
         });
@@ -204,3 +224,4 @@
     </script>
 @endsection
 </x-app-layout>
+

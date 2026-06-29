@@ -25,6 +25,7 @@
                         @livewire('reports.views.apb-form-view',[
                             'year' => $year,
                             'serreg_id' => $service_region->id,
+                            'stage_id' => $stage,
                             'funded_status' => $funded_status,
                         ])
                     </div>
@@ -77,3 +78,4 @@
     </script>
     @endsection
 </x-app-layout>
+

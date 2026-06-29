@@ -9,6 +9,7 @@ class BudgetFormView extends Component
     public $year;
     public $serreg_id;
     public $pap_tags;
+    public $stage_id;
     public $funded_status;
     public $funded_chargeability;
 
@@ -40,6 +41,7 @@ class BudgetFormView extends Component
             'subpap.itemRequirements.itemMonthSum',
         )
         ->where('form_poes.status_id', 2)
+        ->where('form_poes.stage_id', 2)
         ->where('form_ppmps.status_id', 2)
         ->where('form_poes.service_region_id', strval($this->serreg_id))
         ->where('form_ppmps.funded', strval($this->funded_status))

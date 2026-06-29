@@ -31,12 +31,19 @@ function stringedCorrectly($str1, $str2)
 }
 
 //set unified prop inside setters
-function setProperties($item, $type = "atrributes")
+function setProperties($item, $type = "attributes")
 {
-    if ($type == "old" && isset($item->properties->old))
+    if ($type == "old" && isset($item->properties->old)) {
         return json_decode(json_encode($item->properties->old), true);
-    return json_decode(json_encode($item->properties->attributes), true);
+    }
+
+    if (isset($item->properties->attributes) && $item->properties->attributes !== null) {
+        return json_decode(json_encode($item->properties->attributes), true);
+    }
+
+    return [];
 }
+
 
 //mutate item from activity log using all the function below
 function mutateItemFields($item)

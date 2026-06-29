@@ -15,7 +15,7 @@
     <a href="#" class="brand-link">
         
         <!-- <img src="{{ asset('images/logo.png') }}"  alt="{{env('APP_NAME', 'Project Logo')}}" class="brand-image float-none"> -->
-        <img src="{{ asset('images/new-logo.png') }}"  alt="{{env('APP_NAME', 'Project Logo')}}" class="brand-image float-none">
+        <img src="{{ asset('images/new_logo.png') }}"  alt="{{env('APP_NAME', 'Project Logo')}}" class="brand-image float-none">
         <!-- src="{{$applictionLogo}}" -->
         <!-- <span class="brand-text font-weight-light">
             {{$applictionName}}

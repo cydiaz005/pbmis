@@ -175,7 +175,7 @@ class PoeController extends Controller
 
         $formPpmp = FormPpmp::query();
         $formPpmp = $formPpmp->where('funded', $funded_status)
-            ->whereYear('created_at', $year)
+            // ->whereYear('created_at', $year)
             ->with([
                 'poe',
                 'poe.suggestedPap',
@@ -189,9 +189,10 @@ class PoeController extends Controller
                 'poe.serviceRegion',
                 'poe.categoryClass.fundChargeability',
             ])
-            ->whereHas('poe', function ($q) use ($stage_id, $service_region_id) {
+            ->whereHas('poe', function ($q) use ($stage_id, $service_region_id, $year) {
                 $q->where('stage_id', $stage_id)
-                    ->where('service_region_id', $service_region_id);
+                    ->where('service_region_id', $service_region_id)
+                    ->where('year', $year);
             })->get()->groupBy('poe.categoryClass.fundChargeability.id');
 
         return ['form_ppmp' => $formPpmp, 'fund_chargeability' => $fc];
@@ -1765,3 +1766,4 @@ class PoeController extends Controller
         return FormPoe::totalProgrammedBudget($serreg_id);
     }
 }
+

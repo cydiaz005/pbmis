@@ -15,6 +15,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridEloquent;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use Auth;
+use App\Models\ServiceRegion;
 final class UserTable extends PowerGridComponent
 {
     use ActionButton;
@@ -23,6 +24,7 @@ final class UserTable extends PowerGridComponent
     public bool $showUpdateMessages = true;
     public $roles = [];
     public $statuses = [];
+    public $serviceRegions = [];
 
 
 
@@ -44,6 +46,7 @@ final class UserTable extends PowerGridComponent
             ['name',"!=","Banned"],
             ['name',"!=","Administrator"],
         ])->get();
+        $this->serviceRegions = ServiceRegion::get();
         $this->statuses = $array = [
             0 => "Pending",
             1 => "Approved",
@@ -135,9 +138,22 @@ final class UserTable extends PowerGridComponent
                 </div>
               </div>';
               })
-              ->addColumn('region', function(User $model){
-                  return $model->region;
-              })
+                            ->addColumn('region', function(User $model){
+                                    $serviceRegions = $this->serviceRegions;
+                                    $service_list = '';
+                                    foreach ($serviceRegions as $sr) {
+                                         $service_list .= '<a onclick="onChangeService('.$model->id.','.$sr->id.')" class="dropdown-item">'.$sr->service_region.'</a>';
+                                    }
+                                    $current = $model->region ?? 'N/A';
+                                    return '<div class="btn-group">'
+                                        .'<button type="button" class="btn btn-gray dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+                                        . $current .
+                                        '</button>'
+                                        .'<div class="dropdown-menu">'
+                                        . $service_list .
+                                        '</div>'
+                                        .'</div>';
+                            })
             ->addColumn('status', function (User $model) {
                 $statuses = $this->statuses;
                 $status_list = '';
